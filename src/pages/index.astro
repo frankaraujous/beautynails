@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/astro/SiteHeader.astro";
+import Counter from "../components/react/Counter";
+
+const areas = [
+  { path: "src/pages", role: "Rutas. Cada archivo es una URL." },
+  { path: "src/layouts", role: "Documento HTML compartido." },
+  { path: "src/components/astro", role: "Componentes estáticos, sin JavaScript de cliente." },
+  { path: "src/components/react", role: "Islas interactivas. Solo se hidratan con client:*." },
+  { path: "src/styles", role: "Tailwind y tokens del tema." },
+  { path: "src/lib", role: "Utilidades y datos que no son UI." },
+  { path: "src/assets", role: "Imágenes y fuentes que Vite procesa." },
+  { path: "src/content", role: "Colecciones de contenido, cuando hagan falta." },
+  { path: "public", role: "Archivos servidos tal cual, como el favicon." },
+];
+---
+
+<BaseLayout title="Inicio">
+  <SiteHeader />
+  <main class="mx-auto max-w-5xl px-6 py-16">
+    <p class="text-sm font-medium tracking-wide text-accent">Astro · Vite · React · Tailwind</p>
+    <h1 class="mt-3 max-w-2xl text-4xl font-semibold tracking-tight">
+      Estructura base del frontend
+    </h1>
+    <p class="mt-4 max-w-2xl text-slate-300">
+      Astro arma las páginas, Vite las empaqueta y Tailwind da los estilos. React queda
+      reservado para lo que necesita estado en el navegador.
+    </p>
+
+    <div class="mt-8">
+      <Counter client:load />
+    </div>
+
+    <ul class="mt-12 divide-y divide-white/10 rounded-2xl border border-white/10">
+      {
+        areas.map((area) => (
+          <li class="grid gap-1 px-5 py-4 sm:grid-cols-[14rem_1fr] sm:items-baseline">
+            <code class="text-sm text-accent">{area.path}</code>
+            <span class="text-sm text-slate-300">{area.role}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </main>
+</BaseLayout>

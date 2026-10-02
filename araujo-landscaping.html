@@ -1,0 +1,2426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="araujo-logo.jpg">
+  <title>Araujo’s Landscaping</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Outfit:wght@400;500;650&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #17211b;
+      --muted: #5d6b63;
+      --line: #e4ddd3;
+      --paper: #f4f0e8;
+      --card: #fffdf9;
+      --pine: #173028;
+      --moss: #2c6b45;
+      --clay: #c45c1a;
+      --ok: #146b42;
+      --ok-bg: #e5f4ec;
+      --warn-bg: #fff1df;
+      --warn: #8a4b12;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font-family: Outfit, sans-serif; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    h1, h2, h3 { font-family: Fraunces, Georgia, serif; font-weight: 560; margin: 0; }
+    h1 { font-size: 26px; letter-spacing: -0.03em; }
+    h2 { font-size: 28px; margin-bottom: 6px; }
+    .section-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+    .section-head h2 { margin: 0; }
+    .brand { display: grid; gap: 1px; }
+    .brand h1 { line-height: 0; }
+    .brand img { height: 88px; width: auto; display: block; }
+    #top-line:empty { display: none; }
+    .top { position: relative; display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: center; padding: 8px 18px; background: var(--pine); color: #f6f1e8; }
+    .top-side { display: grid; align-items: center; }
+    .top-side.start { grid-template-columns: auto 1fr; }
+    .top-side.start button { justify-self: center; }
+    .top-side.end { grid-template-columns: 1fr auto; }
+    .top-side.end button[data-page="route"] { justify-self: center; }
+    #lang-btn { position: static; transform: none; border: 1px solid rgba(246, 241, 232, 0.55); background: transparent; color: #f6f1e8; }
+    .top-side button[data-page="client"] { background: #c45c1a; color: white; }
+    .top-side button[data-page="route"] { background: #2c6b45; color: white; }
+    .top-side button[data-page="office"] { background: #1f6f8a; color: white; }
+    .top-side button[aria-pressed="true"] { box-shadow: 0 0 0 3px #173028, 0 0 0 5px #fff; }
+    .top p { margin: 0; color: #c9d4cc; font-size: 13px; }
+    .nav { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav button, .btn { border: 0; border-radius: 999px; padding: 10px 14px; background: var(--moss); color: white; font-weight: 650; }
+    .nav button.lang { background: transparent; color: #f6f1e8; border: 1px solid rgba(246, 241, 232, 0.55); }
+    .nav button[aria-pressed="true"] { background: #f4f0e8; color: var(--pine); }
+    .btn.secondary { background: white; color: var(--ink); border: 1px solid var(--line); }
+    .btn.clay { background: var(--clay); }
+    .btn.ghost { background: transparent; color: var(--muted); }
+    .btn.big { width: 100%; padding: 14px 16px; font-size: 17px; }
+    a.btn { display: inline-block; text-decoration: none; text-align: center; }
+    #maps-route { margin: 0 0 12px; }
+    a.btn.is-disabled { opacity: 0.45; pointer-events: none; }
+    main { width: min(980px, calc(100% - 24px)); margin: 18px auto 72px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px; }
+    .stack { display: grid; gap: 14px; }
+    .note { margin: 0 0 12px; color: var(--muted); line-height: 1.4; }
+    .hello-screen { position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; background: rgba(23, 32, 40, 0.45); padding: 24px; }
+    .hello-screen p { margin: 0; width: min(420px, 100%); background: var(--card); color: var(--pine); border-radius: 18px; padding: 28px 24px; text-align: center; font-family: Fraunces, Georgia, serif; font-size: 28px; line-height: 1.25; }
+    #clock-place a, #hour-list a { color: var(--moss); }
+    .error { min-height: 1.1em; color: #9f1239; font-weight: 650; }
+    dialog.card { width: min(420px, calc(100% - 32px)); }
+    dialog.card::backdrop { background: rgba(23, 32, 40, 0.45); }
+    dialog .actions { display: flex; gap: 8px; margin-top: 8px; }
+    .hidden { display: none !important; }
+    label { display: grid; gap: 4px; font-size: 13px; font-weight: 650; color: var(--muted); }
+    input, select, textarea { width: 100%; padding: 11px 12px; border: 1px solid var(--line); border-radius: 12px; background: white; }
+    textarea { min-height: 70px; resize: vertical; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .person { padding: 10px 12px; border-left-width: 6px; }
+    .person.tone-0 { background: #eef5f0; border-color: #b7d0c2; border-left-color: #2c6b45; }
+    .person.tone-1 { background: #f8f1e6; border-color: #e4d0b0; border-left-color: #c45c1a; }
+    .letters { display: flex; flex-wrap: wrap; gap: 4px; margin: 0 0 8px; }
+    .letters button { width: 28px; height: 28px; padding: 0; border-radius: 8px; border: 1px solid var(--line); background: white; font-weight: 650; font-size: 13px; }
+    .letters button.all { width: auto; padding: 0 10px; }
+    .letters button[aria-pressed="true"] { background: var(--pine); color: white; border-color: var(--pine); }
+    .letters button:disabled { opacity: 0.28; }
+    .person-line { display: grid; gap: 6px 8px; }
+    .person-line + .person-line { margin-top: 6px; }
+    .person-line.who { grid-template-columns: 1.15fr 0.85fr 1.7fr; }
+    .person-line.member { grid-template-columns: 1.15fr 0.8fr 1.25fr 0.9fr 0.95fr; }
+    .crew-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 12px; }
+    .crew-buttons button { border: 0; border-radius: 999px; padding: 10px 14px; color: white; font-weight: 650; }
+    .crew-buttons button.tone-0 { background: #2c6b45; }
+    .crew-buttons button.tone-1 { background: #c45c1a; }
+    .crew-buttons button.tone-2 { background: #1f6f8a; }
+    .crew-buttons button.tone-3 { background: #7a3d8c; }
+    .crew-buttons button[aria-pressed="true"] { box-shadow: 0 0 0 3px #fffdf9, 0 0 0 5px #173028; }
+    #crew-picked { display: block; color: var(--ink); font-size: 16px; padding: 11px 0; }
+    .person-line.pay { grid-template-columns: 1.5fr 0.9fr 0.7fr 1.5fr; }
+    .person-line.work { grid-template-columns: 1.25fr 1.05fr 0.7fr 0.95fr 0.9fr; }
+    .person-line.extra { grid-template-columns: 0.7fr 0.75fr 1.8fr auto; align-items: end; }
+    .person label { gap: 2px; font-size: 11px; }
+    .person input, .person select { padding: 6px 8px; border-radius: 8px; }
+    .person-actions { display: flex; gap: 6px; padding-bottom: 1px; }
+    .person-actions .btn { padding: 6px 10px; }
+    #people-list { gap: 8px; }
+    .roster { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; padding: 0; list-style: none; }
+    .roster li { background: #eef5f0; border: 1px solid #b7d0c2; border-left: 6px solid #2c6b45; border-radius: 12px; padding: 8px 10px; min-width: 200px; }
+    .roster li:nth-child(even) { background: #f8f1e6; border-color: #e4d0b0; border-left-color: #c45c1a; }
+    .roster strong { display: block; }
+    .worker-row { display: flex; flex-wrap: nowrap; gap: 8px; overflow-x: auto; }
+    .worker-col { flex: 1 0 190px; border-radius: 14px; padding: 12px; display: grid; gap: 8px; align-content: start; }
+    .worker-col strong { display: block; line-height: 1.25; }
+    .worker-col .btn { width: 100%; }
+    .worker-col .note { margin: 0; }
+    .worker-col.tone-0 { background: #eef5f0; border-top: 4px solid #2c6b45; }
+    .worker-col.tone-1 { background: #f8f1e6; border-top: 4px solid #c45c1a; }
+    .worker-col.tone-2 { background: #e7f3f6; border-top: 4px solid #1f6f8a; }
+    .worker-col.tone-3 { background: #f3eaf6; border-top: 4px solid #7a3d8c; }
+    .worker-col.tone-0 .btn { background: #2c6b45; }
+    .worker-col.tone-1 .btn { background: #c45c1a; }
+    .worker-col.tone-2 .btn { background: #1f6f8a; }
+    .worker-col.tone-3 .btn { background: #7a3d8c; }
+    .roster span { color: var(--muted); font-size: 13px; }
+    .tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+    .office-tabs { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; }
+    .office-tabs .tabs { flex-wrap: nowrap; }
+    .office-tabs .end { justify-content: flex-end; }
+    .office-tabs .tabs button[data-tab="people"] { background: #2c6b45; color: white; border-color: #2c6b45; }
+    .office-tabs .tabs button[data-tab="estimates"] { background: #c45c1a; color: white; border-color: #c45c1a; }
+    .office-tabs .tabs button[data-tab="crew"] { background: #1f6f8a; color: white; border-color: #1f6f8a; }
+    .office-tabs .tabs button[data-tab="money"] { background: #c4a035; color: #173028; border-color: #c4a035; }
+    .office-tabs .tabs button[data-tab="payroll"] { background: #7a3d8c; color: white; border-color: #7a3d8c; }
+    .office-tabs .tabs button[data-tab="dash"] { background: #173028; color: white; border-color: #173028; }
+    .office-tabs .tabs button[aria-pressed="true"] { box-shadow: 0 0 0 3px #fffdf9, 0 0 0 5px currentColor; }
+    .tabs button.apart { margin-left: 22px; }
+    .tabs button { border: 1px solid var(--line); background: white; border-radius: 999px; padding: 8px 12px; font-weight: 650; }
+    .tabs button[aria-pressed="true"] { background: var(--pine); color: white; border-color: var(--pine); }
+    .stop { display: grid; grid-template-columns: 52px 1fr; gap: 12px; }
+    .num { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; background: var(--pine); color: white; font-size: 22px; font-weight: 650; }
+    .stop.done { opacity: 0.55; }
+    .miles { color: var(--clay); font-weight: 650; }
+    .kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+    .kpi { background: white; border: 1px solid var(--line); border-radius: 16px; padding: 12px; }
+    .kpi span { display: block; color: var(--muted); font-size: 13px; }
+    .kpi strong { display: block; margin-top: 4px; font-size: 22px; font-family: Fraunces, Georgia, serif; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 8px 6px; border-top: 1px solid var(--line); vertical-align: top; }
+    th { font-size: 12px; text-transform: uppercase; color: var(--muted); }
+    .numr { text-align: right; white-space: nowrap; }
+    .status { display: inline-block; border-radius: 999px; padding: 2px 8px; font-size: 12px; font-weight: 650; background: #eee7dc; }
+    .status.aprobado, .status.pagado { background: var(--ok-bg); color: var(--ok); }
+    .status.enviado, .status.firmado { background: var(--warn-bg); color: var(--warn); }
+    .status.por-cobrar { background: #fde8ee; color: #9f1239; }
+    .bar { height: 10px; background: #efe6da; border-radius: 99px; overflow: hidden; }
+    .bar span { display: block; height: 100%; background: var(--moss); }
+    .photos { display: flex; gap: 8px; flex-wrap: wrap; }
+    .photos figure { margin: 0; }
+    .photos figcaption { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .photos img { width: 92px; height: 72px; object-fit: cover; border-radius: 10px; }
+    .camera-pick { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+    canvas.sign { width: 100%; height: 140px; border: 1px dashed var(--line); border-radius: 12px; background: white; touch-action: none; }
+    .map-wrap { background: #e7efe4; border-radius: 16px; overflow: hidden; }
+    svg.route { width: 100%; height: 280px; display: block; }
+    .cost { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; }
+    .cost strong { text-align: right; }
+    @media (max-width: 760px) {
+      .grid2, .kpis, .stop { grid-template-columns: 1fr; }
+      .person-line.work { grid-template-columns: 1fr 1fr 0.8fr; }
+      .person-line.work label:nth-child(1),
+      .person-line.work label:nth-child(2) { grid-column: span 1; }
+      .person-line.extra { grid-template-columns: 1fr 1fr; }
+      .person-line.extra label:nth-child(3),
+      .person-actions { grid-column: 1 / -1; }
+      .top { grid-template-columns: 1fr; justify-items: start; }
+      .top-side.start, .top-side.end { width: 100%; }
+      .office-tabs { grid-template-columns: 1fr; }
+      .office-tabs .tabs { flex-wrap: wrap; }
+      .office-tabs .end { justify-content: flex-start; }
+      .num { width: 42px; height: 42px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="top-side start">
+      <div class="brand">
+        <h1><img src="araujo-logo.png" alt="Araujo’s Landscaping"></h1>
+        <p id="top-line">Ruta, estimados e invoices</p>
+      </div>
+      <button class="btn" type="button" data-page="client" data-i18n="navEstimates" aria-pressed="false">Estimados</button>
+    </div>
+    <button type="button" id="lang-btn" class="btn lang">English</button>
+    <div class="top-side end">
+      <button class="btn" type="button" data-page="route" data-i18n="navRoute" aria-pressed="true">Ruta</button>
+      <button class="btn" type="button" data-page="office" data-i18n="navOffice" aria-pressed="false">Oficina</button>
+    </div>
+  </header>
+
+  <main id="page-route" class="stack">
+    <section class="card">
+      <h2 data-i18n="clockTitle">Entrada y salida</h2>
+      <div id="crew-buttons" class="crew-buttons"></div>
+      <div id="worker-pick">
+        <div id="worker-buttons" class="worker-row"></div>
+        <button class="btn secondary" id="see-all-clock" type="button" data-i18n="seeAll" style="margin-top:10px">Ver a todos</button>
+      </div>
+      <button class="btn ghost hidden" id="clock-back" type="button" data-i18n="switchWorker" style="margin-top:8px">Cambiar empleado</button>
+      <select id="route-worker" class="hidden" aria-hidden="true"></select>
+    </section>
+    <section class="card">
+      <h2 data-i18n="routeTitle">Ruta de hoy</h2>
+      <p class="note" data-i18n="routeNote">Sigue el número. La casa 1 es la más cercana a la salida. Al terminar, marca la casa. Las fotos quedan en el cliente.</p>
+      <div class="grid2">
+        <label><span data-i18n="workDay">Día de trabajo</span><input id="route-date" type="date"></label>
+        <label><span data-i18n="crew">Cuadrilla</span><strong id="crew-picked"></strong></label>
+        <select id="route-crew" class="hidden" aria-hidden="true"></select>
+      </div>
+      <ul id="crew-roster" class="roster"></ul>
+      <div class="tabs" style="margin-top:10px">
+        <button type="button" id="view-today" data-i18n="todayOnly" aria-pressed="true">Solo las de hoy</button>
+        <button type="button" id="view-all" data-i18n="allStops" aria-pressed="false">Las 20, en orden</button>
+      </div>
+      <p id="route-summary" class="note"></p>
+      <a class="btn" id="maps-route" data-i18n="mapsNav" href="#" target="_blank" rel="noopener">Navegar en Google Maps</a>
+      <div class="map-wrap"><svg class="route" id="route-map" viewBox="0 0 640 280" role="img" aria-label="Mapa de la ruta"></svg></div>
+    </section>
+    <div id="stop-list" class="stack"></div>
+  </main>
+
+  <main id="page-client" class="hidden">
+    <section class="card">
+      <h2 data-i18n="estimateTitle">Tu estimado</h2>
+      <p class="note" data-i18n="estimateNote">Pon tu teléfono. Si el estimado está listo, lo firmas. El invoice aparece cuando el trabajo ya se facturó.</p>
+      <p class="note" data-i18n="demoEstimates">Pruebas: 408-555-1005 listo para firmar. 408-555-1010 ya firmado. 408-555-1015 con invoice.</p>
+      <form id="lookup-form" class="stack">
+        <label><span data-i18n="phone">Teléfono</span><input id="lookup-phone" type="tel" required placeholder="408-555-0100"></label>
+        <button class="btn" type="submit" data-i18n="search" style="width:auto">Buscar</button>
+      </form>
+      <p class="error" id="lookup-error"></p>
+      <div id="lookup-results"></div>
+    </section>
+  </main>
+
+  <main id="page-office" class="hidden stack">
+    <form class="card" id="login-form">
+      <h2>Oficina</h2>
+      <p class="note" data-i18n="officeLoginNote">Clientes, estimados y finanzas. La ruta de hoy no pide contraseña: la cuadrilla la sigue directo.</p>
+      <label><span data-i18n="password">Contraseña</span><input id="password" type="password" autocomplete="current-password" required autofocus></label>
+      <p class="error" id="login-error"></p>
+      <button class="btn" type="submit" data-i18n="enter">Entrar</button>
+    </form>
+    <div id="office-app" class="hidden stack">
+      <div class="office-tabs">
+        <div class="tabs">
+          <button type="button" data-tab="people" data-i18n="tabPeople" aria-pressed="false">Clientes</button>
+          <button type="button" data-tab="estimates" data-i18n="tabEstimates" aria-pressed="false">Estimados</button>
+        </div>
+        <div class="tabs">
+          <button type="button" data-tab="crew" data-i18n="tabCrew" aria-pressed="false">Cuadrilla y Empleados</button>
+        </div>
+        <div class="tabs end">
+          <button type="button" data-tab="money" data-i18n="tabMoney" aria-pressed="false">Finanzas</button>
+          <button type="button" data-tab="payroll" data-i18n="tabPayroll" aria-pressed="false">Nómina</button>
+          <button type="button" data-tab="dash" data-i18n="tabDash" aria-pressed="true">Resumen</button>
+        </div>
+      </div>
+      <section data-panel="dash" id="panel-dash"></section>
+      <section data-panel="people" id="panel-people" class="hidden"></section>
+      <section data-panel="estimates" id="panel-estimates" class="hidden"></section>
+      <section data-panel="money" id="panel-money" class="hidden"></section>
+      <section data-panel="payroll" id="panel-payroll" class="hidden"></section>
+      <section data-panel="crew" id="panel-crew" class="hidden"></section>
+    </div>
+    <dialog class="card" id="inactive-lock">
+      <form id="inactive-lock-form" class="stack">
+        <h2>Contraseña</h2>
+        <label><span data-i18n="password">Contraseña</span><input id="inactive-password" type="password" autocomplete="current-password" required autofocus></label>
+        <p class="error" id="inactive-lock-error"></p>
+        <div class="actions">
+          <button class="btn" type="submit" data-i18n="enter">Entrar</button>
+          <button class="btn ghost" id="inactive-lock-cancel" type="button" data-i18n="cancel">Cancelar</button>
+        </div>
+      </form>
+    </dialog>
+  </main>
+
+  <div id="clock-hello" class="hello-screen hidden" role="status">
+    <p id="clock-hello-text"></p>
+  </div>
+  <dialog class="card" id="worker-lock">
+    <form id="worker-lock-form" class="stack">
+      <h2 id="worker-lock-title">Código</h2>
+      <label><span id="worker-lock-label">Código</span><input id="worker-code" type="password" autocomplete="off" inputmode="numeric" required autofocus></label>
+      <p class="error" id="worker-lock-error"></p>
+      <div class="actions">
+        <button class="btn" type="submit" data-i18n="enter">Entrar</button>
+        <button class="btn ghost" id="worker-lock-cancel" type="button" data-i18n="cancel">Cancelar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    const ADMIN_PASSWORD = "1202";
+    const STORAGE_KEY = "araujo-landscaping-ops-v2";
+    const DAYS = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
+    const STARTER = [
+      ["Ana Lucía Ruiz Morales", "408-555-1001", "ana.morales@correo.com", "1427 Willow St, Willow Glen, San José, CA 95125", 37.3085, -121.8998, "Corte de césped", 65, "semanal", "Perro en el patio. Entrar por el portón lateral."],
+      ["Luis Alberto Ortega Vega", "408-555-1002", "luis.ortega@correo.com", "875 Chapman St, Rose Garden, San José, CA 95126", 37.3388, -121.9334, "Corte de césped", 70, "semanal", "Dejar el recorte en la banqueta. No usar sopladora antes de las 9."],
+      ["Carmen Elena Díaz Ríos", "408-555-1003", "carmen.diaz@correo.com", "6200 Meridian Ave, Almaden, San José, CA 95120", 37.2274, -121.8622, "Mantenimiento", 120, "quincenal", "Código del portón 2580. Incluye bordes y arbustos del frente."],
+      ["Pedro Antonio Sánchez Gil", "408-555-1004", "pedro.sanchez@correo.com", "3180 Quimby Rd, Evergreen, San José, CA 95148", 37.3142, -121.7735, "Corte de césped", 60, "semanal", "Pasto alto junto a la cerca del fondo."],
+      ["Rosa María Méndez Castro", "408-555-1005", "rosa.mendez@correo.com", "1620 Berryessa Rd, Berryessa, San José, CA 95133", 37.3834, -121.8582, "Corte de césped", 68, "semanal", "Timbre no funciona. Llamar al llegar."],
+      ["Jorge Andrés Castillo León", "408-555-1006", "jorge.castillo@correo.com", "4555 Camden Ave, Cambrian, San José, CA 95124", 37.2571, -121.9294, "Mantenimiento", 110, "quincenal", "Hay un sistema de riego. Cuidado con los aspersores."],
+      ["Elena Sofía Vargas Núñez", "408-555-1007", "elena.vargas@correo.com", "5950 Santa Teresa Blvd, Santa Teresa, San José, CA 95123", 37.2286, -121.7884, "Corte de césped", 62, "semanal", "Entrada por el callejón. El carro va atrás."],
+      ["Marco Antonio León Paredes", "408-555-1008", "marco.leon@correo.com", "2300 Alum Rock Ave, Alum Rock, San José, CA 95116", 37.3672, -121.8261, "Corte de césped", 58, "semanal", "Lote chico. Una persona alcanza."],
+      ["Sofía Isabel Navarro Cruz", "408-555-1009", "sofia.navarro@correo.com", "575 N 6th St, Japantown, San José, CA 95112", 37.3484, -121.8946, "Corte de césped", 75, "semanal", "Patio interior. Llevar la bolsa de recorte a la calle."],
+      ["Andrés Felipe Paredes Mora", "408-555-1010", "andres.paredes@correo.com", "280 E William St, Naglee Park, San José, CA 95112", 37.3361, -121.8684, "Mantenimiento", 130, "quincenal", "Setos del frente y césped. Factura por Zelle."],
+      ["Lucía Fernanda Herrera Solís", "408-555-1011", "lucia.herrera@correo.com", "455 Blossom Hill Rd, Blossom Hill, San José, CA 95123", 37.2524, -121.8628, "Corte de césped", 64, "semanal", "Niños en casa después de las 3. Terminar temprano."],
+      ["Diego Armando Ramos Peña", "408-555-1012", "diego.ramos@correo.com", "4750 Silver Creek Rd, Silver Creek, San José, CA 95121", 37.3056, -121.7902, "Corte de césped", 66, "semanal", "Dos patios, frente y atrás."],
+      ["Patricia Alejandra Gómez Reyes", "408-555-1013", "patricia.gomez@correo.com", "3950 Williams Rd, West San José, CA 95117", 37.3052, -121.9804, "Mantenimiento", 140, "quincenal", "Incluye limpieza de hojas del estacionamiento."],
+      ["Héctor Manuel Molina Aguilar", "408-555-1014", "hector.molina@correo.com", "1500 N 1st St, North San José, CA 95112", 37.4008, -121.9206, "Corte de césped", 72, "semanal", "Estacionar en la calle, no en la entrada."],
+      ["Valeria Guadalupe Cruz Santos", "408-555-1015", "valeria.cruz@correo.com", "3200 Communications Hill Blvd, San José, CA 95136", 37.2874, -121.8482, "Corte de césped", 69, "semanal", "Pendiente pronunciada. Usar zapatos con buen agarre."],
+      ["Ricardo Emilio Flores Duarte", "408-555-1016", "ricardo.flores@correo.com", "4700 Monterey Rd, Seven Trees, San José, CA 95111", 37.2782, -121.8265, "Corte de césped", 55, "semanal", "Solo el frente. El fondo lo corta él."],
+      ["Isabel Carmen Torres Mendoza", "408-555-1017", "isabel.torres@correo.com", "2150 Story Rd, East San José, CA 95122", 37.3551, -121.8304, "Mantenimiento", 100, "mensual", "Visita mensual: césped, bordes y basura verde."],
+      ["Oscar Iván Blanco Herrera", "408-555-1018", "oscar.blanco@correo.com", "200 E Campbell Ave, Campbell, CA 95008", 37.2876, -121.9502, "Corte de césped", 74, "semanal", "Casa esquina. Incluye la franja de la calle lateral."],
+      ["Natalia Beatriz Reyes Campos", "408-555-1019", "natalia.reyes@correo.com", "5850 Monterey Rd, Edenvale, San José, CA 95138", 37.2684, -121.8186, "Corte de césped", 61, "semanal", "Llave bajo la maceta azul si no hay nadie."],
+      ["Fernando José Aguilar Rivas", "408-555-1020", "fernando.aguilar@correo.com", "1000 Gold St, Alviso, San José, CA 95002", 37.4282, -121.9751, "Mantenimiento", 150, "mensual", "Lote grande. Llevar la podadora de empuje y la de hilo."]
+    ];
+    const CREW_SEED = [
+      ["Miguel Ángel Araujo Herrera", "408-555-2001", "miguel.araujo@araujoslandscaping.com", "840 The Alameda, San José, CA 95126", "Capataz", "Licencia de manejar vigente. Habla español e inglés. Lleva la ruta.", 32],
+      ["José Luis Ramírez Soto", "408-555-2002", "jose.ramirez@araujoslandscaping.com", "1260 N 4th St, San José, CA 95112", "Jardinero", "Cortes y bordes. Tres años en la empresa.", 24],
+      ["Carlos Eduardo Mendoza Cruz", "408-555-2003", "carlos.mendoza@araujoslandscaping.com", "90 S Jackson Ave, San José, CA 95116", "Jardinero", "Mantenimiento de arbustos y riego.", 22],
+      ["Daniel Omar Ortiz Vega", "408-555-2004", "daniel.ortiz@araujoslandscaping.com", "2100 Senter Rd, San José, CA 95112", "Ayudante", "Sopladora, carga y limpieza. Entra a las 7:30.", 18]
+    ];
+
+    const CREW_CODES = {
+      "Miguel Ángel Araujo Herrera": "2101",
+      "José Luis Ramírez Soto": "2102",
+      "Carlos Eduardo Mendoza Cruz": "2103",
+      "Daniel Omar Ortiz Vega": "2104"
+    };
+    const state = load();
+    ensureBase();
+    let page = "route";
+    let tab = "dash";
+    let peopleLetter = "";
+    let peopleDay = "";
+    let pendingLock = null;
+    let adminOn = false;
+    let routeAll = false;
+    let focusEmployee = "";
+    let signedWorker = "";
+    let clockView = "";
+    let pendingWorker = null;
+    let editingId = "";
+    let draftItems = [{ desc: "Corte de césped", qty: 1, price: 65 }];
+    let sendMode = "0";
+
+    document.querySelector("#route-date").value = todayISO();
+    document.querySelectorAll("[data-page]").forEach((button) => button.addEventListener("click", () => showPage(button.dataset.page)));
+    document.querySelector("#route-date").addEventListener("change", renderRoute);
+    document.querySelector("#route-crew").addEventListener("change", () => {
+      state.crewByDay[document.querySelector("#route-date").value] = document.querySelector("#route-crew").value;
+      save();
+      paintCrewButtons();
+      fillWorkers();
+      paintClock();
+    });
+    document.querySelector("#route-worker").addEventListener("change", paintClock);
+    document.querySelector("#view-today").addEventListener("click", () => { routeAll = false; renderRoute(); });
+    document.querySelector("#view-all").addEventListener("click", () => { routeAll = true; renderRoute(); });
+    document.querySelector("#see-all-clock").addEventListener("click", () => openWorkerLock({ type: "admin" }));
+    document.querySelector("#clock-back").addEventListener("click", () => {
+      clockView = signedWorker ? "self" : "";
+      paintClock();
+    });
+    document.querySelector("#worker-lock-cancel").addEventListener("click", () => {
+      pendingWorker = null;
+      document.querySelector("#worker-code").value = "";
+      document.querySelector("#worker-lock-error").textContent = "";
+      document.querySelector("#worker-lock").close();
+    });
+    document.querySelector("#worker-lock-form").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const input = document.querySelector("#worker-code");
+      const pending = pendingWorker;
+      const person = pending && pending.type === "worker" ? state.crew.find((item) => item.id === pending.id) : null;
+      const expected = pending && pending.type === "admin" ? ADMIN_PASSWORD : (person && String(person.code || ""));
+      if (!pending || input.value.trim() !== expected) {
+        document.querySelector("#worker-lock-error").textContent = pending && pending.type === "admin" ? t("badPassword") : t("badCode");
+        input.select();
+        focusPassword(input);
+        return;
+      }
+      input.value = "";
+      document.querySelector("#worker-lock-error").textContent = "";
+      document.querySelector("#worker-lock").close();
+      pendingWorker = null;
+      if (pending.type === "admin") {
+        clockView = "all";
+      } else {
+        signedWorker = pending.id;
+        if (clockView !== "all") clockView = "self";
+      }
+      paintClock();
+    });
+    let voiceList = [];
+    function refreshVoices() {
+      if (!window.speechSynthesis) return;
+      const list = window.speechSynthesis.getVoices();
+      if (list.length) voiceList = list;
+    }
+    if (window.speechSynthesis) {
+      refreshVoices();
+      window.speechSynthesis.addEventListener("voiceschanged", refreshVoices);
+    }
+    document.querySelector("#lookup-form").addEventListener("submit", onLookup);
+    function focusPassword(input) {
+      if (!input) return;
+      setTimeout(() => input.focus(), 0);
+    }
+    function openWorkerLock(action) {
+      pendingWorker = action;
+      const person = action.type === "worker" ? state.crew.find((item) => item.id === action.id) : null;
+      document.querySelector("#worker-lock-title").textContent = action.type === "admin" ? t("seeAll") : t("codeFor", { name: person ? person.name : "" });
+      document.querySelector("#worker-lock-label").textContent = action.type === "admin" ? t("password") : t("workerCode");
+      document.querySelector("#worker-code").value = "";
+      document.querySelector("#worker-lock-error").textContent = "";
+      document.querySelector("#worker-lock").showModal();
+      focusPassword(document.querySelector("#worker-code"));
+    }
+    function openClientLock(action) {
+      pendingLock = action;
+      const titles = { save: t("confirmSave"), inactive: t("makeInactive"), activate: t("makeActive"), remove: t("remove"), twoCrews: t("twoCrews") };
+      document.querySelector("#inactive-lock h2").textContent = titles[action.type] || t("password");
+      document.querySelector("#inactive-password").value = "";
+      document.querySelector("#inactive-lock-error").textContent = "";
+      document.querySelector("#inactive-lock").showModal();
+      focusPassword(document.querySelector("#inactive-password"));
+    }
+    document.querySelector("#login-form").addEventListener("submit", onLogin);
+    document.querySelector("#inactive-lock-form").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const input = document.querySelector("#inactive-password");
+      if (input.value !== ADMIN_PASSWORD) {
+        document.querySelector("#inactive-lock-error").textContent = t("badPassword");
+        input.select();
+        focusPassword(input);
+        return;
+      }
+      input.value = "";
+      document.querySelector("#inactive-lock-error").textContent = "";
+      document.querySelector("#inactive-lock").close();
+      const action = pendingLock;
+      pendingLock = null;
+      if (!action) return;
+      if (action.type === "save") {
+        const form = document.querySelector(`[data-person="${action.id}"]`);
+        const client = state.clients.find((item) => item.id === action.id);
+        if (!form || !client) return;
+        const data = new FormData(form);
+        ["name", "phone", "email", "address", "service", "notes"].forEach((key) => { client[key] = String(data.get(key) || "").trim(); });
+        client.price = Number(data.get("price")) || 0;
+        client.lat = Number(data.get("lat"));
+        client.lng = Number(data.get("lng"));
+        client.frequency = String(data.get("frequency"));
+        client.serviceDay = Number(data.get("serviceDay"));
+        save();
+        renderPeople();
+        return;
+      }
+      if (action.type === "inactive") {
+        const client = state.clients.find((item) => item.id === action.id);
+        if (!client) return;
+        client.active = false;
+        save();
+        renderPeople();
+        return;
+      }
+      if (action.type === "activate") {
+        const client = state.clients.find((item) => item.id === action.id);
+        if (!client) return;
+        client.active = true;
+        peopleDay = "";
+        peopleLetter = "";
+        save();
+        renderPeople();
+        const form = document.querySelector(`[data-person="${client.id}"]`);
+        if (form) form.scrollIntoView({ block: "center" });
+        return;
+      }
+      if (action.type === "twoCrews") {
+        const person = state.crew.find((item) => item.id === action.id);
+        if (person && action.fields) applyEmployee(person, action.fields);
+        save();
+        renderCrew();
+        return;
+      }
+      state.clients = state.clients.filter((item) => item.id !== action.id);
+      save();
+      renderPeople();
+    });
+    document.querySelector("#inactive-lock-cancel").addEventListener("click", () => {
+      pendingLock = null;
+      document.querySelector("#inactive-password").value = "";
+      document.querySelector("#inactive-lock-error").textContent = "";
+      document.querySelector("#inactive-lock").close();
+    });
+    document.querySelectorAll("[data-tab]").forEach((button) => button.addEventListener("click", () => {
+      tab = button.dataset.tab;
+      markNav();
+      renderOffice();
+      document.querySelector("#top-line").textContent = tab === "people" ? t("topPeople") : tab === "crew" ? t("topCrew") : tab === "payroll" ? t("topPayroll") : t("topOffice");
+    }));
+    let lang = localStorage.getItem("araujo-lang") === "en" ? "en" : "es";
+    const I18N = {
+      es: {
+        navRoute: "Ruta", navClients: "Clientes", navEstimates: "Estimados", navOffice: "Oficina",
+        topRoute: "",
+        topClient: "Firma el estimado con tu teléfono.",
+        topPeople: "Carpeta de clientes.",
+        topCrew: "Empleados y cuadrillas.",
+        topOffice: "Clientes, estimados y finanzas.",
+        routeTitle: "Ruta de hoy",
+        routeNote: "Sigue el número. La casa 1 es la más cercana a la salida. Al terminar, marca la casa. Las fotos quedan en el cliente.",
+        workDay: "Día de trabajo", crew: "Cuadrilla", todayOnly: "Solo las de hoy", allStops: "Las 20, en orden", employee: "Empleado",
+        clockTitle: "Entrada y salida",
+        clockIn: "Entrar a trabajar", clockOut: "Salir de trabajar",
+        seeAll: "Ver a todos", switchWorker: "Cambiar empleado", workerCode: "Código",
+        codeFor: "Código de {name}", badCode: "Código incorrecto.", adminSee: "Todos los empleados",
+        toolsHouse: "Ya recogiste toda la herramienta, gracias.",
+        toolsDay: "Ya tienes toda la herramienta y está segura.",
+        hiMorning: "Buenos días, {name}.",
+        hiAfternoon: "Buenas tardes, {name}.",
+        hiNight: "Buenas noches, {name}.",
+        byeMorning: "Buenos días, {name}. Muchas gracias por su ayuda.",
+        byeAfternoon: "Buenas tardes, {name}. Muchas gracias por su ayuda.",
+        byeNight: "Buenas noches, {name}. Muchas gracias por su ayuda.",
+        placeIn: "Entrada", placeOut: "Salida", findingPlace: "Buscando la ubicación…", noPlace: "Sin ubicación",
+        summaryFull: "Ruta completa: {count} casas · {miles} millas.",
+        summaryToday: "Hoy, {day}: {count} casas · {miles} millas.",
+        mapsNav: "Navegar en Google Maps",
+        summaryEmpty: "Hoy, {day}, no hay casas en la ruta. Mira “Las 20” o cambia el día.",
+        fromStart: "Desde la salida", fromPrev: "Desde la casa anterior",
+        photoBefore: "Foto antes", photoAfter: "Foto después", startHouse: "Empecé esta casa", finishedHouse: "Terminé esta casa", textClient: "Avisar al cliente", doneStop: "Terminada",
+        altBefore: "Al llegar", altAfter: "Al salir", noEmployees: "Sin empleados", addInOffice: "Agrégalos en Oficina → Cuadrilla y Empleados.",
+        photoTooBig: "Esa foto pesa más de 450 KB. Elige una más liviana.", mapStart: "Salida",
+        estimateTitle: "Tu estimado",
+        estimateNote: "Pon tu teléfono. Si el estimado está listo, lo firmas. El invoice aparece cuando el trabajo ya se facturó.",
+        demoEstimates: "Pruebas: 408-555-1005 listo para firmar. 408-555-1010 ya firmado. 408-555-1015 con invoice.",
+        phone: "Teléfono", search: "Buscar", phoneShort: "Escribe el teléfono completo.", phoneNone: "No hay nada con ese teléfono.",
+        signHint: "Firma para aceptar el estimado.", yourName: "Tu nombre", signOk: "Acepto y firmo",
+        signedBy: "Firmado por {name} el {date}", paid: "Pagado", unpaid: "Por cobrar", noPayment: "Sin pago",
+        officeLoginNote: "Clientes, estimados y finanzas. La ruta de hoy no pide contraseña: la cuadrilla la sigue directo.",
+        password: "Contraseña", enter: "Entrar", cancel: "Cancelar", badPassword: "Contraseña incorrecta.",
+        tabDash: "Resumen", tabPeople: "Clientes", tabEstimates: "Estimados", tabMoney: "Finanzas", tabPayroll: "Nómina", tabCrew: "Cuadrilla y Empleados",
+        topPayroll: "Pago de la cuadrilla según las horas.",
+        kpiMonth: "Cobrado este mes", kpiMaint: "Mantenimiento del mes", kpiJobs: "Trabajos del mes", kpiDue: "Invoices por cobrar",
+        growth: "Centro de crecimiento",
+        growthLine: "Clientes de mantenimiento: {count}. Ingreso mensual recurrente: {mrr}. Promedio por cliente: {avg}.",
+        goal: "Meta mensual", goalGap: "Para llegar a {goal} faltan unos {needed} clientes como el promedio.", properties: "propiedades",
+        peopleNote: "Nombre, dirección, teléfono, correo, notas, servicio, precio y cada cuánto se visita. El día arma la ruta de la cuadrilla.",
+        all: "Todos", allRoutes: "Todas las rutas", inactive: "Inactivos", addClient: "Agregar cliente",
+        makeInactive: "Inactivo", makeActive: "Activar", noInactive: "No hay clientes inactivos.",
+        name: "Nombre", address: "Dirección", email: "Correo", service: "Servicio", price: "Precio", howOften: "Cada cuánto", day: "Día",
+        lat: "Latitud", lng: "Longitud", notes: "Notas", save: "Guardar", confirmSave: "¿Quieres guardar los cambios?", remove: "Quitar",
+        noPeople: "No hay clientes con esa letra en esa ruta.",
+        weekly: "Cada semana", biweekly: "Cada dos semanas", monthly: "Cada mes",
+        day0: "domingo", day1: "lunes", day2: "martes", day3: "miércoles", day4: "jueves", day5: "viernes", day6: "sábado",
+        newEstimate: "Nuevo estimado", estimateSteps: "1. Elige el cliente. 2. Revisa las partidas. 3. Envíalo para que lo firme.",
+        newClientOption: "Escribir uno nuevo", client: "Cliente", note: "Nota", notePlaceholder: "Qué incluye el trabajo",
+        line: "Partida", qty: "Cantidad", addLine: "Agregar partida", sendSign: "Enviar para firma",
+        missingEstimate: "Falta el nombre, el teléfono, la dirección o una partida.",
+        sentEstimate: "Listo. El cliente lo firma con su teléfono en Estimados.",
+        estimates: "Estimados", signedPerson: "Firmó {name}", jobDone: "Trabajo terminado", createInvoice: "Crear invoice",
+        noEstimates: "Todavía no hay estimados.",
+        statusDraft: "Borrador", statusSent: "Listo para firmar", statusSigned: "Firmado", statusDone: "Trabajo terminado", statusInvoiced: "Facturado",
+        collected: "Cobrado", due: "Por cobrar", expenses: "Gastos", profit: "Ganancia",
+        jobCost: "Costo de cada trabajo",
+        jobCostNote: "Precio del cliente menos materiales, mano de obra, basurero y otros. Las horas de la cuadrilla van aparte: {hours} h registradas.",
+        ledger: "Libro", newExpense: "Nuevo gasto", date: "Fecha", category: "Categoría", description: "Descripción", amount: "Monto", addExpense: "Agregar gasto",
+        clientPrice: "Precio del cliente", materials: "Materiales", labor: "Mano de obra", dump: "Basurero / entrega", other: "Otros",
+        estProfit: "Ganancia estimada", margin: "Margen", noCosts: "Los costos aparecen cuando hay un invoice.",
+        thDate: "Fecha", thType: "Tipo", thDetail: "Detalle", thIncome: "Ingreso", thExpense: "Gasto",
+        kindExpense: "Gasto", collect: "Cobrar", cash: "Efectivo", check: "Cheque", card: "Tarjeta",
+        emptyLedger: "El libro está vacío.",
+        crewsTitle: "Cuadrillas",
+        crewsNote: "Cada cuadrilla tiene sus trabajadores. En Cuadrilla elige Select para descansar a alguien: queda fuera de todas las cuadrillas. Un empleado puede estar en dos cuadrillas si el administrador lo aprueba.",
+        noCrewOption: "Select", restingTitle: "Descanso", restingNote: "Estos empleados están en Select. No salen con ninguna cuadrilla hasta que los asignes.",
+        secondCrew: "Segunda cuadrilla", noSecond: "Ninguna", twoCrews: "¿Aprobar este empleado en dos cuadrillas?",
+        addCrew: "Agregar cuadrilla", hours: "Horas", saveCrew: "Guardar cuadrilla", addEmployee: "Agregar empleado", removeCrew: "Quitar cuadrilla",
+        rate: "Pago por hora", calcPayroll: "Calcular nómina", weekOf: "Semana del",
+        payrollTitle: "Nómina",
+        payrollNote: "Hasta 8 horas al día se pagan normal. De la hora 8 a la 12 se paga tiempo y medio. Después de 12, doble. Si en la semana pasan de 40 horas normales, el resto también es tiempo y medio.",
+        regular: "Normal", overtime: "Extra", doubleTime: "Doble", gross: "Pago", payrollTotal: "Total",
+        noPayroll: "No hay horas cerradas en esa semana.",
+        role: "Puesto", noCrews: "Todavía no hay cuadrillas.", noCrewPeople: "Esta cuadrilla todavía no tiene empleados.",
+        thPerson: "Persona", thIn: "Entrada", thOut: "Salida", thHours: "Horas", thPlaceIn: "Lugar de entrada", thPlaceOut: "Lugar de salida", onShift: "En turno",
+        noClock: "Nadie ha marcado entrada todavía. Eso se hace en Ruta.",
+        fuel: "Combustible", equipment: "Equipo",
+        foreman: "Capataz", gardener: "Jardinero", helper: "Ayudante", driver: "Chofer",
+        newClient: "Cliente nuevo", newEmployee: "Empleado nuevo", crewFallback: "Cuadrilla"
+      },
+      en: {
+        navRoute: "Route", navClients: "Clients", navEstimates: "Estimates", navOffice: "Office",
+        topRoute: "",
+        topClient: "Sign the estimate with your phone.",
+        topPeople: "Client folder.",
+        topCrew: "Employees and crews.",
+        topOffice: "Clients, estimates, and finances.",
+        routeTitle: "Today's route",
+        routeNote: "Follow the number. House 1 is closest to the start. When you finish, mark the house. Photos stay with the client.",
+        workDay: "Work day", crew: "Crew", todayOnly: "Today only", allStops: "All of them, in order", employee: "Employee",
+        clockTitle: "Clock in and clock out",
+        clockIn: "Clock in", clockOut: "Clock out",
+        seeAll: "See everyone", switchWorker: "Switch employee", workerCode: "Code",
+        codeFor: "Code for {name}", badCode: "Wrong code.", adminSee: "All employees",
+        toolsHouse: "You picked up all the tools, thank you.",
+        toolsDay: "You have all the tools and they are secure.",
+        hiMorning: "Good morning, {name}.",
+        hiAfternoon: "Good afternoon, {name}.",
+        hiNight: "Good evening, {name}.",
+        byeMorning: "Good morning, {name}. Thank you very much for your help.",
+        byeAfternoon: "Good afternoon, {name}. Thank you very much for your help.",
+        byeNight: "Good evening, {name}. Thank you very much for your help.",
+        placeIn: "In", placeOut: "Out", findingPlace: "Finding the location…", noPlace: "No location",
+        summaryFull: "Full route: {count} houses · {miles} miles.",
+        summaryToday: "Today, {day}: {count} houses · {miles} miles.",
+        mapsNav: "Navigate in Google Maps",
+        summaryEmpty: "Today, {day}, there are no houses on the route. Open “All of them” or change the day.",
+        fromStart: "From the start", fromPrev: "From the previous house",
+        photoBefore: "Before photo", photoAfter: "After photo", startHouse: "I started this house", finishedHouse: "I finished this house", textClient: "Text the client", doneStop: "Finished",
+        altBefore: "Arrived", altAfter: "Left", noEmployees: "No employees", addInOffice: "Add them in Office → Crew and employees.",
+        photoTooBig: "That photo is over 450 KB. Choose a lighter one.", mapStart: "Start",
+        estimateTitle: "Your estimate",
+        estimateNote: "Enter your phone. If the estimate is ready, you sign it. The invoice shows up after the job is billed.",
+        demoEstimates: "Tests: 408-555-1005 ready to sign. 408-555-1010 already signed. 408-555-1015 with an invoice.",
+        phone: "Phone", search: "Search", phoneShort: "Enter the full phone number.", phoneNone: "Nothing matches that phone.",
+        signHint: "Sign to accept the estimate.", yourName: "Your name", signOk: "I accept and sign",
+        signedBy: "Signed by {name} on {date}", paid: "Paid", unpaid: "Unpaid", noPayment: "No payment",
+        officeLoginNote: "Clients, estimates, and finances. Today's route does not ask for a password: the crew follows it directly.",
+        password: "Password", enter: "Enter", cancel: "Cancel", badPassword: "Wrong password.",
+        tabDash: "Summary", tabPeople: "Clients", tabEstimates: "Estimates", tabMoney: "Finances", tabPayroll: "Payroll", tabCrew: "Crew and employees",
+        topPayroll: "Crew pay from the hours worked.",
+        kpiMonth: "Collected this month", kpiMaint: "Maintenance this month", kpiJobs: "Jobs this month", kpiDue: "Invoices due",
+        growth: "Growth center",
+        growthLine: "Maintenance clients: {count}. Monthly recurring revenue: {mrr}. Average per client: {avg}.",
+        goal: "Monthly goal", goalGap: "To reach {goal} you need about {needed} more clients like the average.", properties: "properties",
+        peopleNote: "Name, address, phone, email, notes, service, price, and how often you visit. The day builds the crew route.",
+        all: "All", allRoutes: "All routes", inactive: "Inactive", addClient: "Add client",
+        makeInactive: "Inactive", makeActive: "Activate", noInactive: "No inactive clients.",
+        name: "Name", address: "Address", email: "Email", service: "Service", price: "Price", howOften: "How often", day: "Day",
+        lat: "Latitude", lng: "Longitude", notes: "Notes", save: "Save", confirmSave: "Save these changes?", remove: "Remove",
+        noPeople: "No clients with that letter on that route.",
+        weekly: "Every week", biweekly: "Every two weeks", monthly: "Every month",
+        day0: "Sunday", day1: "Monday", day2: "Tuesday", day3: "Wednesday", day4: "Thursday", day5: "Friday", day6: "Saturday",
+        newEstimate: "New estimate", estimateSteps: "1. Choose the client. 2. Review the lines. 3. Send it to be signed.",
+        newClientOption: "Write a new one", client: "Client", note: "Note", notePlaceholder: "What the job includes",
+        line: "Line item", qty: "Quantity", addLine: "Add line", sendSign: "Send to sign",
+        missingEstimate: "The name, phone, address, or a line item is missing.",
+        sentEstimate: "Done. The client signs it with their phone in Estimates.",
+        estimates: "Estimates", signedPerson: "Signed by {name}", jobDone: "Job finished", createInvoice: "Create invoice",
+        noEstimates: "No estimates yet.",
+        statusDraft: "Draft", statusSent: "Ready to sign", statusSigned: "Signed", statusDone: "Job finished", statusInvoiced: "Invoiced",
+        collected: "Collected", due: "Due", expenses: "Expenses", profit: "Profit",
+        jobCost: "Cost of each job",
+        jobCostNote: "Client price minus materials, labor, dump fees, and other costs. Crew hours are separate: {hours} h logged.",
+        ledger: "Ledger", newExpense: "New expense", date: "Date", category: "Category", description: "Description", amount: "Amount", addExpense: "Add expense",
+        clientPrice: "Client price", materials: "Materials", labor: "Labor", dump: "Dump / haul", other: "Other",
+        estProfit: "Estimated profit", margin: "Margin", noCosts: "Costs show up when there is an invoice.",
+        thDate: "Date", thType: "Type", thDetail: "Detail", thIncome: "Income", thExpense: "Expense",
+        kindExpense: "Expense", collect: "Collect", cash: "Cash", check: "Check", card: "Card",
+        emptyLedger: "The ledger is empty.",
+        crewsTitle: "Crews",
+        crewsNote: "Each crew has its own workers. Choose Select on the crew to rest someone: they stay off every crew. An employee can be on two crews if the administrator approves it.",
+        noCrewOption: "Select", restingTitle: "Rest", restingNote: "These employees are on Select. They do not go out with a crew until you assign them.",
+        secondCrew: "Second crew", noSecond: "None", twoCrews: "Approve this employee on two crews?",
+        addCrew: "Add crew", hours: "Hours", saveCrew: "Save crew", addEmployee: "Add employee", removeCrew: "Remove crew",
+        rate: "Hourly pay", calcPayroll: "Calculate payroll", weekOf: "Week of",
+        payrollTitle: "Payroll",
+        payrollNote: "The first 8 hours in a day are straight time. Hours 8 to 12 are time and a half. After 12, double time. Straight time past 40 hours in the week is also time and a half.",
+        regular: "Straight", overtime: "Overtime", doubleTime: "Double", gross: "Pay", payrollTotal: "Total",
+        noPayroll: "No finished hours in that week.",
+        role: "Role", noCrews: "No crews yet.", noCrewPeople: "This crew has no employees yet.",
+        thPerson: "Person", thIn: "In", thOut: "Out", thHours: "Hours", thPlaceIn: "Clock-in place", thPlaceOut: "Clock-out place", onShift: "On shift",
+        noClock: "Nobody has clocked in yet. That happens on Route.",
+        fuel: "Fuel", equipment: "Equipment",
+        foreman: "Foreman", gardener: "Gardener", helper: "Helper", driver: "Driver",
+        newClient: "New client", newEmployee: "New employee", crewFallback: "Crew"
+      }
+    };
+    document.querySelector("#lang-btn").addEventListener("click", () => {
+      lang = lang === "es" ? "en" : "es";
+      localStorage.setItem("araujo-lang", lang);
+      applyLang();
+    });
+
+    applyLang();
+
+    function t(key, vars) {
+      let text = (I18N[lang] && I18N[lang][key]) || I18N.es[key] || key;
+      if (vars) Object.keys(vars).forEach((name) => { text = text.split("{" + name + "}").join(String(vars[name])); });
+      return text;
+    }
+
+    function applyLang() {
+      document.documentElement.lang = lang === "en" ? "en" : "es";
+      document.querySelector("#lang-btn").textContent = lang === "es" ? "English" : "Español";
+      document.querySelectorAll("[data-i18n]").forEach((node) => { node.textContent = t(node.dataset.i18n); });
+      document.querySelector("#top-line").textContent = page === "route"
+        ? ""
+        : page === "client"
+          ? t("topClient")
+          : tab === "people"
+            ? t("topPeople")
+            : tab === "crew"
+              ? t("topCrew")
+              : tab === "payroll"
+                ? t("topPayroll")
+                : t("topOffice");
+      renderRoute();
+      const loginHeading = document.querySelector("#login-form h2");
+      if (loginHeading) loginHeading.textContent = t("navOffice");
+      if (page === "office" && adminOn) renderOffice();
+      if (page === "client" && document.querySelector("#lookup-phone").value) document.querySelector("#lookup-form").requestSubmit();
+    }
+
+    function dayLabel(index) { return t("day" + index); }
+    function roleLabel(value) {
+      return { Capataz: t("foreman"), Jardinero: t("gardener"), Ayudante: t("helper"), Chofer: t("driver") }[value] || value;
+    }
+
+    function load() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "");
+        return {
+          clients: saved.clients || [],
+          teams: saved.teams || [],
+          crew: saved.crew || [],
+          seed: Number(saved.seed) || 0,
+          estimates: saved.estimates || [],
+          invoices: saved.invoices || [],
+          expenses: saved.expenses || [],
+          completions: saved.completions || [],
+          time: saved.time || [],
+          crewByDay: saved.crewByDay || {},
+          depot: saved.depot || { label: "Salida · centro de San José", lat: 37.3382, lng: -121.8863 },
+          goal: Number(saved.goal) || 10000,
+          seq: saved.seq || { est: 1000, inv: 1000 }
+        };
+      } catch {
+        return emptyState();
+      }
+    }
+
+    function emptyState() {
+      return {
+        clients: [], teams: [], crew: [], estimates: [], invoices: [], expenses: [], completions: [], time: [],
+        seed: 0,
+        crewByDay: {}, depot: { label: "Salida · centro de San José", lat: 37.3382, lng: -121.8863 },
+        goal: 10000, seq: { est: 1000, inv: 1000 }
+      };
+    }
+
+    function nextWorkerCode(used) {
+      let n = 2201;
+      while (used.has(String(n)) || String(n) === ADMIN_PASSWORD) n += 1;
+      return String(n);
+    }
+
+    function ensureCodes() {
+      const used = new Set();
+      state.crew.forEach((person) => { if (person.code) used.add(String(person.code)); });
+      state.crew.forEach((person) => {
+        if (person.code) return;
+        const preset = CREW_CODES[person.name];
+        person.code = preset && !used.has(preset) ? preset : nextWorkerCode(used);
+        used.add(String(person.code));
+      });
+    }
+
+    function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+    function ensureBase() {
+      if (!state.teams) state.teams = [];
+      if (state.seed < 3) {
+        state.clients = STARTER.map((row, index) => ({
+          id: crypto.randomUUID(),
+          name: row[0], phone: row[1], email: row[2], address: row[3],
+          lat: row[4], lng: row[5], service: row[6], price: row[7],
+          frequency: row[8], serviceDay: (index % 5) + 1, weekParity: index % 2,
+          notes: row[9]
+        }));
+        const teamId = crypto.randomUUID();
+        state.teams = [{ id: teamId, name: "Cuadrilla 1", notes: "Ruta de mantenimiento de San José." }];
+        state.crew = CREW_SEED.map((row) => ({
+          id: crypto.randomUUID(),
+          teamId,
+          name: row[0], phone: row[1], email: row[2], address: row[3], role: row[4], notes: row[5], rate: row[6] || defaultRate(row[4])
+        }));
+        state.seed = 3;
+      }
+      if (!state.teams.length || !state.crew.length) {
+        const teamId = crypto.randomUUID();
+        state.teams = [{ id: teamId, name: "Cuadrilla 1", notes: "Ruta de mantenimiento de San José." }];
+        state.crew = CREW_SEED.map((row) => ({
+          id: crypto.randomUUID(),
+          teamId,
+          name: row[0], phone: row[1], email: row[2], address: row[3], role: row[4], notes: row[5], rate: row[6] || defaultRate(row[4])
+        }));
+      }
+      if (!state.estimates.length && !state.invoices.length) seedPaperwork();
+      state.crew.forEach((person) => { if (!person.rate) person.rate = defaultRate(person.role); });
+      ensureCodes();
+      if (!state.inactiveSeed) {
+        const inactiveSamples = [
+          ["Beatriz Elena Campos Ruiz", "408-555-1101", "beatriz.campos@correo.com", "900 Minnesota Ave, Willow Glen, San José, CA 95125", 37.3121, -121.9014, "Corte de césped", 60, "semanal", "Pausó el servicio en septiembre.", 1],
+          ["Gabriel Tomás Herrera Díaz", "408-555-1102", "gabriel.herrera@correo.com", "1500 The Alameda, San José, CA 95126", 37.3332, -121.9102, "Mantenimiento", 95, "quincenal", "Se mudó. Confirmar antes de volver a la ruta.", 2],
+          ["Marta Lucía Peña Ortiz", "408-555-1103", "marta.pena@correo.com", "2200 Alum Rock Ave, San José, CA 95116", 37.3654, -121.8298, "Corte de césped", 58, "semanal", "Pidió pausa por el invierno.", 3],
+          ["Raúl Ignacio Soto Vargas", "408-555-1104", "raul.soto@correo.com", "800 Blossom Hill Rd, San José, CA 95123", 37.2498, -121.8596, "Corte de césped", 70, "semanal", "Canceló hasta nuevo aviso.", 4],
+          ["Teresa Noemí Aguilar León", "408-555-1105", "teresa.aguilar@correo.com", "400 E Santa Clara St, San José, CA 95113", 37.3389, -121.8798, "Mantenimiento", 110, "mensual", "Casa en venta. No visitar.", 5]
+        ];
+        const phones = new Set(state.clients.map((client) => phoneDigits(client.phone)));
+        inactiveSamples.forEach((row) => {
+          if (phones.has(phoneDigits(row[1]))) return;
+          state.clients.push({
+            id: crypto.randomUUID(),
+            name: row[0], phone: row[1], email: row[2], address: row[3],
+            lat: row[4], lng: row[5], service: row[6], price: row[7],
+            frequency: row[8], notes: row[9], serviceDay: row[10], weekParity: 0,
+            active: false
+          });
+        });
+        state.inactiveSeed = 1;
+      }
+      if ((state.payrollSeed || 0) < 2) {
+        if (!state.time.length) seedPayrollHours();
+        const sampleRates = { "4085552001": 32, "4085552002": 24, "4085552003": 22, "4085552004": 18 };
+        state.crew.forEach((person) => {
+          const sample = sampleRates[phoneDigits(person.phone)];
+          if (sample && (!person.rate || person.rate === defaultRate(person.role))) person.rate = sample;
+        });
+        state.payrollSeed = 2;
+      }
+      if (!state.crewExtraSeed) {
+        const extraCrews = [
+          ["Cuadrilla 2", "Ruta norte de San José.", [
+            ["Mateo Ignacio Rojas Peña", "408-555-2011", "mateo.rojas@araujoslandscaping.com", "410 N Capitol Ave, San José, CA 95133", "Capataz", "Lleva la ruta norte. Habla español e inglés.", 30, "2301"],
+            ["Camila Fernanda López Díaz", "408-555-2012", "camila.lopez@araujoslandscaping.com", "1201 McKay Dr, San José, CA 95131", "Jardinero", "Cortes y bordes en Berryessa.", 23, "2302"],
+            ["Samuel Andrés Vega Ruiz", "408-555-2013", "samuel.vega@araujoslandscaping.com", "2500 Berryessa Rd, San José, CA 95132", "Ayudante", "Sopladora y carga.", 17, "2303"]
+          ]],
+          ["Cuadrilla 3", "Ruta sur de San José.", [
+            ["Elena Patricia Morales Gil", "408-555-2014", "elena.morales@araujoslandscaping.com", "5000 Almaden Expy, San José, CA 95118", "Capataz", "Lleva la ruta sur.", 29, "2304"],
+            ["Bruno Alejandro Castro Núñez", "408-555-2015", "bruno.castro@araujoslandscaping.com", "600 Blossom Hill Rd, San José, CA 95123", "Jardinero", "Arbustos y riego.", 22, "2305"],
+            ["Lucía Marina Ortega Solís", "408-555-2016", "lucia.ortega@araujoslandscaping.com", "2000 Camden Ave, San José, CA 95124", "Ayudante", "Entra a las 7:30.", 17, "2306"]
+          ]],
+          ["Cuadrilla 4", "Ruta este de San José.", [
+            ["Rodrigo Emiliano Fuentes Lara", "408-555-2017", "rodrigo.fuentes@araujoslandscaping.com", "2800 Quimby Rd, San José, CA 95148", "Capataz", "Lleva la ruta de Evergreen.", 31, "2307"],
+            ["Natalia Isabel Romero Paz", "408-555-2018", "natalia.romero@araujoslandscaping.com", "3500 Yerba Buena Rd, San José, CA 95121", "Jardinero", "Cortes de lotes grandes.", 23, "2308"],
+            ["Pablo Sebastián Méndez Ríos", "408-555-2019", "pablo.mendez@araujoslandscaping.com", "1000 Story Rd, San José, CA 95122", "Ayudante", "Carga y limpieza.", 16, "2309"]
+          ]]
+        ];
+        const usedPhones = new Set(state.crew.map((person) => phoneDigits(person.phone)));
+        extraCrews.forEach((group) => {
+          const groupPhones = new Set(group[2].map((row) => phoneDigits(row[1])));
+          let team = state.teams.find((item) => item.name === group[0] && !state.crew.some((person) => person.teamId === item.id && !groupPhones.has(phoneDigits(person.phone))));
+          if (!team) {
+            team = { id: crypto.randomUUID(), name: group[0], notes: group[1] };
+            state.teams.push(team);
+          }
+          group[2].forEach((row) => {
+            if (usedPhones.has(phoneDigits(row[1]))) return;
+            usedPhones.add(phoneDigits(row[1]));
+            state.crew.push({
+              id: crypto.randomUUID(),
+              teamId: team.id,
+              teamIds: [team.id],
+              name: row[0], phone: row[1], email: row[2], address: row[3], role: row[4], notes: row[5], rate: row[6], code: row[7]
+            });
+          });
+        });
+        state.crewExtraSeed = 2;
+      }
+      state.crew.forEach((person) => {
+        if (!Array.isArray(person.teamIds) || !person.teamIds.length) person.teamIds = person.teamId ? [person.teamId] : [];
+        person.teamIds = person.teamIds.filter((id, index) => state.teams.some((team) => team.id === id) && person.teamIds.indexOf(id) === index).slice(0, 2);
+        person.teamId = person.teamIds[0] || "";
+      });
+      if (!state.crewSplitSeed) {
+        const anchor = state.crew.find((person) => phoneDigits(person.phone) === "4085552001");
+        const homeId = anchor ? personTeams(anchor)[0] : "";
+        const northPhones = ["4085552011", "4085552012", "4085552013"];
+        const mixed = homeId ? state.crew.filter((person) => northPhones.includes(phoneDigits(person.phone)) && personTeams(person).includes(homeId)) : [];
+        if (mixed.length) {
+          const homeTeam = state.teams.find((team) => team.id === homeId);
+          if (homeTeam && homeTeam.notes === "Ruta de mantenimiento de San José.") homeTeam.name = "Cuadrilla 1";
+          let north = state.teams.find((team) => team.notes === "Ruta norte de San José." && team.id !== homeId);
+          if (!north) {
+            north = { id: crypto.randomUUID(), name: "Cuadrilla 2", notes: "Ruta norte de San José." };
+            const homeIndex = state.teams.findIndex((team) => team.id === homeId);
+            state.teams.splice(Math.max(0, homeIndex) + 1, 0, north);
+          }
+          mixed.forEach((person) => {
+            person.teamIds = [north.id];
+            person.teamId = north.id;
+          });
+        }
+        state.teams = state.teams.filter((team) => state.crew.some((person) => person.teamId === team.id || (person.teamIds || []).includes(team.id)));
+        state.crewSplitSeed = 1;
+      }
+      state.teams.sort((a, b) => {
+        const number = (team) => { const match = String(team.name).match(/(\d+)/); return match ? Number(match[1]) : 999; };
+        return number(a) - number(b);
+      });
+      if (!state.demoEstimateSeed) {
+        const byPhone = (phone) => state.clients.find((client) => phoneDigits(client.phone) === phoneDigits(phone));
+        const rosa = byPhone("408-555-1005");
+        const andres = byPhone("408-555-1010");
+        const valeria = byPhone("408-555-1015");
+        const addDemo = (client, number, status, items, note) => {
+          if (!client || state.estimates.some((item) => item.number === number)) return "";
+          const id = crypto.randomUUID();
+          state.estimates.unshift({
+            id, number, name: client.name, phone: client.phone, address: client.address, clientId: client.id,
+            items, note, clientNote: "", signature: "",
+            signedName: status === "enviado" ? "" : client.name,
+            signedAt: status === "enviado" ? "" : "2026-10-02",
+            created: "2026-10-02", status
+          });
+          return id;
+        };
+        addDemo(rosa, "EST-2001", "enviado", [{ desc: "Corte de césped", qty: 1, price: 68 }, { desc: "Bordes", qty: 1, price: 25 }], "Prueba: listo para firmar.");
+        addDemo(andres, "EST-2002", "firmado", [{ desc: "Mantenimiento", qty: 1, price: 130 }, { desc: "Setos del frente", qty: 1, price: 40 }], "Prueba: ya firmado.");
+        const valeriaEstimate = addDemo(valeria, "EST-2003", "facturado", [{ desc: "Corte de césped", qty: 1, price: 69 }, { desc: "Limpieza de pendiente", qty: 1, price: 35 }], "Prueba: ya tiene invoice.");
+        if (valeria && valeriaEstimate && !state.invoices.some((item) => item.number === "INV-2001")) {
+          state.invoices.unshift({
+            id: crypto.randomUUID(), number: "INV-2001", status: "por-cobrar", issued: "2026-10-02", paidOn: "", payment: "",
+            name: valeria.name, phone: valeria.phone, address: valeria.address,
+            items: [{ desc: "Corte de césped", qty: 1, price: 69 }, { desc: "Limpieza de pendiente", qty: 1, price: 35 }],
+            subtotal: 104, tax: 0, total: 104, source: "estimado", estimateId: valeriaEstimate, clientId: valeria.id,
+            costs: { materials: 12, labor: 30, dump: 8, other: 0 }
+          });
+        }
+        state.seq = state.seq || { est: 2003, inv: 2001 };
+        state.seq.est = Math.max(Number(state.seq.est) || 0, 2003);
+        state.seq.inv = Math.max(Number(state.seq.inv) || 0, 2001);
+        state.demoEstimateSeed = 1;
+      }
+      save();
+    }
+
+    function seedPaperwork() {
+      const person = (index) => state.clients[index] || { id: "", name: "Cliente", phone: "", address: "" };
+      const ana = person(0);
+      const luis = person(1);
+      const carmen = person(2);
+      const jorge = person(5);
+      const estAna = crypto.randomUUID();
+      const estLuis = crypto.randomUUID();
+      const estCarmen = crypto.randomUUID();
+      const estJorge = crypto.randomUUID();
+      state.estimates = [
+        {
+          id: estAna, number: "EST-1001", name: ana.name, phone: ana.phone, address: ana.address,
+          items: [{ desc: "Corte de césped", qty: 1, price: 65 }, { desc: "Fertilizante", qty: 1, price: 25 }],
+          note: "Incluye el patio de atrás.", clientNote: "", signature: "", signedName: ana.name, signedAt: "2026-10-01",
+          created: "2026-09-30", status: "firmado"
+        },
+        {
+          id: estLuis, number: "EST-1002", name: luis.name, phone: luis.phone, address: luis.address,
+          items: [{ desc: "Corte de césped", qty: 1, price: 70 }, { desc: "Bordes", qty: 1, price: 20 }],
+          note: "Esperando la firma del cliente.", clientNote: "", signature: "", signedName: "", signedAt: "",
+          created: "2026-10-02", status: "enviado"
+        },
+        {
+          id: estCarmen, number: "EST-1003", name: carmen.name, phone: carmen.phone, address: carmen.address,
+          items: [{ desc: "Mantenimiento", qty: 1, price: 120 }, { desc: "Poda de arbustos", qty: 1, price: 80 }],
+          note: "Aprobado y cobrado por Zelle.", clientNote: "", signature: "", signedName: carmen.name, signedAt: "2026-09-28",
+          created: "2026-09-26", status: "facturado"
+        },
+        {
+          id: estJorge, number: "EST-1004", name: jorge.name, phone: jorge.phone, address: jorge.address,
+          items: [{ desc: "Mantenimiento", qty: 1, price: 110 }, { desc: "Recolección de hojas", qty: 1, price: 35 }],
+          note: "Trabajo terminado. Invoice por cobrar.", clientNote: "", signature: "", signedName: jorge.name, signedAt: "2026-09-29",
+          created: "2026-09-27", status: "facturado"
+        }
+      ];
+      state.invoices = [
+        {
+          id: crypto.randomUUID(), number: "INV-1001", status: "pagado", issued: "2026-10-01", paidOn: "2026-10-01", payment: "Zelle",
+          name: carmen.name, phone: carmen.phone, address: carmen.address,
+          items: [{ desc: "Mantenimiento", qty: 1, price: 120 }, { desc: "Poda de arbustos", qty: 1, price: 80 }],
+          subtotal: 200, tax: 0, total: 200, source: "estimado", estimateId: estCarmen, clientId: carmen.id,
+          costs: { materials: 40, labor: 55, dump: 15, other: 10 }
+        },
+        {
+          id: crypto.randomUUID(), number: "INV-1002", status: "por-cobrar", issued: "2026-10-02", paidOn: "", payment: "",
+          name: jorge.name, phone: jorge.phone, address: jorge.address,
+          items: [{ desc: "Mantenimiento", qty: 1, price: 110 }, { desc: "Recolección de hojas", qty: 1, price: 35 }],
+          subtotal: 145, tax: 0, total: 145, source: "estimado", estimateId: estJorge, clientId: jorge.id,
+          costs: { materials: 20, labor: 40, dump: 10, other: 0 }
+        }
+      ];
+      state.seq = { est: 1004, inv: 1002 };
+    }
+
+    function markNav() {
+      document.querySelectorAll("[data-page]").forEach((button) => {
+        const target = button.dataset.page;
+        const on = target === "office" ? page === "office" : target === page;
+        button.setAttribute("aria-pressed", String(on));
+      });
+    }
+
+    function showPage(next) {
+      if (next === "people") {
+        tab = next;
+        page = "office";
+      } else if (next === "office") {
+        tab = "dash";
+        page = "office";
+      } else page = next;
+      markNav();
+      document.querySelector("#page-route").classList.toggle("hidden", page !== "route");
+      document.querySelector("#page-client").classList.toggle("hidden", page !== "client");
+      document.querySelector("#page-office").classList.toggle("hidden", page !== "office");
+      document.querySelector("#top-line").textContent = page === "route"
+        ? ""
+        : page === "client"
+          ? t("topClient")
+          : tab === "people"
+            ? t("topPeople")
+            : tab === "crew"
+              ? t("topCrew")
+              : tab === "payroll"
+                ? t("topPayroll")
+                : t("topOffice");
+      if (page === "route") renderRoute();
+      if (page === "office") {
+        const loginHeading = document.querySelector("#login-form h2");
+        if (loginHeading) loginHeading.textContent = t("navOffice");
+        document.querySelector("#login-form").classList.toggle("hidden", adminOn);
+        document.querySelector("#office-app").classList.toggle("hidden", !adminOn);
+        if (adminOn) renderOffice();
+        else focusPassword(document.querySelector("#password"));
+      }
+    }
+
+    function onLogin(event) {
+      event.preventDefault();
+      const password = document.querySelector("#password");
+      if (password.value !== ADMIN_PASSWORD) {
+        document.querySelector("#login-error").textContent = t("badPassword");
+        focusPassword(password);
+        return;
+      }
+      document.querySelector("#login-error").textContent = "";
+      document.querySelector("#password").value = "";
+      adminOn = true;
+      showPage("office");
+    }
+
+    function renderRoute() {
+      const date = document.querySelector("#route-date").value || todayISO();
+      document.querySelector("#view-today").setAttribute("aria-pressed", String(!routeAll));
+      document.querySelector("#view-all").setAttribute("aria-pressed", String(routeAll));
+      const crewSelect = document.querySelector("#route-crew");
+      const previousCrew = crewSelect.value;
+      crewSelect.innerHTML = state.teams.map((team) => `<option value="${team.id}">${escapeHtml(team.name)}</option>`).join("");
+      if (state.crewByDay[date] && state.teams.some((team) => team.id === state.crewByDay[date])) crewSelect.value = state.crewByDay[date];
+      else if (state.teams.some((team) => team.id === previousCrew)) crewSelect.value = previousCrew;
+      paintCrewButtons();
+      fillWorkers();
+      const activeClients = state.clients.filter((client) => client.active !== false);
+      const pool = routeAll ? activeClients : activeClients.filter((client) => isDue(client, date));
+      const stops = withMiles(nearest(pool, state.depot), state.depot);
+      const total = stops.reduce((sum, stop) => sum + stop.miles, 0);
+      const dayName = dayLabel(parseISO(date).getDay());
+      document.querySelector("#route-summary").textContent = stops.length
+        ? t(routeAll ? "summaryFull" : "summaryToday", { day: dayName, count: stops.length, miles: total.toFixed(1) })
+        : t("summaryEmpty", { day: dayName });
+      document.querySelector("#route-map").innerHTML = routeSVG(stops, state.depot);
+      const dayStops = routeAll ? withMiles(nearest(activeClients.filter((client) => isDue(client, date)), state.depot), state.depot) : stops;
+      const mapsLink = document.querySelector("#maps-route");
+      const mapsUrl = mapsRouteUrl(dayStops);
+      mapsLink.href = mapsUrl || "#";
+      mapsLink.classList.toggle("is-disabled", !mapsUrl);
+      mapsLink.setAttribute("aria-disabled", mapsUrl ? "false" : "true");
+      paintClock();
+      document.querySelector("#stop-list").innerHTML = stops.map((stop, index) => {
+        const job = completionFor(stop.id, date);
+        const finished = job && job.finished !== false;
+        const started = Boolean(job && (job.started || finished));
+        const photos = (before, after) => `<div class="photos">${before ? `<figure><img src="${before}" alt="${t("altBefore")}"><figcaption>${t("altBefore")}</figcaption></figure>` : ""}${after ? `<figure><img src="${after}" alt="${t("altAfter")}"><figcaption>${t("altAfter")}</figcaption></figure>` : ""}</div>`;
+        return `<article class="card stop ${finished ? "done" : ""}">
+          <div class="num">${index + 1}</div>
+          <div>
+            <strong>${escapeHtml(stop.name)}</strong>
+            <div>${escapeHtml(stop.address)}</div>
+            <div class="note" style="margin-top:4px">${escapeHtml(stop.service)} · ${frequencyLabel(stop.frequency)}</div>
+            <div class="miles">${index === 0 ? t("fromStart") : t("fromPrev")}: ${stop.miles.toFixed(1)} mi</div>
+            ${stop.notes ? `<p>${escapeHtml(stop.notes)}</p>` : ""}
+            ${finished ? `${photos(job.before, job.after)}<p class="note">${t("doneStop")}${job.employee ? " · " + escapeHtml(crewName(job.employee)) : ""}</p>` : `
+              ${started && job.before ? photos(job.before, "") : ""}
+              ${started ? "" : `<button class="btn big" type="button" data-start="${stop.id}">${t("startHouse")}</button>
+                <input class="camera-pick" type="file" accept="image/*" capture="environment" data-before="${stop.id}">`}
+              ${started ? `<button class="btn big" type="button" data-end="${stop.id}" style="margin-top:8px">${t("finishedHouse")}</button>
+                <input class="camera-pick" type="file" accept="image/*" capture="environment" data-after="${stop.id}">` : ""}
+              <button class="btn secondary" type="button" data-text="${stop.id}" style="margin-top:8px">${t("textClient")}</button>`}
+          </div>
+        </article>`;
+      }).join("");
+      document.querySelectorAll("[data-start]").forEach((button) => button.addEventListener("click", () => {
+        const input = button.parentElement.querySelector(`[data-before="${button.dataset.start}"]`);
+        if (input) input.click();
+      }));
+      document.querySelectorAll("[data-end]").forEach((button) => button.addEventListener("click", () => {
+        const input = button.parentElement.querySelector(`[data-after="${button.dataset.end}"]`);
+        if (input) input.click();
+      }));
+      document.querySelectorAll("[data-text]").forEach((button) => button.addEventListener("click", () => notifyClient(button.dataset.text, date)));
+      document.querySelectorAll("[data-before], [data-after]").forEach((input) => input.addEventListener("change", onJobPhoto));
+    }
+
+    function startStop(id, date, before) {
+      const employee = signedWorker;
+      const existing = completionFor(id, date);
+      if (existing) {
+        existing.before = before || existing.before;
+        existing.started = true;
+        if (existing.finished === undefined) existing.finished = false;
+        if (!existing.employee) existing.employee = employee;
+      } else {
+        state.completions.push({ id: crypto.randomUUID(), clientId: id, date, before: before || "", after: "", employee, started: true, finished: false });
+      }
+      save();
+      renderRoute();
+    }
+
+    function finishStop(id, date, after) {
+      const employee = signedWorker;
+      const existing = completionFor(id, date);
+      if (existing) {
+        if (after) existing.after = after;
+        existing.employee = employee;
+        existing.started = true;
+        existing.finished = true;
+      } else {
+        state.completions.push({ id: crypto.randomUUID(), clientId: id, date, before: "", after: after || "", employee, started: true, finished: true });
+      }
+      const client = state.clients.find((item) => item.id === id);
+      if (client && !state.invoices.some((invoice) => invoice.clientId === id && invoice.issued === date && invoice.source === "ruta")) {
+        state.seq.inv += 1;
+        state.invoices.unshift(makeInvoice({
+          number: `INV-${state.seq.inv}`,
+          clientId: id,
+          name: client.name,
+          phone: client.phone,
+          address: client.address,
+          items: [{ desc: client.service, qty: 1, price: Number(client.price) || 0 }],
+          source: "ruta"
+        }));
+      }
+      save();
+      renderRoute();
+    }
+
+    function onJobPhoto(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const input = event.target;
+      const id = input.dataset.before || input.dataset.after;
+      const kind = input.dataset.before ? "before" : "after";
+      if (kind === "after") showGreeting(t("toolsHouse"));
+      const date = document.querySelector("#route-date").value || todayISO();
+      const reader = new FileReader();
+      reader.onload = () => {
+        const image = new Image();
+        image.onload = () => {
+          const max = 1280;
+          const scale = Math.min(1, max / Math.max(image.width, image.height));
+          const canvas = document.createElement("canvas");
+          canvas.width = Math.max(1, Math.round(image.width * scale));
+          canvas.height = Math.max(1, Math.round(image.height * scale));
+          canvas.getContext("2d").drawImage(image, 0, 0, canvas.width, canvas.height);
+          const photo = canvas.toDataURL("image/jpeg", 0.72);
+          if (kind === "before") startStop(id, date, photo);
+          else finishStop(id, date, photo);
+        };
+        image.src = String(reader.result || "");
+      };
+      reader.readAsDataURL(file);
+      input.value = "";
+    }
+
+    function notifyClient(id, date) {
+      const client = state.clients.find((item) => item.id === id);
+      if (!client) return;
+      const when = dayLabel(parseISO(date).getDay());
+      const body = lang === "en"
+        ? `Your landscaping service is scheduled for ${when}. Araujo’s Landscaping.`
+        : `Tu servicio de jardinería está programado para el ${when}. Araujo’s Landscaping.`;
+      const link = document.createElement("a");
+      link.href = `sms:${phoneDigits(client.phone)}?&body=${encodeURIComponent(body)}`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+
+    function voiceTag(voice) {
+      return String(voice.lang || "").toLowerCase().replace(/_/g, "-");
+    }
+
+    function voicePool() {
+      const live = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+      if (live.length) voiceList = live;
+      return voiceList;
+    }
+
+    function pickVoice(english) {
+      const novelty = /^(eddy|flo|grandma|grandpa|reed|rocko|sandy|shelley|bahh|bells|boing|bubbles|bad news|good news|jester|organ|superstar|trinoids|whisper|wobble|zarvox|cellos|junior)\b/i;
+      const usable = voicePool().filter((voice) => voice.lang && !novelty.test(voice.name));
+      if (english) {
+        const american = usable.filter((voice) => voiceTag(voice).startsWith("en-us"));
+        return american.find((voice) => /samantha/i.test(voice.name))
+          || american.find((voice) => /kathy|fred|albert/i.test(voice.name))
+          || american[0]
+          || null;
+      }
+      const spanish = usable.filter((voice) => voiceTag(voice).startsWith("es"));
+      const ranked = spanish.map((voice) => {
+        const tag = voiceTag(voice);
+        const uri = String(voice.voiceURI || "").toLowerCase();
+        const name = voice.name || "";
+        let score = 0;
+        if (tag.startsWith("es-mx") || uri.includes("es-mx") || uri.includes("es_mx")) score += 100;
+        else if (/^es-(us|419|ar|co|cl|pe)/.test(tag)) score += 70;
+        else if (tag.startsWith("es-es")) score += 10;
+        if (/paulina/i.test(name) || uri.includes("paulina")) score += 40;
+        if (/enhanced|premium/.test(uri) || /enhanced|premium/i.test(name)) score += 35;
+        if (/super-compact|compact/.test(uri)) score -= 20;
+        return { voice, score };
+      }).sort((a, b) => b.score - a.score);
+      return ranked.length ? ranked[0].voice : null;
+    }
+
+    function speakGreeting(text) {
+      const synth = window.speechSynthesis;
+      if (!synth || !text) return;
+      const english = lang === "en";
+      const start = () => {
+        const voice = pickVoice(english);
+        if (!voice) {
+          const once = () => {
+            synth.removeEventListener("voiceschanged", once);
+            if (pickVoice(english)) speakGreeting(text);
+          };
+          synth.addEventListener("voiceschanged", once);
+          synth.getVoices();
+          return;
+        }
+        if (!english && !voiceTag(voice).startsWith("es")) return;
+        if (english && !voiceTag(voice).startsWith("en-us")) return;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = english ? "en-US" : "es-MX";
+        utterance.rate = english ? 1 : 0.9;
+        utterance.pitch = 1;
+        utterance.voice = voice;
+        synth.speak(utterance);
+      };
+      if (synth.speaking || synth.pending) {
+        synth.cancel();
+        setTimeout(start, 80);
+        return;
+      }
+      start();
+    }
+
+    function dayPart(date) {
+      const hour = date.getHours();
+      if (hour < 12) return "Morning";
+      if (hour < 19) return "Afternoon";
+      return "Night";
+    }
+
+    function greetingFor(employeeId, leaving) {
+      const person = state.crew.find((item) => item.id === employeeId);
+      if (!person) return "";
+      return t((leaving ? "bye" : "hi") + dayPart(new Date()), { name: person.name });
+    }
+
+    function placeCell(lat, lng, pending) {
+      if (pending) return escapeHtml(t("findingPlace"));
+      if (typeof lat === "number" && typeof lng === "number") {
+        const label = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+        return `<a href="https://www.google.com/maps?q=${lat},${lng}" target="_blank" rel="noopener">${label}</a>`;
+      }
+      if (lat === null) return escapeHtml(t("noPlace"));
+      return "—";
+    }
+
+    function stampLocation(shift, kind) {
+      const latKey = kind === "in" ? "inLat" : "outLat";
+      const lngKey = kind === "in" ? "inLng" : "outLng";
+      const done = (lat, lng) => {
+        shift[latKey] = lat;
+        if (typeof lng === "number") shift[lngKey] = lng;
+        delete shift.pendingPlace;
+        save();
+        paintClock();
+        paintHours();
+      };
+      shift.pendingPlace = kind;
+      paintClock();
+      if (!navigator.geolocation) {
+        done(null);
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(
+        (position) => done(position.coords.latitude, position.coords.longitude),
+        () => done(null),
+        { enableHighAccuracy: true, timeout: 12000, maximumAge: 20000 }
+      );
+    }
+
+    function toggleClock() {
+      const employee = signedWorker;
+      if (!employee) return;
+      const open = state.time.find((item) => item.employeeId === employee && !item.out);
+      if (open) {
+        open.out = new Date().toISOString();
+        save();
+        stampLocation(open, "out");
+        showGreeting(t("toolsDay"));
+        return;
+      }
+      const shift = { id: crypto.randomUUID(), employeeId: employee, in: new Date().toISOString(), out: "" };
+      state.time.push(shift);
+      save();
+      stampLocation(shift, "in");
+      showGreeting(greetingFor(employee, false));
+    }
+
+    function workerStatus(person) {
+      const open = state.time.find((item) => item.employeeId === person.id && !item.out);
+      const hours = hoursToday(person.id);
+      const text = open
+        ? (lang === "en" ? `On the clock since ${clockLabel(open.in)} · today ${hours.toFixed(1)} h` : `En el reloj desde ${clockLabel(open.in)} · hoy ${hours.toFixed(1)} h`)
+        : (lang === "en" ? `Today ${hours.toFixed(1)} h` : `Hoy ${hours.toFixed(1)} h`);
+      return { open, text };
+    }
+
+    function placeLine(shift) {
+      if (!shift || !(shift.pendingPlace || shift.inLat !== undefined || shift.outLat !== undefined)) return "";
+      const pendingIn = shift.pendingPlace === "in";
+      const pendingOut = shift.pendingPlace === "out";
+      return `${t("placeIn")}: ${placeCell(shift.inLat, shift.inLng, pendingIn)}`
+        + (shift.out || pendingOut ? ` · ${t("placeOut")}: ${placeCell(shift.outLat, shift.outLng, pendingOut)}` : "");
+    }
+
+    function paintWorkers() {
+      const box = document.querySelector("#worker-buttons");
+      if (!box) return;
+      const showAll = clockView === "all";
+      const people = [...state.crew].sort((a, b) => {
+        const resting = (person) => personTeams(person).length ? 0 : 1;
+        return resting(a) - resting(b) || personCrewLabel(a).localeCompare(personCrewLabel(b)) || a.name.localeCompare(b.name);
+      });
+      box.innerHTML = people.length ? people.map((person, index) => {
+        const status = workerStatus(person);
+        const latest = [...state.time].reverse().find((shift) => shift.employeeId === person.id);
+        const where = showAll ? placeLine(status.open || latest) : "";
+        return `<article class="worker-col tone-${index % 4}">
+          <strong>${escapeHtml(person.name)}</strong>
+          <p class="note">${escapeHtml(personCrewLabel(person))}</p>
+          <button class="btn" type="button" data-clock="${person.id}">${status.open ? t("clockOut") : t("clockIn")}</button>
+          <p class="note">${status.text}</p>
+          ${where ? `<p class="note">${where}</p>` : ""}
+        </article>`;
+      }).join("") : `<p class="note">${t("noEmployees")}</p>`;
+      box.querySelectorAll("[data-clock]").forEach((button) => button.addEventListener("click", () => {
+        const id = button.dataset.clock;
+        if (signedWorker === id) {
+          toggleClock();
+          return;
+        }
+        openWorkerLock({ type: "worker", id });
+      }));
+    }
+
+    function paintClock() {
+      const pick = document.querySelector("#worker-pick");
+      const back = document.querySelector("#clock-back");
+      if (!pick) return;
+      const person = state.crew.find((item) => item.id === signedWorker);
+      if (signedWorker && !person) signedWorker = "";
+      paintWorkers();
+      if (back) back.classList.toggle("hidden", clockView !== "all");
+    }
+
+    let helloTimer = 0;
+    function showGreeting(text) {
+      const screen = document.querySelector("#clock-hello");
+      document.querySelector("#clock-hello-text").textContent = text;
+      screen.classList.remove("hidden");
+      speakGreeting(text);
+      clearTimeout(helloTimer);
+      helloTimer = setTimeout(() => {
+        screen.classList.add("hidden");
+        document.querySelector("#clock-hello-text").textContent = "";
+      }, 3000);
+    }
+
+    function hoursToday(employeeId) {
+      const start = new Date();
+      start.setHours(0, 0, 0, 0);
+      return state.time.filter((item) => item.employeeId === employeeId).reduce((sum, item) => {
+        const inn = new Date(item.in);
+        if (inn < start && item.out && new Date(item.out) < start) return sum;
+        const end = item.out ? new Date(item.out) : new Date();
+        const from = inn < start ? start : inn;
+        return sum + Math.max(0, (end - from) / 3600000);
+      }, 0);
+    }
+
+    function onLookup(event) {
+      event.preventDefault();
+      const digits = phoneDigits(document.querySelector("#lookup-phone").value);
+      const error = document.querySelector("#lookup-error");
+      const root = document.querySelector("#lookup-results");
+      if (digits.length < 7) {
+        error.textContent = t("phoneShort");
+        return;
+      }
+      const estimates = state.estimates.filter((item) => phoneDigits(item.phone) === digits && item.status !== "borrador");
+      const invoices = state.invoices.filter((item) => phoneDigits(item.phone) === digits);
+      if (!estimates.length && !invoices.length) {
+        error.textContent = t("phoneNone");
+        root.innerHTML = "";
+        return;
+      }
+      error.textContent = "";
+      root.innerHTML = estimates.map((estimate) => `
+        <article class="card" style="margin-top:12px">
+          <strong>${escapeHtml(estimate.number)}</strong> <span class="status ${estimate.status}">${statusLabel(estimate.status)}</span>
+          <div>${escapeHtml(estimate.address)}</div>
+          ${linesTable(estimate.items)}
+          <p><strong>${money(itemsTotal(estimate.items))}</strong></p>
+          ${estimate.status === "enviado" ? `
+            <p class="note">${t("signHint")}</p>
+            <canvas class="sign" data-sign="${estimate.id}" width="640" height="160"></canvas>
+            <label style="margin-top:8px">${t("yourName")}<input data-sign-name="${estimate.id}" value="${escapeHtml(estimate.name)}"></label>
+            <button class="btn big" type="button" data-sign-ok="${estimate.id}" style="margin-top:8px">${t("signOk")}</button>` : ""}
+          ${estimate.signature ? `<p class="note">${t("signedBy", { name: escapeHtml(estimate.signedName), date: escapeHtml(estimate.signedAt || "") })}</p><img alt="${t("signOk")}" src="${estimate.signature}" style="max-width:240px">` : ""}
+        </article>`).join("") + invoices.map((invoice) => `
+        <article class="card" style="margin-top:12px">
+          <strong>${escapeHtml(invoice.number)}</strong> <span class="status ${invoice.status}">${invoice.status === "pagado" ? t("paid") : t("unpaid")}</span>
+          ${linesTable(invoice.items)}
+          <p><strong>${money(invoice.total)}</strong> · ${paymentLabel(invoice.payment || "")}</p>
+        </article>`).join("");
+      root.querySelectorAll("canvas.sign").forEach(bindSign);
+      root.querySelectorAll("[data-sign-ok]").forEach((button) => button.addEventListener("click", () => acceptEstimate(button.dataset.signOk)));
+    }
+
+    function acceptEstimate(id) {
+      const estimate = state.estimates.find((item) => item.id === id);
+      const canvas = document.querySelector(`canvas[data-sign="${id}"]`);
+      const name = document.querySelector(`[data-sign-name="${id}"]`).value.trim();
+      if (!estimate || !name || !canvas) return;
+      estimate.status = "firmado";
+      estimate.signedName = name;
+      estimate.signedAt = new Date().toLocaleString(lang === "en" ? "en" : "es");
+      estimate.signature = canvas.toDataURL("image/png");
+      save();
+      document.querySelector("#lookup-form").requestSubmit();
+    }
+
+    function bindSign(canvas) {
+      const ctx = canvas.getContext("2d");
+      ctx.strokeStyle = "#173028";
+      ctx.lineWidth = 2.2;
+      let drawing = false;
+      const point = (event) => {
+        const rect = canvas.getBoundingClientRect();
+        const src = event.touches ? event.touches[0] : event;
+        return [(src.clientX - rect.left) * (canvas.width / rect.width), (src.clientY - rect.top) * (canvas.height / rect.height)];
+      };
+      const start = (event) => { drawing = true; const [x, y] = point(event); ctx.beginPath(); ctx.moveTo(x, y); };
+      const move = (event) => { if (!drawing) return; event.preventDefault(); const [x, y] = point(event); ctx.lineTo(x, y); ctx.stroke(); };
+      canvas.addEventListener("pointerdown", start);
+      canvas.addEventListener("pointermove", move);
+      canvas.addEventListener("pointerup", () => { drawing = false; });
+      canvas.addEventListener("pointerleave", () => { drawing = false; });
+    }
+
+    function renderOffice() {
+      document.querySelectorAll("[data-tab]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.tab === tab)));
+      document.querySelectorAll("[data-panel]").forEach((panel) => panel.classList.toggle("hidden", panel.dataset.panel !== tab));
+      if (tab === "dash") renderDash();
+      if (tab === "people") renderPeople();
+      if (tab === "estimates") renderEstimates();
+      if (tab === "money") renderMoney();
+      if (tab === "payroll") renderPayroll();
+      if (tab === "crew") renderCrew();
+    }
+
+    function renderDash() {
+      const month = todayISO().slice(0, 7);
+      const monthInvoices = state.invoices.filter((item) => String(item.issued).startsWith(month));
+      const maintenance = monthInvoices.filter((item) => item.source === "ruta");
+      const booked = state.estimates.filter((item) => ["firmado", "terminado", "facturado"].includes(item.status) && String(item.created).startsWith(month)).length
+        + state.completions.filter((item) => String(item.date).startsWith(month)).length;
+      const due = state.invoices.filter((item) => item.status !== "pagado").reduce((sum, item) => sum + item.total, 0);
+      const mrr = monthlyRecurring();
+      const count = state.clients.filter((client) => client.active !== false).length;
+      const average = count ? mrr / count : 0;
+      const gap = Math.max(0, state.goal - mrr);
+      const needed = average > 0 ? Math.ceil(gap / average) : 0;
+      document.querySelector("#panel-dash").innerHTML = `
+        <div class="kpis">
+          <article class="kpi"><span>${t("kpiMonth")}</span><strong>${money(monthInvoices.filter((item) => item.status === "pagado").reduce((s, i) => s + i.total, 0))}</strong></article>
+          <article class="kpi"><span>${t("kpiMaint")}</span><strong>${money(maintenance.reduce((s, i) => s + i.total, 0))}</strong></article>
+          <article class="kpi"><span>${t("kpiJobs")}</span><strong>${booked}</strong></article>
+          <article class="kpi"><span>${t("kpiDue")}</span><strong>${money(due)}</strong></article>
+        </div>
+        <section class="card" style="margin-top:14px">
+          <h2>${t("growth")}</h2>
+          <p class="note">${t("growthLine", { count, mrr: money(mrr), avg: money(average) })}</p>
+          <label>${t("goal")}<input id="goal" type="number" min="0" step="100" value="${state.goal}"></label>
+          <p>${t("goalGap", { goal: money(state.goal), needed })}</p>
+          ${[50, 75, 100, 150].map((mark) => `<p style="margin:10px 0 4px">${mark} ${t("properties")} · ${Math.min(count, mark)} / ${mark}</p><div class="bar"><span style="width:${Math.min(100, (count / mark) * 100)}%"></span></div>`).join("")}
+        </section>`;
+      document.querySelector("#goal").addEventListener("change", () => {
+        state.goal = Math.max(0, Number(document.querySelector("#goal").value) || 0);
+        save();
+        renderDash();
+      });
+    }
+
+    function clientInitial(name) {
+      const letter = String(name || "").trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").charAt(0).toUpperCase();
+      return /[A-Z]/.test(letter) ? letter : "#";
+    }
+
+    function inPeopleList(client) {
+      if (peopleDay === "inactive") return client.active === false;
+      return client.active !== false && (peopleDay === "" || Number(client.serviceDay) === Number(peopleDay));
+    }
+
+    function renderPeople() {
+      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+      const visible = state.clients
+        .filter((client) => !peopleLetter || clientInitial(client.name) === peopleLetter)
+        .filter(inPeopleList)
+        .sort((a, b) => {
+          if (!a.name && b.name) return -1;
+          if (a.name && !b.name) return 1;
+          return a.name.localeCompare(b.name, "es");
+        });
+      document.querySelector("#panel-people").innerHTML = `
+        <section class="card">
+          <div class="section-head">
+            <h2>${t("navClients")}</h2>
+            <button class="btn" id="add-client" type="button">${t("addClient")}</button>
+          </div>
+          <p class="note">${t("peopleNote")}</p>
+          <div class="letters" id="people-letters">
+            <button class="all" type="button" data-letter="" aria-pressed="${peopleLetter === "" ? "true" : "false"}">${t("all")}</button>
+            ${letters.map((letter) => {
+              const has = state.clients.some((client) => clientInitial(client.name) === letter && inPeopleList(client));
+              return `<button type="button" data-letter="${letter}" aria-pressed="${peopleLetter === letter ? "true" : "false"}" ${has ? "" : "disabled"}>${letter}</button>`;
+            }).join("")}
+          </div>
+          <div class="tabs" id="people-days" style="margin-bottom:10px">
+            <button type="button" data-day="" aria-pressed="${peopleDay === "" ? "true" : "false"}">${t("allRoutes")}</button>
+            ${[0, 1, 2, 3, 4, 5, 6].map((index) => `<button type="button" data-day="${index}" aria-pressed="${String(peopleDay) === String(index) ? "true" : "false"}">${dayLabel(index).charAt(0).toUpperCase()}${dayLabel(index).slice(1)}</button>`).join("")}
+            <button class="apart" type="button" data-day="inactive" aria-pressed="${peopleDay === "inactive" ? "true" : "false"}">${t("inactive")}</button>
+          </div>
+          <div id="people-list" class="stack"></div>
+        </section>`;
+      document.querySelector("#people-list").innerHTML = visible.length ? visible.map((client, index) => `
+        <form class="card person tone-${index % 2}" data-person="${client.id}">
+          <div class="person-line who">
+            <label>${t("name")}<input name="name" value="${escapeHtml(client.name)}" required></label>
+            <label>${t("phone")}<input name="phone" value="${escapeHtml(client.phone)}"></label>
+            <label>${t("address")}<input name="address" value="${escapeHtml(client.address)}"></label>
+          </div>
+          <div class="person-line work">
+            <label>${t("email")}<input name="email" type="email" value="${escapeHtml(client.email || "")}"></label>
+            <label>${t("service")}<input name="service" value="${escapeHtml(client.service)}"></label>
+            <label>${t("price")}<input name="price" type="number" min="0" step="0.01" value="${moneyInput(client.price)}"></label>
+            <label>${t("howOften")}
+              <select name="frequency">
+                ${["semanal", "quincenal", "mensual"].map((value) => `<option value="${value}" ${client.frequency === value ? "selected" : ""}>${frequencyLabel(value)}</option>`).join("")}
+              </select>
+            </label>
+            <label>${t("day")}
+              <select name="serviceDay">
+                ${[0, 1, 2, 3, 4, 5, 6].map((index) => `<option value="${index}" ${Number(client.serviceDay) === index ? "selected" : ""}>${dayLabel(index)}</option>`).join("")}
+              </select>
+            </label>
+          </div>
+          <div class="person-line extra">
+            <label>${t("lat")}<input name="lat" type="number" step="0.0001" value="${client.lat}"></label>
+            <label>${t("lng")}<input name="lng" type="number" step="0.0001" value="${client.lng}"></label>
+            <label>${t("notes")}<input name="notes" value="${escapeHtml(client.notes || "")}"></label>
+            <div class="person-actions">
+              ${client.active === false ? "" : `<button class="btn" type="submit">${t("save")}</button>`}
+              <button class="btn ghost" type="button" data-active="${client.id}">${client.active === false ? t("makeActive") : t("makeInactive")}</button>
+              ${client.active === false ? `<button class="btn ghost" type="button" data-drop="${client.id}">${t("remove")}</button>` : ""}
+            </div>
+          </div>
+        </form>`).join("") : `<p class="note">${peopleDay === "inactive" ? t("noInactive") : t("noPeople")}</p>`;
+      document.querySelectorAll("[data-person]").forEach((form) => form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const client = state.clients.find((item) => item.id === form.dataset.person);
+        if (!client || client.active === false) return;
+        openClientLock({ type: "save", id: client.id });
+      }));
+      document.querySelectorAll("[data-active]").forEach((button) => button.addEventListener("click", () => {
+        const client = state.clients.find((item) => item.id === button.dataset.active);
+        if (!client) return;
+        openClientLock({ type: client.active === false ? "activate" : "inactive", id: client.id });
+      }));
+      document.querySelectorAll("[data-drop]").forEach((button) => button.addEventListener("click", () => {
+        openClientLock({ type: "remove", id: button.dataset.drop });
+      }));
+      document.querySelectorAll("[data-letter]").forEach((button) => button.addEventListener("click", () => {
+        peopleLetter = button.dataset.letter;
+        renderPeople();
+      }));
+      document.querySelectorAll("[data-day]").forEach((button) => button.addEventListener("click", () => {
+        peopleDay = button.dataset.day;
+        renderPeople();
+      }));
+      document.querySelector("#add-client").addEventListener("click", () => {
+        const selectedDay = peopleDay !== "" && peopleDay !== "inactive" ? Number(peopleDay) : 1;
+        peopleLetter = "";
+        if (peopleDay === "inactive") peopleDay = "";
+        const id = crypto.randomUUID();
+        state.clients.push({
+          id, name: "", phone: "", email: "", address: "",
+          lat: state.depot.lat, lng: state.depot.lng, service: "", price: 0,
+          frequency: "semanal", serviceDay: selectedDay, weekParity: 0, notes: "", active: true
+        });
+        save();
+        renderPeople();
+        const form = document.querySelector(`[data-person="${id}"]`);
+        if (!form) return;
+        form.scrollIntoView({ block: "start" });
+        const name = form.querySelector("[name=name]");
+        if (name) name.focus();
+      });
+    }
+
+    function renderEstimates() {
+      document.querySelector("#panel-estimates").innerHTML = `
+        <section class="card">
+          <h2>${t("newEstimate")}</h2>
+          <p class="note">${t("estimateSteps")}</p>
+          <form id="estimate-form" class="stack">
+            <label>${t("client")}
+              <select id="estimate-client"><option value="">${t("newClientOption")}</option>${state.clients.map((client) => `<option value="${client.id}">${escapeHtml(client.name)}</option>`).join("")}</select>
+            </label>
+            <div class="grid2">
+              <label>${t("name")}<input id="est-name" required></label>
+              <label>${t("phone")}<input id="est-phone" required></label>
+              <label style="grid-column:1/-1">${t("address")}<input id="est-address" required></label>
+              <label style="grid-column:1/-1">${t("note")}<input id="est-note" placeholder="${t("notePlaceholder")}"></label>
+            </div>
+            <div id="item-rows"></div>
+            <button class="btn secondary" id="add-item" type="button">${t("addLine")}</button>
+            <p id="draft-total" class="note"></p>
+            <p class="error" id="estimate-error"></p>
+            <button class="btn" type="submit" data-send="1">${t("sendSign")}</button>
+          </form>
+        </section>
+        <section class="card" id="estimate-list"></section>`;
+      renderItems();
+      document.querySelector("#estimate-client").addEventListener("change", () => {
+        const client = state.clients.find((item) => item.id === document.querySelector("#estimate-client").value);
+        if (!client) return;
+        document.querySelector("#est-name").value = client.name;
+        document.querySelector("#est-phone").value = client.phone;
+        document.querySelector("#est-address").value = client.address;
+        draftItems = [{ desc: client.service, qty: 1, price: client.price }];
+        renderItems();
+      });
+      document.querySelector("#add-item").addEventListener("click", () => {
+        draftItems = readItems();
+        draftItems.push({ desc: "", qty: 1, price: 0 });
+        renderItems();
+      });
+      document.querySelector("#estimate-form").addEventListener("input", () => {
+        const node = document.querySelector("#draft-total");
+        if (node) node.textContent = `Total ${money(itemsTotal(readItems()))}`;
+      });
+      document.querySelector("#estimate-form").addEventListener("submit", onEstimate);
+      paintEstimateList();
+    }
+
+    function renderItems() {
+      const root = document.querySelector("#item-rows");
+      if (!root) return;
+      root.innerHTML = draftItems.map((item, index) => `
+        <div class="grid2 item-row">
+          <label>${t("line")}<input data-desc value="${escapeHtml(item.desc)}"></label>
+          <label>${t("qty")}<input data-qty type="number" min="0" step="1" value="${item.qty}"></label>
+          <label>${t("price")}<input data-price type="number" min="0" step="0.01" value="${moneyInput(item.price)}"></label>
+          <button class="btn ghost" type="button" data-remove="${index}">${t("remove")}</button>
+        </div>`).join("");
+      root.querySelectorAll("[data-remove]").forEach((button) => button.addEventListener("click", () => {
+        draftItems = readItems().filter((_, index) => index !== Number(button.dataset.remove));
+        if (!draftItems.length) draftItems = [{ desc: "", qty: 1, price: 0 }];
+        renderItems();
+      }));
+      const total = document.querySelector("#draft-total");
+      if (total) total.textContent = `Total ${money(itemsTotal(draftItems))}`;
+    }
+
+    function readItems() {
+      return [...document.querySelectorAll(".item-row")].map((row) => ({
+        desc: row.querySelector("[data-desc]").value.trim(),
+        qty: Number(row.querySelector("[data-qty]").value) || 0,
+        price: Number(row.querySelector("[data-price]").value) || 0
+      }));
+    }
+
+    function onEstimate(event) {
+      event.preventDefault();
+      const items = readItems().filter((item) => item.desc);
+      const name = document.querySelector("#est-name").value.trim();
+      const phone = document.querySelector("#est-phone").value.trim();
+      const address = document.querySelector("#est-address").value.trim();
+      if (!name || !phone || !address || !items.length) {
+        document.querySelector("#estimate-error").textContent = t("missingEstimate");
+        return;
+      }
+      const existing = state.estimates.find((item) => item.id === editingId);
+      const payload = { name, phone, address, items, note: document.querySelector("#est-note").value.trim(), status: "enviado" };
+      if (existing && existing.status !== "facturado") Object.assign(existing, payload);
+      else {
+        state.seq.est += 1;
+        state.estimates.unshift({ id: crypto.randomUUID(), number: `EST-${state.seq.est}`, clientNote: "", signature: "", signedName: "", signedAt: "", created: todayISO(), ...payload });
+      }
+      editingId = "";
+      save();
+      document.querySelector("#estimate-error").textContent = t("sentEstimate");
+      document.querySelector("#estimate-form").reset();
+      draftItems = [{ desc: "Corte de césped", qty: 1, price: 65 }];
+      renderItems();
+      paintEstimateList();
+    }
+
+    function paintEstimateList() {
+      const root = document.querySelector("#estimate-list");
+      if (!root) return;
+      root.innerHTML = `<h2>${t("estimates")}</h2>` + (state.estimates.length ? state.estimates.map((estimate) => `
+        <article style="border-top:1px solid var(--line);padding:12px 0">
+          <strong>${escapeHtml(estimate.number)}</strong> <span class="status ${estimate.status}">${statusLabel(estimate.status)}</span>
+          <div>${escapeHtml(estimate.name)} · ${escapeHtml(estimate.phone)}</div>
+          <div class="note">${escapeHtml(estimate.address)} · ${money(itemsTotal(estimate.items))}</div>
+          ${estimate.signedName ? `<p class="note">${t("signedPerson", { name: escapeHtml(estimate.signedName) })}</p>` : ""}
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            ${estimate.status === "firmado" ? `<button class="btn" type="button" data-est-done="${estimate.id}">${t("jobDone")}</button>` : ""}
+            ${estimate.status === "terminado" ? `<button class="btn clay" type="button" data-est-invoice="${estimate.id}">${t("createInvoice")}</button>` : ""}
+          </div>
+        </article>`).join("") : `<p class="note">${t("noEstimates")}</p>`);
+      root.querySelectorAll("[data-est-done]").forEach((button) => button.addEventListener("click", () => {
+        const estimate = state.estimates.find((item) => item.id === button.dataset.estDone);
+        if (estimate) estimate.status = "terminado";
+        save();
+        paintEstimateList();
+      }));
+      root.querySelectorAll("[data-est-invoice]").forEach((button) => button.addEventListener("click", () => invoiceEstimate(button.dataset.estInvoice)));
+    }
+
+    function invoiceEstimate(id) {
+      const estimate = state.estimates.find((item) => item.id === id);
+      if (!estimate || estimate.status !== "terminado") return;
+      state.seq.inv += 1;
+      state.invoices.unshift(makeInvoice({
+        number: `INV-${state.seq.inv}`,
+        name: estimate.name,
+        phone: estimate.phone,
+        address: estimate.address,
+        items: estimate.items,
+        source: "estimado",
+        estimateId: estimate.id
+      }));
+      estimate.status = "facturado";
+      save();
+      paintEstimateList();
+    }
+
+    function renderMoney() {
+      const paid = state.invoices.filter((item) => item.status === "pagado");
+      const open = state.invoices.filter((item) => item.status !== "pagado");
+      const income = paid.reduce((sum, item) => sum + item.total, 0);
+      const spent = state.expenses.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+      const laborHours = state.time.reduce((sum, item) => {
+        if (!item.out) return sum;
+        return sum + (new Date(item.out) - new Date(item.in)) / 3600000;
+      }, 0);
+      document.querySelector("#panel-money").innerHTML = `
+        <div class="kpis">
+          <article class="kpi"><span>${t("collected")}</span><strong>${money(income)}</strong></article>
+          <article class="kpi"><span>${t("due")}</span><strong>${money(open.reduce((s, i) => s + i.total, 0))}</strong></article>
+          <article class="kpi"><span>${t("expenses")}</span><strong>${money(spent)}</strong></article>
+          <article class="kpi"><span>${t("profit")}</span><strong>${money(income - spent)}</strong></article>
+        </div>
+        <section class="card" style="margin-top:14px">
+          <h2>${t("jobCost")}</h2>
+          <p class="note">${t("jobCostNote", { hours: laborHours.toFixed(1) })}</p>
+          <div id="job-costs"></div>
+        </section>
+        <section class="card">
+          <h2>${t("ledger")}</h2>
+          <div id="ledger"></div>
+        </section>
+        <form class="card" id="expense-form">
+          <h3>${t("newExpense")}</h3>
+          <div class="grid2">
+            <label>${t("date")}<input name="date" type="date" value="${todayISO()}" required></label>
+            <label>${t("category")}
+              <select name="category">
+                ${[["Materiales", "materials"], ["Basurero", "dump"], ["Combustible", "fuel"], ["Equipo", "equipment"], ["Mano de obra", "labor"], ["Otros", "other"]].map(([value, key]) => `<option value="${value}">${key === "dump" ? t("dump") : t(key)}</option>`).join("")}
+              </select>
+            </label>
+            <label style="grid-column:1/-1">${t("description")}<input name="description" required></label>
+            <label>${t("amount")}<input name="amount" type="number" min="0" step="0.01" required></label>
+          </div>
+          <button class="btn" type="submit" style="margin-top:8px">${t("addExpense")}</button>
+        </form>`;
+      document.querySelector("#job-costs").innerHTML = state.invoices.length ? state.invoices.map((invoice) => {
+        const costs = invoice.costs || { materials: 0, labor: 0, dump: 0, other: 0 };
+        const costTotal = Number(costs.materials) + Number(costs.labor) + Number(costs.dump) + Number(costs.other);
+        const profit = invoice.total - costTotal;
+        const margin = invoice.total ? (profit / invoice.total) * 100 : 0;
+        return `<article style="border-top:1px solid var(--line);padding:12px 0" data-job="${invoice.id}">
+          <strong>${escapeHtml(invoice.number)} · ${escapeHtml(invoice.name)}</strong>
+          <div class="cost" style="margin-top:8px">
+            <span>${t("clientPrice")}</span><strong>${money(invoice.total)}</strong>
+            <label>${t("materials")}<input data-cost="materials" type="number" min="0" step="0.01" value="${moneyInput(costs.materials)}"></label><span></span>
+            <label>${t("labor")}<input data-cost="labor" type="number" min="0" step="0.01" value="${moneyInput(costs.labor)}"></label><span></span>
+            <label>${t("dump")}<input data-cost="dump" type="number" min="0" step="0.01" value="${moneyInput(costs.dump)}"></label><span></span>
+            <label>${t("other")}<input data-cost="other" type="number" min="0" step="0.01" value="${moneyInput(costs.other)}"></label><span></span>
+            <span>${t("estProfit")}</span><strong>${money(profit)}</strong>
+            <span>${t("margin")}</span><strong>${margin.toFixed(1)}%</strong>
+          </div>
+        </article>`;
+      }).join("") : `<p class="note">${t("noCosts")}</p>`;
+      document.querySelectorAll("[data-job]").forEach((card) => card.addEventListener("change", () => {
+        const invoice = state.invoices.find((item) => item.id === card.dataset.job);
+        if (!invoice) return;
+        invoice.costs = invoice.costs || { materials: 0, labor: 0, dump: 0, other: 0 };
+        card.querySelectorAll("[data-cost]").forEach((input) => { invoice.costs[input.dataset.cost] = Number(input.value) || 0; });
+        save();
+        renderMoney();
+      }));
+      const rows = [
+        ...state.invoices.map((invoice) => ({ date: invoice.issued, kind: "Invoice", ref: invoice.number, who: invoice.name, income: invoice.total, expense: 0, id: invoice.id, open: invoice.status !== "pagado" })),
+        ...state.expenses.map((expense) => ({ date: expense.date, kind: t("kindExpense"), ref: categoryLabel(expense.category), who: expense.description, income: 0, expense: expense.amount, id: expense.id, open: false }))
+      ].sort((a, b) => String(b.date).localeCompare(String(a.date)));
+      document.querySelector("#ledger").innerHTML = rows.length ? `<table><thead><tr><th>${t("thDate")}</th><th>${t("thType")}</th><th>${t("thDetail")}</th><th class="numr">${t("thIncome")}</th><th class="numr">${t("thExpense")}</th><th></th></tr></thead><tbody>
+        ${rows.map((row) => `<tr><td>${escapeHtml(labelDate(row.date))}</td><td>${row.kind}</td><td>${escapeHtml(row.ref)} · ${escapeHtml(row.who)}</td><td class="numr">${row.income ? money(row.income) : ""}</td><td class="numr">${row.expense ? money(row.expense) : ""}</td><td>${row.open ? `<select data-pay="${row.id}"><option value="">${t("collect")}</option><option value="Efectivo">${t("cash")}</option><option value="Cheque">${t("check")}</option><option value="Zelle">Zelle</option><option value="Tarjeta">${t("card")}</option></select>` : ""}</td></tr>`).join("")}
+      </tbody></table>` : `<p class="note">${t("emptyLedger")}</p>`;
+      document.querySelectorAll("[data-pay]").forEach((select) => select.addEventListener("change", () => {
+        if (!select.value) return;
+        const invoice = state.invoices.find((item) => item.id === select.dataset.pay);
+        if (!invoice) return;
+        invoice.status = "pagado";
+        invoice.payment = select.value;
+        invoice.paidOn = todayISO();
+        save();
+        renderMoney();
+        renderDash();
+      }));
+      document.querySelector("#expense-form").addEventListener("submit", (event) => {
+        event.preventDefault();
+        const data = new FormData(event.target);
+        state.expenses.push({
+          id: crypto.randomUUID(),
+          date: String(data.get("date")),
+          category: String(data.get("category")),
+          description: String(data.get("description")).trim(),
+          amount: Number(data.get("amount")) || 0
+        });
+        save();
+        renderMoney();
+      });
+    }
+
+    function defaultRate(role) {
+      return { Capataz: 32, Jardinero: 24, Ayudante: 18, Chofer: 24 }[role] || 20;
+    }
+
+    function weekStartMonday(iso) {
+      const date = iso ? parseISO(iso) : parseISO(todayISO());
+      const day = date.getDay();
+      date.setDate(date.getDate() + (day === 0 ? -6 : 1 - day));
+      return toISO(date);
+    }
+
+    function addDaysISO(iso, days) {
+      const date = parseISO(iso);
+      date.setDate(date.getDate() + days);
+      return toISO(date);
+    }
+
+    function punchHours(item) {
+      if (!item.out) return 0;
+      return Math.max(0, (new Date(item.out) - new Date(item.in)) / 3600000);
+    }
+
+    function seedPayrollHours() {
+      const find = (phone) => state.crew.find((person) => phoneDigits(person.phone) === phone);
+      const miguel = find("4085552001");
+      const jose = find("4085552002");
+      const carlos = find("4085552003");
+      const daniel = find("4085552004");
+      const monday = parseISO(weekStartMonday(todayISO()));
+      const at = (person, offset, h1, m1, h2, m2) => {
+        if (!person) return null;
+        const inn = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + offset, h1, m1, 0, 0);
+        const out = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + offset, h2, m2, 0, 0);
+        return { id: crypto.randomUUID(), employeeId: person.id, in: inn.toISOString(), out: out.toISOString() };
+      };
+      state.time = [
+        at(miguel, 0, 7, 0, 16, 0),
+        at(miguel, 1, 7, 0, 15, 30),
+        at(miguel, 2, 7, 0, 15, 0),
+        at(miguel, 3, 7, 0, 17, 0),
+        at(miguel, 4, 7, 0, 15, 0),
+        at(jose, 0, 7, 30, 16, 0),
+        at(jose, 1, 7, 30, 16, 0),
+        at(jose, 2, 7, 30, 15, 30),
+        at(jose, 3, 7, 30, 16, 30),
+        at(jose, 4, 7, 30, 15, 30),
+        at(jose, 5, 8, 0, 16, 0),
+        at(carlos, 0, 8, 0, 16, 0),
+        at(carlos, 1, 8, 0, 16, 0),
+        at(carlos, 2, 8, 0, 16, 0),
+        at(carlos, 3, 8, 0, 16, 0),
+        at(daniel, 0, 8, 0, 14, 0),
+        at(daniel, 1, 8, 0, 16, 0),
+        at(daniel, 2, 7, 0, 19, 30),
+        at(daniel, 3, 8, 0, 15, 0),
+        at(daniel, 4, 8, 0, 13, 0)
+      ].filter(Boolean);
+    }
+
+    function payrollRows(startISO) {
+      const end = addDaysISO(startISO, 7);
+      return state.crew.map((person) => {
+        const byDay = {};
+        state.time.forEach((item) => {
+          if (item.employeeId !== person.id || !item.out) return;
+          const day = toISO(new Date(item.in));
+          if (day < startISO || day >= end) return;
+          byDay[day] = (byDay[day] || 0) + punchHours(item);
+        });
+        let regular = 0;
+        let overtime = 0;
+        let doubleTime = 0;
+        Object.keys(byDay).forEach((day) => {
+          const hours = byDay[day];
+          regular += Math.min(8, hours);
+          overtime += Math.min(4, Math.max(0, hours - 8));
+          doubleTime += Math.max(0, hours - 12);
+        });
+        if (regular > 40) {
+          overtime += regular - 40;
+          regular = 40;
+        }
+        const rate = Number(person.rate) || defaultRate(person.role);
+        return {
+          person,
+          rate,
+          regular,
+          overtime,
+          doubleTime,
+          gross: regular * rate + overtime * rate * 1.5 + doubleTime * rate * 2
+        };
+      }).filter((row) => row.regular + row.overtime + row.doubleTime > 0);
+    }
+
+    function renderPayroll() {
+      const start = weekStartMonday();
+      document.querySelector("#panel-payroll").innerHTML = `
+        <section class="card">
+          <h2>${t("payrollTitle")}</h2>
+          <p class="note">${t("payrollNote")}</p>
+          <form id="payroll-form" class="person-actions">
+            <label>${t("weekOf")}<input id="payroll-start" type="date" value="${start}" required></label>
+            <button class="btn" type="submit">${t("calcPayroll")}</button>
+          </form>
+          <div id="payroll-result" style="margin-top:14px"></div>
+        </section>`;
+      const paint = () => {
+        const week = weekStartMonday(document.querySelector("#payroll-start").value);
+        document.querySelector("#payroll-start").value = week;
+        const rows = payrollRows(week);
+        const total = rows.reduce((sum, row) => sum + row.gross, 0);
+        document.querySelector("#payroll-result").innerHTML = rows.length ? `<table><thead><tr>
+          <th>${t("thPerson")}</th><th class="numr">${t("rate")}</th><th class="numr">${t("regular")}</th><th class="numr">${t("overtime")}</th><th class="numr">${t("doubleTime")}</th><th class="numr">${t("gross")}</th>
+        </tr></thead><tbody>
+          ${rows.map((row) => `<tr><td>${escapeHtml(row.person.name)}</td><td class="numr">${money(row.rate)}</td><td class="numr">${row.regular.toFixed(1)}</td><td class="numr">${row.overtime.toFixed(1)}</td><td class="numr">${row.doubleTime.toFixed(1)}</td><td class="numr">${money(row.gross)}</td></tr>`).join("")}
+          <tr><td colspan="5"><strong>${t("payrollTotal")}</strong></td><td class="numr"><strong>${money(total)}</strong></td></tr>
+        </tbody></table>` : `<p class="note">${t("noPayroll")}</p>`;
+      };
+      document.querySelector("#payroll-form").addEventListener("submit", (event) => {
+        event.preventDefault();
+        paint();
+      });
+      paint();
+    }
+
+    const ROLES = ["Capataz", "Jardinero", "Ayudante", "Chofer"];
+
+    function renderCrew() {
+      document.querySelector("#panel-crew").innerHTML = `
+        <section class="card">
+          <h2>${t("crewsTitle")}</h2>
+          <p class="note">${t("crewsNote")}</p>
+          <div id="crew-list" class="stack"></div>
+          <button class="btn" id="add-team" type="button" style="margin-top:10px">${t("addCrew")}</button>
+        </section>
+        <section class="card">
+          <h3>${t("hours")}</h3>
+          <div id="hour-list"></div>
+        </section>`;
+      const employeeForm = (person, index) => {
+        const roles = ROLES.includes(person.role) ? ROLES : [person.role, ...ROLES];
+        const membership = personTeams(person);
+        return `
+            <form class="card person tone-${index % 2}" data-employee="${person.id}" style="margin-left:18px">
+              <div class="person-line member">
+                <label>${t("name")}<input name="name" value="${escapeHtml(person.name)}" required></label>
+                <label>${t("phone")}<input name="phone" value="${escapeHtml(person.phone || "")}"></label>
+                <label>${t("email")}<input name="email" type="email" value="${escapeHtml(person.email || "")}"></label>
+                <label>${t("crew")}
+                  <select name="teamId"><option value="" ${membership[0] ? "" : "selected"}>${t("noCrewOption")}</option>${state.teams.map((item) => `<option value="${item.id}" ${membership[0] === item.id ? "selected" : ""}>${escapeHtml(crewLabel(item.name))}</option>`).join("")}</select>
+                </label>
+                <label>${t("secondCrew")}
+                  <select name="teamExtra"><option value="">${t("noSecond")}</option>${state.teams.map((item) => `<option value="${item.id}" ${membership[1] === item.id ? "selected" : ""}>${escapeHtml(crewLabel(item.name))}</option>`).join("")}</select>
+                </label>
+              </div>
+              <div class="person-line pay">
+                <label>${t("address")}<input name="address" value="${escapeHtml(person.address || "")}"></label>
+                <label>${t("role")}
+                  <select name="role">${roles.map((role) => `<option value="${escapeHtml(role)}" ${person.role === role ? "selected" : ""}>${escapeHtml(roleLabel(role))}</option>`).join("")}</select>
+                </label>
+                <label>${t("rate")}<input name="rate" type="number" min="0" step="0.01" value="${moneyInput(person.rate || defaultRate(person.role))}"></label>
+                <label>${t("workerCode")}<input name="code" inputmode="numeric" autocomplete="off" value="${escapeHtml(person.code || "")}" required></label>
+                <label>${t("notes")}<input name="notes" value="${escapeHtml(person.notes || "")}"></label>
+              </div>
+              <div class="person-actions" style="margin-top:8px">
+                <button class="btn" type="submit">${t("save")}</button>
+                <button class="btn ghost" type="button" data-drop-person="${person.id}">${t("remove")}</button>
+              </div>
+            </form>`;
+      };
+      const resting = state.crew.filter((person) => !personTeams(person).length);
+      document.querySelector("#crew-list").innerHTML = state.teams.length ? state.teams.map((team, teamIndex) => {
+        const people = state.crew.filter((person) => personTeams(person).includes(team.id));
+        return `
+          <form class="card person tone-${teamIndex % 2}" data-team="${team.id}">
+            <div class="person-line who">
+              <label>${t("crew")}<input name="name" value="${escapeHtml(crewLabel(team.name))}" required></label>
+              <label style="grid-column:span 2">${t("note")}<input name="notes" value="${escapeHtml(team.notes || "")}"></label>
+            </div>
+            <p class="note" style="margin:8px 0 0">${people.length ? people.map((person) => escapeHtml(person.name)).join(" · ") : t("noCrewPeople")}</p>
+            <div class="person-actions" style="margin-top:8px">
+              <button class="btn" type="submit">${t("saveCrew")}</button>
+              <button class="btn ghost" type="button" data-drop-team="${team.id}">${t("removeCrew")}</button>
+            </div>
+          </form>
+          ${people.map((person, index) => employeeForm(person, index)).join("")}
+          <div class="person-actions" style="margin:0 0 8px 18px">
+            <button class="btn secondary" type="button" data-add-person="${team.id}">${t("addEmployee")}</button>
+          </div>`;
+      }).join("") : `<p class="note">${t("noCrews")}</p>`;
+      document.querySelector("#crew-list").insertAdjacentHTML("beforeend", `
+        <section class="card person tone-1" id="resting-crew">
+          <h3>${t("restingTitle")}</h3>
+          <p class="note">${t("restingNote")}</p>
+          ${resting.map((person, index) => employeeForm(person, index)).join("")}
+          <div class="person-actions" style="margin:0 0 8px 18px">
+            <button class="btn secondary" type="button" data-add-rest="1">${t("addEmployee")}</button>
+          </div>
+        </section>`);
+      document.querySelectorAll("[data-team]").forEach((form) => form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const team = state.teams.find((item) => item.id === form.dataset.team);
+        if (!team) return;
+        const data = new FormData(form);
+        team.name = storeCrewName(data.get("name"));
+        team.notes = String(data.get("notes") || "").trim();
+        save();
+        renderCrew();
+      }));
+      document.querySelectorAll("[data-employee]").forEach((form) => form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const person = state.crew.find((item) => item.id === form.dataset.employee);
+        if (!person) return;
+        const data = new FormData(form);
+        const fields = employeeFields(data);
+        const prev = personTeams(person);
+        const addingSecond = fields.teamIds.length > 1 && !(fields.teamIds.length === prev.length && fields.teamIds.every((id) => prev.includes(id)));
+        if (addingSecond) {
+          openClientLock({ type: "twoCrews", id: person.id, fields });
+          return;
+        }
+        applyEmployee(person, fields);
+        save();
+        renderCrew();
+      }));
+      document.querySelectorAll("[data-add-person]").forEach((button) => button.addEventListener("click", () => {
+        const id = crypto.randomUUID();
+        state.crew.push({
+          id, teamId: button.dataset.addPerson, teamIds: [button.dataset.addPerson], name: "",
+          phone: "", email: "", address: "", role: "Jardinero", notes: "", rate: defaultRate("Jardinero"), code: ""
+        });
+        ensureCodes();
+        save();
+        focusEmployee = id;
+        renderCrew();
+      }));
+      document.querySelectorAll("[data-add-rest]").forEach((button) => button.addEventListener("click", () => {
+        const id = crypto.randomUUID();
+        state.crew.push({
+          id, teamId: "", teamIds: [], name: "",
+          phone: "", email: "", address: "", role: "Jardinero", notes: "", rate: defaultRate("Jardinero"), code: ""
+        });
+        ensureCodes();
+        save();
+        focusEmployee = id;
+        renderCrew();
+      }));
+      document.querySelectorAll("[data-drop-person]").forEach((button) => button.addEventListener("click", () => {
+        state.crew = state.crew.filter((item) => item.id !== button.dataset.dropPerson);
+        save();
+        renderCrew();
+      }));
+      document.querySelectorAll("[data-drop-team]").forEach((button) => button.addEventListener("click", () => {
+        const dropped = button.dataset.dropTeam;
+        state.teams = state.teams.filter((item) => item.id !== dropped);
+        state.crew.forEach((person) => {
+          const left = personTeams(person).filter((id) => id !== dropped);
+          person.teamIds = left;
+          person.teamId = left[0] || "";
+        });
+        save();
+        renderCrew();
+      }));
+      document.querySelector("#add-team").addEventListener("click", () => {
+        state.teams.push({ id: crypto.randomUUID(), name: `Cuadrilla ${state.teams.length + 1}`, notes: "" });
+        save();
+        renderCrew();
+      });
+      document.querySelector("#hour-list").innerHTML = state.time.length ? `<table><thead><tr><th>${t("thPerson")}</th><th>${t("thIn")}</th><th>${t("thOut")}</th><th>${t("thHours")}</th><th>${t("thPlaceIn")}</th><th>${t("thPlaceOut")}</th></tr></thead><tbody>
+        ${[...state.time].reverse().map((item) => {
+          const hours = item.out ? ((new Date(item.out) - new Date(item.in)) / 3600000) : hoursToday(item.employeeId);
+          return `<tr><td>${escapeHtml(crewName(item.employeeId))}</td><td>${clockLabel(item.in)}</td><td>${item.out ? clockLabel(item.out) : t("onShift")}</td><td>${hours.toFixed(1)}</td><td>${placeCell(item.inLat, item.inLng, item.pendingPlace === "in")}</td><td>${placeCell(item.outLat, item.outLng, item.pendingPlace === "out")}</td></tr>`;
+        }).join("")}
+      </tbody></table>` : `<p class="note">${t("noClock")}</p>`;
+      if (focusEmployee) {
+        const input = document.querySelector(`[data-employee="${focusEmployee}"] [name="name"]`);
+        focusEmployee = "";
+        if (input) {
+          input.focus();
+          input.scrollIntoView({ block: "center" });
+        }
+      }
+    }
+
+    function paintHours() {
+      if (document.querySelector("#hour-list")) renderCrew();
+    }
+
+    function makeInvoice(fields) {
+      const subtotal = itemsTotal(fields.items);
+      return {
+        id: crypto.randomUUID(),
+        status: "por-cobrar",
+        issued: todayISO(),
+        paidOn: "",
+        payment: "",
+        subtotal,
+        tax: 0,
+        total: subtotal,
+        costs: { materials: 0, labor: 0, dump: 0, other: 0 },
+        estimateId: "",
+        clientId: "",
+        ...fields
+      };
+    }
+
+    function monthlyRecurring() {
+      return state.clients.filter((client) => client.active !== false).reduce((sum, client) => {
+        const price = Number(client.price) || 0;
+        if (client.frequency === "quincenal") return sum + price * (26 / 12);
+        if (client.frequency === "mensual") return sum + price;
+        return sum + price * (52 / 12);
+      }, 0);
+    }
+
+    function isDue(client, iso) {
+      const date = parseISO(iso);
+      if (date.getDay() !== Number(client.serviceDay)) return false;
+      if (client.frequency === "mensual") return date.getDate() <= 7;
+      if (client.frequency === "quincenal") return weekNumber(date) % 2 === Number(client.weekParity || 0);
+      return true;
+    }
+
+    function weekNumber(date) {
+      const start = new Date(date.getFullYear(), 0, 1);
+      return Math.floor((date - start) / 604800000);
+    }
+
+    function completionFor(id, date) {
+      return state.completions.find((item) => item.clientId === id && item.date === date);
+    }
+
+    function nearest(clients, depot) {
+      const left = clients.map((client) => ({ ...client }));
+      const order = [];
+      let current = depot;
+      while (left.length) {
+        let best = 0;
+        let bestMiles = Infinity;
+        left.forEach((client, index) => {
+          const distance = miles(current, client);
+          if (distance < bestMiles) { bestMiles = distance; best = index; }
+        });
+        const next = left.splice(best, 1)[0];
+        order.push(next);
+        current = next;
+      }
+      return order;
+    }
+
+    function withMiles(clients, depot) {
+      let current = depot;
+      return clients.map((client) => {
+        const distance = miles(current, client);
+        current = client;
+        return { ...client, miles: distance };
+      });
+    }
+
+    function routeSVG(stops, depot) {
+      if (!stops.length) return "";
+      const points = [depot, ...stops];
+      const lats = points.map((point) => point.lat);
+      const lngs = points.map((point) => point.lng);
+      const minLat = Math.min(...lats), maxLat = Math.max(...lats), minLng = Math.min(...lngs), maxLng = Math.max(...lngs);
+      const project = (point) => [
+        24 + ((point.lng - minLng) / ((maxLng - minLng) || 1)) * 592,
+        24 + ((maxLat - point.lat) / ((maxLat - minLat) || 1)) * 232
+      ];
+      const coords = [depot, ...stops].map(project);
+      const dots = coords.slice(1).map((pair, index) => `<g><circle cx="${pair[0]}" cy="${pair[1]}" r="12" fill="#173028"></circle><text x="${pair[0]}" y="${pair[1] + 4}" text-anchor="middle" fill="white" font-size="12" font-family="Outfit, sans-serif">${index + 1}</text></g>`).join("");
+      return `<polyline points="${coords.map((pair) => pair.join(",")).join(" ")}" fill="none" stroke="#c45c1a" stroke-width="3"></polyline><circle cx="${coords[0][0]}" cy="${coords[0][1]}" r="8" fill="#2c6b45"></circle><text x="${coords[0][0] + 12}" y="${coords[0][1] - 8}" font-size="12" font-family="Outfit, sans-serif">${escapeHtml(t("mapStart"))}</text>${dots}`;
+    }
+
+    function placePin(point) {
+      const address = String(point.address || "").trim();
+      if (address) return address;
+      const lat = Number(point.lat);
+      const lng = Number(point.lng);
+      if (Number.isFinite(lat) && Number.isFinite(lng)) return `${lat},${lng}`;
+      return "";
+    }
+
+    function mapsRouteUrl(stops) {
+      const houses = stops.map(placePin).filter(Boolean);
+      if (!houses.length) return "";
+      const destination = houses[houses.length - 1];
+      const via = houses.slice(0, -1);
+      if (via.length <= 9) {
+        const params = new URLSearchParams({
+          api: "1",
+          destination,
+          travelmode: "driving",
+          dir_action: "navigate"
+        });
+        if (via.length) params.set("waypoints", via.join("|"));
+        return `https://www.google.com/maps/dir/?${params.toString()}`;
+      }
+      return `https://www.google.com/maps/dir/${houses.map((point) => encodeURIComponent(point)).join("/")}/`;
+    }
+
+    function miles(a, b) {
+      const radius = 3958.8;
+      const dLat = (b.lat - a.lat) * Math.PI / 180;
+      const dLng = (b.lng - a.lng) * Math.PI / 180;
+      const lat1 = a.lat * Math.PI / 180;
+      const lat2 = b.lat * Math.PI / 180;
+      const h = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+      return 2 * radius * Math.asin(Math.min(1, Math.sqrt(h)));
+    }
+
+    function linesTable(items) {
+      return `<table><tbody>${(items || []).map((item) => `<tr><td>${escapeHtml(item.desc)}</td><td class="numr">${item.qty} × ${money(item.price)}</td><td class="numr">${money(item.qty * item.price)}</td></tr>`).join("")}</tbody></table>`;
+    }
+    function itemsTotal(items) { return round2((items || []).reduce((sum, item) => sum + (Number(item.qty) || 0) * (Number(item.price) || 0), 0)); }
+    function round2(value) { return Math.round((Number(value) || 0) * 100) / 100; }
+    function money(value) {
+      const amount = Number(value) || 0;
+      return `${amount < 0 ? "-" : ""}$${Math.abs(amount).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    }
+    function moneyInput(value) { return (Math.round((Number(value) || 0) * 100) / 100).toFixed(2); }
+    function phoneDigits(value) { return String(value || "").replace(/\D/g, ""); }
+    function frequencyLabel(value) { return { semanal: t("weekly"), quincenal: t("biweekly"), mensual: t("monthly") }[value] || value; }
+    function paymentLabel(value) { return { Efectivo: t("cash"), Cheque: t("check"), Zelle: "Zelle", Tarjeta: t("card") }[value] || value || t("noPayment"); }
+    function categoryLabel(value) { return { Materiales: t("materials"), Basurero: t("dump"), Combustible: t("fuel"), Equipo: t("equipment"), "Mano de obra": t("labor"), Otros: t("other") }[value] || value; }
+    function statusLabel(status) {
+      return { borrador: t("statusDraft"), enviado: t("statusSent"), firmado: t("statusSigned"), terminado: t("statusDone"), facturado: t("statusInvoiced") }[status] || status;
+    }
+    function crewLabel(name) {
+      const text = String(name || "");
+      const match = text.match(/^Cuadrilla\s+(\d+)$/i);
+      if (lang === "en" && match) return `Crew ${match[1]}`;
+      return text;
+    }
+
+    function storeCrewName(name) {
+      const text = String(name || "").trim();
+      const match = text.match(/^Crew\s+(\d+)$/i);
+      return match ? `Cuadrilla ${match[1]}` : text;
+    }
+
+    function personCrewLabel(person) {
+      const names = personTeams(person).map((id) => {
+        const team = state.teams.find((item) => item.id === id);
+        return team ? crewLabel(team.name) : "";
+      }).filter(Boolean);
+      return names.length ? names.join(" · ") : t("noCrewOption");
+    }
+
+    function personTeams(person) {
+      const raw = Array.isArray(person.teamIds) && person.teamIds.length ? person.teamIds : (person.teamId ? [person.teamId] : []);
+      const known = new Set((state.teams || []).map((team) => team.id));
+      return raw.filter((id, index) => known.has(id) && raw.indexOf(id) === index).slice(0, 2);
+    }
+
+    function employeeFields(data) {
+      const primary = String(data.get("teamId") || "");
+      const extra = String(data.get("teamExtra") || "");
+      const teamIds = [];
+      if (primary && state.teams.some((team) => team.id === primary)) teamIds.push(primary);
+      if (teamIds.length && extra && extra !== primary && state.teams.some((team) => team.id === extra)) teamIds.push(extra);
+      return {
+        name: String(data.get("name") || "").trim(),
+        phone: String(data.get("phone") || "").trim(),
+        email: String(data.get("email") || "").trim(),
+        address: String(data.get("address") || "").trim(),
+        role: String(data.get("role") || "").trim(),
+        notes: String(data.get("notes") || "").trim(),
+        rate: Number(data.get("rate")) || 0,
+        code: String(data.get("code") || "").trim(),
+        teamIds
+      };
+    }
+
+    function applyEmployee(person, fields) {
+      ["name", "phone", "email", "address", "role", "notes"].forEach((key) => { person[key] = fields[key]; });
+      person.rate = fields.rate;
+      const taken = state.crew.some((item) => item.id !== person.id && String(item.code) === fields.code);
+      if (fields.code && !taken) person.code = fields.code;
+      if (!person.code) ensureCodes();
+      person.teamIds = fields.teamIds;
+      person.teamId = fields.teamIds[0] || "";
+    }
+
+    function paintCrewButtons() {
+      const box = document.querySelector("#crew-buttons");
+      const select = document.querySelector("#route-crew");
+      if (!box || !select) return;
+      box.innerHTML = state.teams.map((team, index) => `<button type="button" class="tone-${index % 4}" data-crew="${team.id}" aria-pressed="${select.value === team.id}">${escapeHtml(crewLabel(team.name))}</button>`).join("");
+      box.querySelectorAll("[data-crew]").forEach((button) => button.addEventListener("click", () => {
+        if (select.value === button.dataset.crew) return;
+        select.value = button.dataset.crew;
+        select.dispatchEvent(new Event("change"));
+      }));
+      const picked = document.querySelector("#crew-picked");
+      const team = state.teams.find((item) => item.id === select.value);
+      if (picked) picked.textContent = team ? crewLabel(team.name) : "";
+    }
+
+    function crewName(id) {
+      const person = state.crew.find((item) => item.id === id);
+      if (person) return person.name;
+      const team = (state.teams || []).find((item) => item.id === id);
+      return team ? team.name : t("crewFallback");
+    }
+    function fillWorkers() {
+      const teamId = document.querySelector("#route-crew").value;
+      const people = state.crew.filter((person) => personTeams(person).includes(teamId));
+      const select = document.querySelector("#route-worker");
+      const current = select.value;
+      select.innerHTML = people.map((person) => `<option value="${person.id}">${escapeHtml(person.name)}</option>`).join("");
+      if (people.some((person) => person.id === current)) select.value = current;
+      const roster = document.querySelector("#crew-roster");
+      if (!roster) return;
+      const team = (state.teams || []).find((item) => item.id === teamId);
+      roster.innerHTML = people.length
+        ? people.map((person) => `<li><strong>${escapeHtml(person.name)}</strong><span>${escapeHtml(team ? crewLabel(team.name) : t("crewFallback"))} · ${escapeHtml(roleLabel(person.role) || t("employee"))}</span></li>`).join("")
+        : `<li><strong>${t("noEmployees")}</strong><span>${t("addInOffice")}</span></li>`;
+    }
+    function todayISO() { const date = new Date(); return toISO(date); }
+    function toISO(date) { return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`; }
+    function parseISO(iso) { const [year, month, day] = String(iso).split("-").map(Number); return new Date(year, month - 1, day); }
+    function labelDate(iso) {
+      const date = parseISO(iso);
+      if (!date.getFullYear()) return "";
+      return date.toLocaleDateString(lang === "en" ? "en" : "es", { day: "numeric", month: "short" });
+    }
+    function clockLabel(iso) { return new Date(iso).toLocaleTimeString(lang === "en" ? "en" : "es", { hour: "numeric", minute: "2-digit" }); }
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+    }
+  </script>
+</body>
+</html>
