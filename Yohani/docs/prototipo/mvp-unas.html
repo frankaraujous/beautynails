@@ -1,0 +1,3217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yohani · uñas que hablan de ti</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fff5f8;
+      --ink: #2a2326;
+      --muted: #8d6e78;
+      --line: #f0d4de;
+      --card: #fffdfb;
+      --rose: #e23d86;
+      --rose-deep: #c42d70;
+      --blush: #fde7ef;
+      --gold: #c4a46a;
+      --ok: #1f6b45;
+      --ok-bg: #e7f5ec;
+      --warn: #8a4b12;
+      --warn-bg: #fff1e2;
+      --shadow: 0 16px 40px rgba(196, 90, 130, 0.12);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 420px at 100% -10%, #f8c5d6 0%, transparent 55%),
+        radial-gradient(700px 380px at -10% 0%, #f8ead4 0%, transparent 50%),
+        var(--bg);
+      font-family: Nunito, "Avenir Next", "Segoe UI", sans-serif;
+    }
+
+    button, input, select, textarea { font: inherit; color: inherit; }
+
+    button { cursor: pointer; }
+
+    .wrap {
+      position: relative;
+      width: min(1080px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    header {
+      position: relative;
+      padding: 22px 0 8px;
+    }
+
+    .brand-lockup {
+      position: relative;
+      margin: 0;
+      width: max-content;
+      padding: 8px 0 42px 36px;
+      color: var(--ink);
+      text-align: center;
+    }
+
+    .brand-kicker {
+      display: block;
+      margin: 0 0 8px 46px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      line-height: 1;
+    }
+
+    .brand strong {
+      display: block;
+      margin: 18px 0 0;
+      font-family: "Monsieur La Doulaise", cursive;
+      font-size: 92px;
+      font-weight: 400;
+      line-height: 0.75;
+      color: inherit;
+    }
+
+    .brand-role {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 30px;
+      font-weight: 400;
+      line-height: 1;
+      color: var(--rose-deep);
+      white-space: nowrap;
+      text-align: left;
+    }
+
+    .lang-bar {
+      position: absolute;
+      top: 30px;
+      left: 0;
+      right: 0;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+
+    .lang-bar .header-actions {
+      grid-column: 3;
+      grid-row: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-self: end;
+    }
+
+    .btn.ig {
+      grid-column: 3;
+      grid-row: 1;
+      justify-self: center;
+      margin-right: 124px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: linear-gradient(135deg, #f9ce34 0%, #ee2a7b 52%, #6228d7 100%);
+      color: white;
+      font-weight: 700;
+    }
+
+    .btn.ig:hover {
+      background: linear-gradient(135deg, #f9ce34 0%, #ee2a7b 52%, #6228d7 100%);
+      filter: brightness(0.92);
+    }
+
+    .btn.ig svg { display: block; }
+
+    .inline-field {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .inline-field label {
+      flex: 0 0 3.4rem;
+      width: 3.4rem;
+      margin: 12px 0 0;
+      white-space: nowrap;
+    }
+
+    .inline-field input,
+    .inline-field select {
+      flex: 1 1 auto;
+      width: auto;
+      min-width: 0;
+      margin-top: 12px;
+    }
+
+    .service-field label {
+      white-space: pre-line;
+      line-height: 1.15;
+    }
+
+    .inline-field select {
+      height: 48px;
+      box-sizing: border-box;
+    }
+
+    #lang-toggle {
+      grid-column: 2;
+      grid-row: 1;
+      background: var(--ink);
+      color: white;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.03em;
+      padding: 12px 22px;
+    }
+
+    #lang-toggle:hover { background: #111; }
+
+    .agenda-side {
+      display: grid;
+      grid-template-columns: 9.5rem 11rem 12.2rem;
+      align-items: center;
+      column-gap: 12px;
+    }
+
+    .agenda-side .admin-phone {
+      justify-self: start;
+      white-space: nowrap;
+      font-weight: 700;
+    }
+
+    .agenda-side .btn {
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .agenda-side .charge {
+      width: auto;
+      justify-content: flex-start;
+      justify-self: start;
+    }
+
+    .agenda-side .charge input { width: 72px; }
+
+    .photo-pair { display: flex; gap: 8px; }
+
+    .btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 16px;
+      background: var(--rose);
+      color: white;
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 14px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn:hover { background: var(--rose-deep); }
+
+    .btn.secondary {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    .btn.secondary:hover { background: white; }
+
+    .agenda-side .btn.finished {
+      background: #c5dff3;
+      color: #1d4e79;
+      border: 1px solid #9ecae6;
+    }
+
+    .agenda-side .btn.finished:hover { background: #b3d4ee; }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--rose);
+      padding-inline: 8px;
+    }
+
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    main { padding: 12px 0 64px; }
+
+    .lede {
+      max-width: 62ch;
+      margin: 8px 0 22px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.45;
+    }
+
+    .phrase {
+      margin: 0 0 16px;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.15;
+      text-align: center;
+    }
+
+    .phrase.mid {
+      position: absolute;
+      z-index: 1;
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.15;
+      white-space: nowrap;
+      text-align: center;
+      color: var(--rose-deep);
+    }
+
+    .swatches {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      margin: 0;
+    }
+
+    .color-pick h3 {
+      margin: 0 0 4px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .color-pick .note { margin: 0 0 8px; }
+
+    .color-pick .own-color { margin-top: 10px; }
+
+    .color-nail {
+      position: relative;
+      display: inline-block;
+      width: var(--nail-w, 49px);
+      height: var(--nail-h, 25px);
+      margin: 0 6px;
+      vertical-align: middle;
+      flex: none;
+      box-shadow: inset 0 0 0 1px rgba(42, 35, 38, 0.14);
+      clip-path: polygon(
+        0 0,
+        76% 0,
+        90% 8%,
+        98% 28%,
+        100% 50%,
+        98% 72%,
+        90% 92%,
+        76% 100%,
+        0 100%
+      );
+    }
+
+    .color-nail.gloss::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.05) 40%, transparent 58%);
+    }
+
+    .swatch-group {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 4px;
+    }
+
+    .swatch-group button {
+      position: relative;
+      display: block;
+      width: 100%;
+      aspect-ratio: 2 / 1;
+      overflow: hidden;
+      padding: 0;
+      border: 0;
+      cursor: pointer;
+      box-shadow: inset 0 0 0 1px rgba(42, 35, 38, 0.14);
+      clip-path: polygon(
+        0 0,
+        76% 0,
+        90% 8%,
+        98% 28%,
+        100% 50%,
+        98% 72%,
+        90% 92%,
+        76% 100%,
+        0 100%
+      );
+    }
+
+    .swatch-group button[aria-pressed="true"] {
+      box-shadow: inset 0 0 0 2px white, inset 0 0 0 4px var(--rose-deep);
+    }
+
+    .swatch-group button.gloss::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.05) 40%, transparent 58%);
+    }
+
+    .appt-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+
+    .appt-head h2 { margin: 0; }
+    .appt-head .btn { flex-shrink: 0; white-space: nowrap; }
+
+    .section-split {
+      border: 0;
+      border-top: 1px solid #e7c3d0;
+      margin: 22px 0;
+    }
+
+    .guides {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
+      margin: 0 0 18px;
+    }
+
+    .guide {
+      background: #fde7ef;
+      border-radius: 22px;
+      padding: 22px 22px 18px;
+      margin: 0.125in 0 8px;
+    }
+
+    .guide h2 {
+      margin-bottom: 12px;
+      font-size: 26px;
+    }
+
+    .guide ol, .guide ul {
+      margin: 0;
+      padding-left: 1.25em;
+    }
+
+    .guide li {
+      margin: 8px 0;
+      line-height: 1.4;
+    }
+
+    .guide .after {
+      margin: 14px 0 0;
+    }
+
+    .policies { display: flow-root; }
+
+    .zelle-pay {
+      float: right;
+      display: grid;
+      justify-items: center;
+      gap: 4px;
+      width: 136px;
+      margin: 0 0 8px 16px;
+      padding: 12px 12px 8px;
+      background: white;
+      border-radius: 16px;
+      color: var(--ink);
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .zelle-pay svg {
+      display: block;
+      width: 112px;
+      height: 112px;
+    }
+
+    .zelle-pay span {
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.15;
+    }
+
+    .transfer-box {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: var(--blush);
+    }
+
+    .transfer-code {
+      margin: 4px 0 8px;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    .code-pill {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: white;
+      color: var(--rose-deep);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+
+    .hours-card {
+      position: relative;
+      height: 100%;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 12px;
+      padding: 12px 12px;
+    }
+
+    textarea { min-height: 84px; resize: vertical; }
+
+    input:focus, select:focus, textarea:focus {
+      outline: 2px solid #f3b7cc;
+      border-color: var(--rose);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .choices { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .choice {
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 14px;
+    }
+
+    .choice[aria-pressed="true"] {
+      background: var(--blush);
+      border-color: var(--rose);
+      color: var(--rose-deep);
+    }
+
+    .choice:disabled {
+      opacity: 0.45;
+      color: var(--muted);
+      cursor: not-allowed;
+    }
+
+    .mini-caption, .agenda .when {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-family: Nunito, "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 13px;
+      text-transform: capitalize;
+    }
+
+    .month-pair {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      column-gap: 1in;
+      row-gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .mini-cal {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 4px;
+      max-width: 280px;
+      margin-bottom: 14px;
+    }
+
+    .month-pair .mini-cal { margin-bottom: 0; }
+
+    .mini-cal .is-past { opacity: 0.4; }
+
+    .mini-cal span,
+    .mini-cal button {
+      display: grid;
+      place-items: center;
+      height: 32px;
+      border-radius: 8px;
+      font-family: Nunito, "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 12px;
+    }
+
+    .mini-cal span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .mini-cal button {
+      border: 1px solid transparent;
+      background: white;
+      color: var(--ink);
+    }
+
+    .mini-cal button.is-today { border-color: var(--rose); }
+
+    .mini-cal button.is-off {
+      background: #f3e8ec;
+      color: var(--muted);
+      box-shadow: none;
+    }
+
+    .day-off-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 8px;
+    }
+
+    .day-off { margin: 0; }
+
+    .day-off-error { margin: 0; min-height: 0; }
+
+    .day-off[aria-pressed="true"] {
+      background: var(--ink);
+      color: white;
+      border-color: var(--ink);
+    }
+
+    .mini-cal button.has-open { box-shadow: inset 0 -2px 0 var(--gold); }
+
+    .mini-cal button[aria-pressed="true"] {
+      background: var(--rose);
+      color: white;
+      border-color: var(--rose);
+    }
+
+    .week-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .week-nav p {
+      margin: 0;
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 14px;
+    }
+
+    .days { display: grid; gap: 10px; }
+
+    .day {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px;
+      margin: 0 0 14px;
+      background: #fff;
+    }
+
+    .day header {
+      padding: 0 0 8px;
+      display: block;
+    }
+
+    .day strong { font-size: 15px; text-transform: capitalize; }
+
+    .day span {
+      display: block;
+      color: var(--muted);
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 12px;
+    }
+
+    .slots { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .slot {
+      border: 1px solid var(--line);
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 13px;
+    }
+
+    .slot[aria-pressed="true"] {
+      background: var(--rose);
+      color: white;
+      border-color: var(--rose);
+    }
+
+    .empty, .note {
+      margin: 0;
+      color: var(--muted);
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .banner {
+      margin: 0 0 14px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: var(--warn-bg);
+      color: var(--warn);
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 14px;
+    }
+
+    .success {
+      margin: 0 0 14px;
+      padding: 14px;
+      border-radius: 14px;
+      background: var(--ok-bg);
+      color: var(--ok);
+    }
+
+    .success p { margin: 6px 0 0; }
+
+    .preview {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .preview img, .contact img {
+      width: 72px;
+      height: 72px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+    }
+
+    .photo-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .file-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .file-row span {
+      color: var(--muted);
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 14px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    .error {
+      color: var(--rose-deep);
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 13px;
+      min-height: 1.2em;
+    }
+
+    .stack { display: grid; gap: 18px; }
+
+    .block, .contact {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      margin-top: 8px;
+      background: white;
+    }
+
+    .contact { align-items: flex-start; }
+
+    .meta {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 13px;
+    }
+
+    .appt {
+      margin-top: 8px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: var(--blush);
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 13px;
+    }
+
+    .agenda, .hour-lines {
+      list-style: none;
+      margin: 14px 0 0;
+      padding: 0;
+    }
+
+    .free-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .free-list span {
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 14px;
+    }
+
+    .shots {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .shot {
+      margin: 0;
+    }
+
+    .shot img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: white;
+    }
+
+    .shot figcaption {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .person-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .person-main img {
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      flex: none;
+    }
+
+    .agenda li, .hour-lines li {
+      display: grid;
+      grid-template-columns: 118px minmax(0, 1fr) auto;
+      gap: 8px 12px;
+      align-items: center;
+      padding: 12px 10px;
+      border-top: 1px solid var(--line);
+      font-family: Nunito, "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 14px;
+    }
+
+    .agenda li.is-confirmed {
+      background: var(--ok-bg);
+      border-radius: 12px;
+      margin-top: 8px;
+      border-top: 0;
+    }
+
+    .hour-lines li { grid-template-columns: 92px 1fr; }
+
+    .agenda li:first-child, .hour-lines li:first-child { border-top: 0; }
+
+    .person-name { display: block; }
+
+    .person-meta {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .agenda li.is-confirmed .person-meta { color: var(--ok); }
+
+    .status {
+      display: inline-block;
+      margin-top: 4px;
+      border-radius: 999px;
+      padding: 2px 8px;
+      background: var(--ok);
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .hour-lines button, .hour-time {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      text-align: left;
+      font-weight: 700;
+    }
+
+    .hour-lines li.is-open .hour-time,
+    .hour-lines button[aria-pressed="true"] { color: var(--rose-deep); }
+
+    .hour-lines li.is-booked { background: var(--blush); margin: 0 -10px; padding-left: 10px; padding-right: 10px; border-radius: 10px; }
+
+    .agenda .when { color: var(--muted); font-size: 13px; }
+
+    .agenda a, .hour-lines a { color: var(--rose-deep); font-weight: 700; text-decoration: none; }
+
+    .mini-cal button.has-person { box-shadow: inset 0 -2px 0 var(--rose); }
+
+    .admin-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .service-prices h3 { margin: 0 0 6px; }
+
+    .admin-tab {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 16px;
+      background: white;
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .admin-tab[aria-pressed="true"] {
+      background: var(--ink);
+      color: white;
+      border-color: var(--ink);
+    }
+
+    .admin-tab.tab-done,
+    .admin-tab.tab-done[aria-pressed="true"] {
+      background: #c5dff3;
+      color: #1d4e79;
+      border-color: #9ecae6;
+    }
+
+    .admin-tab.tab-done[aria-pressed="true"] { background: #9ecae6; }
+
+    .job-report { margin-top: 22px; }
+    .job-report h3 { margin: 18px 0 8px; }
+    .year-totals {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .year-totals div {
+      background: #eef6fc;
+      border-radius: 16px;
+      padding: 12px;
+    }
+    .year-totals span { display: block; color: var(--muted); font-size: 13px; }
+    .year-totals strong { display: block; margin-top: 4px; font-size: 20px; }
+    .job-group { border-top: 1px solid var(--line); padding: 10px 0; }
+    .job-group header, .job-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px 12px;
+      flex-wrap: wrap;
+    }
+    .job-group header { font-weight: 700; }
+    .job-group header span:last-child, .job-line span:last-child { white-space: nowrap; }
+    .job-line { margin-top: 4px; color: var(--muted); font-size: 14px; }
+    .client-card { border-top: 1px solid var(--line); padding: 14px 0; }
+    .client-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .client-card h3 { margin: 0; }
+    .client-card label { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 15px; font-weight: 700; }
+    .client-card label input { width: auto; margin: 0; }
+    .client-jobs { list-style: none; margin: 8px 0 0; padding: 0; }
+    .client-jobs .job-line { padding: 2px 0; }
+    .promo-box { display: grid; gap: 8px; margin-top: 8px; }
+    .promo-box textarea { min-height: 88px; }
+
+    .charge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .charge input, .money-form input {
+      width: 92px;
+      margin: 0;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: white;
+    }
+
+    .money-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: end;
+      margin-top: 10px;
+    }
+
+    .money-form label {
+      display: grid;
+      gap: 4px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .money-form input[type="text"], .money-form input[type="date"] { width: 180px; }
+
+    .period-row, .pay-split {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .pay-methods {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      column-gap: 1in;
+      row-gap: 12px;
+      list-style: none;
+      margin: 8px 0 0;
+      padding: 0;
+    }
+
+    .pay-methods li {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      min-width: max-content;
+      padding: 8px 0 10px;
+      border-top: 1px solid var(--line);
+    }
+
+    .period-label { margin: 0; font-weight: 700; }
+
+    .pay-line {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(220px, 280px);
+      gap: 18px;
+      align-items: start;
+      margin-top: 8px;
+    }
+
+    .pay-line h3 { margin: 0 0 8px; }
+
+    .money-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(220px, 280px);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .money-lines { list-style: none; margin: 8px 0 0; padding: 0; }
+
+    .money-lines li, .expense-list li {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      padding: 8px 0 10px;
+      border-top: 1px solid var(--line);
+    }
+
+    .money-lines li.is-total strong { font-size: 18px; }
+    .money-lines li.is-down strong { color: var(--rose-deep); }
+
+    .profit-box {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: var(--ok-bg);
+      color: var(--ok);
+    }
+
+    .profit-box.is-down { background: #fde8ee; color: var(--rose-deep); }
+
+    .chart { width: 100%; height: auto; display: block; }
+
+    .price-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .expense-list { list-style: none; margin: 8px 0 0; padding: 0; }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 900px) {
+      .lang-bar {
+        position: static;
+        top: auto;
+        transform: none;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 16px;
+      }
+
+      .lang-bar > span:empty { display: none; }
+
+      #lang-toggle,
+      .btn.ig,
+      .lang-bar .header-actions {
+        grid-column: auto;
+        grid-row: auto;
+        margin: 0;
+        justify-self: auto;
+      }
+
+      .brand { display: flex; justify-content: center; }
+
+      .phrase.mid {
+        position: static;
+        width: auto;
+        margin: 0 0 14px;
+        font-size: 26px;
+        white-space: normal;
+      }
+
+      .grid, .row, .money-layout, .pay-line { grid-template-columns: 1fr; }
+      .shots { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .brand strong { font-size: 72px; }
+      .brand-kicker { margin-left: 36px; font-size: 14px; }
+      .brand-role { font-size: 26px; }
+      .brand-lockup { padding-bottom: 36px; }
+      .agenda li { grid-template-columns: 1fr; }
+      .agenda-side { width: 100%; }
+      .appt-head { flex-wrap: wrap; }
+      .slot, .choice, .mini-cal button { min-height: 44px; }
+      .card { min-width: 0; }
+    }
+
+    @media (max-width: 640px) {
+      .wrap { width: min(1080px, calc(100% - 20px)); }
+      .brand strong { font-size: 64px; }
+      .brand-kicker { margin-left: 28px; }
+      .brand-role { font-size: 22px; }
+      .brand-lockup { padding-bottom: 30px; }
+      .phrase.mid { font-size: 22px; }
+      .phrase { font-size: 18px; }
+      .card, .guide { padding: 16px; }
+      #lang-toggle, .btn.ig, #open-admin { padding: 10px 14px; font-size: 14px; }
+      .mini-cal { max-width: none; }
+      .agenda-side {
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.15fr) minmax(9.4rem, 1.45fr);
+        column-gap: 8px;
+      }
+      .agenda-side .btn { padding: 10px 6px; font-size: 13px; }
+      .agenda-side .charge input { width: 64px; }
+      .inline-field { flex-wrap: wrap; }
+      .inline-field input,
+      .inline-field select { flex: 1 1 160px; min-width: 0; }
+      .money-form input[type="text"],
+      .money-form input[type="date"] { width: min(180px, 100%); }
+      .block, .contact { flex-wrap: wrap; }
+      .year-totals { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="lang-bar">
+        <span></span>
+        <button class="btn" id="lang-toggle" type="button">English</button>
+        <a class="btn ig" href="https://www.instagram.com/saira8758/" target="_blank" rel="noopener noreferrer">
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"></rect>
+            <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"></circle>
+            <circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"></circle>
+          </svg>
+          Instagram
+        </a>
+        <div class="header-actions">
+          <button class="btn secondary hidden" id="back-client" type="button" data-i18n="backClient">Ver como clienta</button>
+          <button class="btn" id="open-admin" type="button" data-i18n="adminBtn">Administrador</button>
+        </div>
+      </div>
+      <div class="brand">
+        <p class="brand-lockup">
+          <span class="brand-kicker">nails by</span>
+          <strong>Yohani</strong>
+          <span class="brand-role" data-i18n="role">Manicurista</span>
+        </p>
+      </div>
+    </header>
+
+    <main id="client-view">
+      <p class="phrase mid" data-i18n="phrase2">Deja que tus uñas brillen tanto como tú</p>
+      <div id="client-success"></div>
+      <div class="grid">
+        <form class="card" id="booking-form">
+          <h2 data-i18n="yourAppt">Agenda tu cita</h2>
+          <p class="phrase" data-i18n="phrase1">Deja que tus uñas hablen por ti</p>
+          <div class="inline-field">
+            <label for="name" data-i18n="name">Nombre</label>
+            <input id="name" name="name" autocomplete="name" required>
+          </div>
+          <div class="inline-field">
+            <label for="phone" data-i18n="phone">Teléfono</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" required>
+          </div>
+          <div class="inline-field service-field">
+            <label for="service" data-i18n="serviceLabel">Tipo de
+servicio</label>
+            <select id="service" name="service" required>
+              <option value="" data-i18n="chooseOne">Elige uno</option>
+              <option value="Acrílico" data-i18n="svcAcrylic">Acrílico</option>
+              <option value="Gel">Gel</option>
+              <option value="Nail art">Nail art</option>
+              <option value="Retiro" data-i18n="svcRemoval">Retiro</option>
+              <option value="Uñas de los pies" data-i18n="svcToes">Uñas de los pies</option>
+            </select>
+          </div>
+          <label data-i18n="payLabel">Cuál sería tu manera de pago</label>
+          <div class="choices" id="payment-choices">
+            <button class="choice" type="button" data-payment="Efectivo" data-i18n="payCash">Efectivo</button>
+            <button class="choice" type="button" data-payment="Transferencia" data-i18n="payTransfer">Transferencia</button>
+            <button class="choice" type="button" data-payment="Tarjeta al llegar" data-i18n="payCard" data-i18n-title="payCardOff" title="Todavía no aceptamos tarjetas" disabled>Tarjeta al llegar</button>
+          </div>
+          <div class="transfer-box hidden" id="transfer-box">
+            <p class="note" data-i18n="transferNote">Tu código de transferencia. Ponlo en la referencia del pago para que lo asociemos contigo.</p>
+            <p class="transfer-code" id="transfer-code"></p>
+            <button class="btn secondary" id="copy-code" type="button" data-i18n="copyCode">Copiar código</button>
+          </div>
+          <label for="allergy" data-i18n="allergyLabel">¿Tienes alguna alergia?</label>
+          <textarea id="allergy" name="allergy" data-i18n-placeholder="allergyPlaceholder" placeholder="Si no tienes, déjalo en blanco"></textarea>
+          <div class="photo-buttons">
+            <label class="btn secondary" for="photo" data-i18n="photoBtn1">Sube foto 1</label>
+            <label class="btn secondary" for="photo2" data-i18n="photoBtn2">Sube foto 2</label>
+          </div>
+          <input class="sr-only" id="photo" data-photo="0" name="photo" type="file" accept="image/*">
+          <input class="sr-only" id="photo2" data-photo="1" name="photo2" type="file" accept="image/*">
+          <div class="preview hidden" data-photo-preview="0">
+            <img alt="">
+            <span data-photo-name="0"></span>
+            <button class="btn ghost" type="button" data-clear-photo="0" data-i18n="removePhoto">Quitar foto</button>
+          </div>
+          <div class="preview hidden" data-photo-preview="1">
+            <img alt="">
+            <span data-photo-name="1"></span>
+            <button class="btn ghost" type="button" data-clear-photo="1" data-i18n="removePhoto">Quitar foto</button>
+          </div>
+          <p class="error" id="form-error"></p>
+        </form>
+
+        <section class="card hours-card" id="hours-card">
+          <div class="appt-head">
+            <h2 data-i18n="freeTitle">Días y Horas Disponible</h2>
+            <button class="btn hidden" id="book-btn" type="submit" form="booking-form" data-i18n="book">Reservar este horario</button>
+          </div>
+          <div id="client-calendar"></div>
+          <div class="color-pick" id="color-pick">
+            <h3 data-i18n="colorLabel">Color para tu cita</h3>
+            <p class="note" data-i18n="colorNote">Elige un color del muestrario. Si lo prefieres, puedes traer el tuyo.</p>
+            <div class="swatches" id="color-board" role="group">
+              <div class="swatch-group">
+                <button class="gloss" type="button" data-color="#f7d6e4" style="background-color:#f7d6e4" aria-pressed="false"></button>
+                <button class="gloss" type="button" data-color="#ff3d8e" style="background-color:#ff3d8e" aria-pressed="false"></button>
+                <button class="gloss" type="button" data-color="#c8102e" style="background-color:#c8102e" aria-pressed="false"></button>
+                <button class="gloss" type="button" data-color="#ff7a45" style="background-color:#ff7a45" aria-pressed="false"></button>
+                <button class="gloss" type="button" data-color="#f6c945" style="background-color:#f6c945" aria-pressed="false"></button>
+                <button class="gloss" type="button" data-color="#7bc142" style="background-color:#7bc142" aria-pressed="false"></button>
+                <button class="gloss" type="button" data-color="#149e78" style="background-color:#149e78" aria-pressed="false"></button>
+                <button class="gloss" type="button" data-color="#20c4d8" style="background-color:#20c4d8" aria-pressed="false"></button>
+                <button class="gloss" type="button" data-color="#2a6bff" style="background-color:#2a6bff" aria-pressed="false"></button>
+                <button class="gloss" type="button" data-color="#6a35d9" style="background-color:#6a35d9" aria-pressed="false"></button>
+                <button class="gloss" type="button" data-color="#f6f1ea" style="background-color:#f6f1ea" aria-pressed="false"></button>
+                <button class="gloss" type="button" data-color="#c5c9d1" style="background-color:#c5c9d1" aria-pressed="false"></button>
+                <button class="gloss" type="button" data-color="#161616" style="background-color:#161616" aria-pressed="false"></button>
+                <button class="gloss" type="button" data-color="#d4894a" style="background-color:#d4894a" aria-pressed="false"></button>
+                <button class="gloss" type="button" data-color="#8e1d4a" style="background-color:#8e1d4a" aria-pressed="false"></button>
+              </div>
+              <div class="swatch-group">
+                <button class="matte" type="button" data-color="#e6d3b3" style="background-color:#e6d3b3" aria-pressed="false"></button>
+                <button class="matte" type="button" data-color="#5c3317" style="background-color:#5c3317" aria-pressed="false"></button>
+                <button class="matte" type="button" data-color="#c6d63c" style="background-color:#c6d63c" aria-pressed="false"></button>
+                <button class="matte" type="button" data-color="#3f5c28" style="background-color:#3f5c28" aria-pressed="false"></button>
+                <button class="matte" type="button" data-color="#0c4f4a" style="background-color:#0c4f4a" aria-pressed="false"></button>
+                <button class="matte" type="button" data-color="#b7dff2" style="background-color:#b7dff2" aria-pressed="false"></button>
+                <button class="matte" type="button" data-color="#e4c6f5" style="background-color:#e4c6f5" aria-pressed="false"></button>
+                <button class="matte" type="button" data-color="#4a1840" style="background-color:#4a1840" aria-pressed="false"></button>
+                <button class="matte" type="button" data-color="#e040fb" style="background-color:#e040fb" aria-pressed="false"></button>
+                <button class="matte" type="button" data-color="#3d342f" style="background-color:#3d342f" aria-pressed="false"></button>
+                <button class="matte" type="button" data-color="#a67c52" style="background-color:#a67c52" aria-pressed="false"></button>
+                <button class="matte" type="button" data-color="#a34b32" style="background-color:#a34b32" aria-pressed="false"></button>
+                <button class="matte" type="button" data-color="#1b3a4b" style="background-color:#1b3a4b" aria-pressed="false"></button>
+                <button class="matte" type="button" data-color="#8d8478" style="background-color:#8d8478" aria-pressed="false"></button>
+                <button class="matte" type="button" data-color="#6d7a86" style="background-color:#6d7a86" aria-pressed="false"></button>
+              </div>
+            </div>
+            <button class="choice own-color" id="own-color" type="button" aria-pressed="false" data-i18n="colorOwn">Traigo mi color</button>
+          </div>
+        </section>
+      </div>
+      <section class="guide policies">
+        <a class="zelle-pay" href="https://enroll.zellepay.com/qr-codes?data=eyJuYW1lIjoiWW9oYW5pIiwidG9rZW4iOiI0MDg0NzI3NTcwIn0=" target="_blank" rel="noopener noreferrer">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 148 148" role="img" aria-hidden="true">
+            <rect width="148" height="148" fill="#ffffff"></rect>
+            <path fill="#2a2326" d="M 0,0 l 4,0 0,4 -4,0 z M 4,0 l 4,0 0,4 -4,0 z M 8,0 l 4,0 0,4 -4,0 z M 12,0 l 4,0 0,4 -4,0 z M 16,0 l 4,0 0,4 -4,0 z M 20,0 l 4,0 0,4 -4,0 z M 24,0 l 4,0 0,4 -4,0 z M 40,0 l 4,0 0,4 -4,0 z M 48,0 l 4,0 0,4 -4,0 z M 52,0 l 4,0 0,4 -4,0 z M 60,0 l 4,0 0,4 -4,0 z M 64,0 l 4,0 0,4 -4,0 z M 68,0 l 4,0 0,4 -4,0 z M 76,0 l 4,0 0,4 -4,0 z M 100,0 l 4,0 0,4 -4,0 z M 112,0 l 4,0 0,4 -4,0 z M 120,0 l 4,0 0,4 -4,0 z M 124,0 l 4,0 0,4 -4,0 z M 128,0 l 4,0 0,4 -4,0 z M 132,0 l 4,0 0,4 -4,0 z M 136,0 l 4,0 0,4 -4,0 z M 140,0 l 4,0 0,4 -4,0 z M 144,0 l 4,0 0,4 -4,0 z M 0,4 l 4,0 0,4 -4,0 z M 24,4 l 4,0 0,4 -4,0 z M 32,4 l 4,0 0,4 -4,0 z M 40,4 l 4,0 0,4 -4,0 z M 52,4 l 4,0 0,4 -4,0 z M 56,4 l 4,0 0,4 -4,0 z M 60,4 l 4,0 0,4 -4,0 z M 64,4 l 4,0 0,4 -4,0 z M 72,4 l 4,0 0,4 -4,0 z M 80,4 l 4,0 0,4 -4,0 z M 84,4 l 4,0 0,4 -4,0 z M 96,4 l 4,0 0,4 -4,0 z M 100,4 l 4,0 0,4 -4,0 z M 104,4 l 4,0 0,4 -4,0 z M 108,4 l 4,0 0,4 -4,0 z M 112,4 l 4,0 0,4 -4,0 z M 120,4 l 4,0 0,4 -4,0 z M 144,4 l 4,0 0,4 -4,0 z M 0,8 l 4,0 0,4 -4,0 z M 8,8 l 4,0 0,4 -4,0 z M 12,8 l 4,0 0,4 -4,0 z M 16,8 l 4,0 0,4 -4,0 z M 24,8 l 4,0 0,4 -4,0 z M 48,8 l 4,0 0,4 -4,0 z M 76,8 l 4,0 0,4 -4,0 z M 80,8 l 4,0 0,4 -4,0 z M 84,8 l 4,0 0,4 -4,0 z M 88,8 l 4,0 0,4 -4,0 z M 104,8 l 4,0 0,4 -4,0 z M 120,8 l 4,0 0,4 -4,0 z M 128,8 l 4,0 0,4 -4,0 z M 132,8 l 4,0 0,4 -4,0 z M 136,8 l 4,0 0,4 -4,0 z M 144,8 l 4,0 0,4 -4,0 z M 0,12 l 4,0 0,4 -4,0 z M 8,12 l 4,0 0,4 -4,0 z M 12,12 l 4,0 0,4 -4,0 z M 16,12 l 4,0 0,4 -4,0 z M 24,12 l 4,0 0,4 -4,0 z M 32,12 l 4,0 0,4 -4,0 z M 36,12 l 4,0 0,4 -4,0 z M 40,12 l 4,0 0,4 -4,0 z M 48,12 l 4,0 0,4 -4,0 z M 56,12 l 4,0 0,4 -4,0 z M 60,12 l 4,0 0,4 -4,0 z M 64,12 l 4,0 0,4 -4,0 z M 68,12 l 4,0 0,4 -4,0 z M 88,12 l 4,0 0,4 -4,0 z M 92,12 l 4,0 0,4 -4,0 z M 96,12 l 4,0 0,4 -4,0 z M 100,12 l 4,0 0,4 -4,0 z M 104,12 l 4,0 0,4 -4,0 z M 108,12 l 4,0 0,4 -4,0 z M 120,12 l 4,0 0,4 -4,0 z M 128,12 l 4,0 0,4 -4,0 z M 132,12 l 4,0 0,4 -4,0 z M 136,12 l 4,0 0,4 -4,0 z M 144,12 l 4,0 0,4 -4,0 z M 0,16 l 4,0 0,4 -4,0 z M 8,16 l 4,0 0,4 -4,0 z M 12,16 l 4,0 0,4 -4,0 z M 16,16 l 4,0 0,4 -4,0 z M 24,16 l 4,0 0,4 -4,0 z M 36,16 l 4,0 0,4 -4,0 z M 56,16 l 4,0 0,4 -4,0 z M 80,16 l 4,0 0,4 -4,0 z M 92,16 l 4,0 0,4 -4,0 z M 112,16 l 4,0 0,4 -4,0 z M 120,16 l 4,0 0,4 -4,0 z M 128,16 l 4,0 0,4 -4,0 z M 132,16 l 4,0 0,4 -4,0 z M 136,16 l 4,0 0,4 -4,0 z M 144,16 l 4,0 0,4 -4,0 z M 0,20 l 4,0 0,4 -4,0 z M 24,20 l 4,0 0,4 -4,0 z M 32,20 l 4,0 0,4 -4,0 z M 36,20 l 4,0 0,4 -4,0 z M 44,20 l 4,0 0,4 -4,0 z M 48,20 l 4,0 0,4 -4,0 z M 56,20 l 4,0 0,4 -4,0 z M 60,20 l 4,0 0,4 -4,0 z M 64,20 l 4,0 0,4 -4,0 z M 68,20 l 4,0 0,4 -4,0 z M 72,20 l 4,0 0,4 -4,0 z M 104,20 l 4,0 0,4 -4,0 z M 108,20 l 4,0 0,4 -4,0 z M 112,20 l 4,0 0,4 -4,0 z M 120,20 l 4,0 0,4 -4,0 z M 144,20 l 4,0 0,4 -4,0 z M 0,24 l 4,0 0,4 -4,0 z M 4,24 l 4,0 0,4 -4,0 z M 8,24 l 4,0 0,4 -4,0 z M 12,24 l 4,0 0,4 -4,0 z M 16,24 l 4,0 0,4 -4,0 z M 20,24 l 4,0 0,4 -4,0 z M 24,24 l 4,0 0,4 -4,0 z M 32,24 l 4,0 0,4 -4,0 z M 40,24 l 4,0 0,4 -4,0 z M 48,24 l 4,0 0,4 -4,0 z M 56,24 l 4,0 0,4 -4,0 z M 64,24 l 4,0 0,4 -4,0 z M 72,24 l 4,0 0,4 -4,0 z M 80,24 l 4,0 0,4 -4,0 z M 88,24 l 4,0 0,4 -4,0 z M 96,24 l 4,0 0,4 -4,0 z M 104,24 l 4,0 0,4 -4,0 z M 112,24 l 4,0 0,4 -4,0 z M 120,24 l 4,0 0,4 -4,0 z M 124,24 l 4,0 0,4 -4,0 z M 128,24 l 4,0 0,4 -4,0 z M 132,24 l 4,0 0,4 -4,0 z M 136,24 l 4,0 0,4 -4,0 z M 140,24 l 4,0 0,4 -4,0 z M 144,24 l 4,0 0,4 -4,0 z M 36,28 l 4,0 0,4 -4,0 z M 40,28 l 4,0 0,4 -4,0 z M 44,28 l 4,0 0,4 -4,0 z M 60,28 l 4,0 0,4 -4,0 z M 72,28 l 4,0 0,4 -4,0 z M 80,28 l 4,0 0,4 -4,0 z M 84,28 l 4,0 0,4 -4,0 z M 96,28 l 4,0 0,4 -4,0 z M 108,28 l 4,0 0,4 -4,0 z M 112,28 l 4,0 0,4 -4,0 z M 0,32 l 4,0 0,4 -4,0 z M 4,32 l 4,0 0,4 -4,0 z M 8,32 l 4,0 0,4 -4,0 z M 12,32 l 4,0 0,4 -4,0 z M 16,32 l 4,0 0,4 -4,0 z M 24,32 l 4,0 0,4 -4,0 z M 28,32 l 4,0 0,4 -4,0 z M 32,32 l 4,0 0,4 -4,0 z M 36,32 l 4,0 0,4 -4,0 z M 44,32 l 4,0 0,4 -4,0 z M 52,32 l 4,0 0,4 -4,0 z M 56,32 l 4,0 0,4 -4,0 z M 88,32 l 4,0 0,4 -4,0 z M 100,32 l 4,0 0,4 -4,0 z M 104,32 l 4,0 0,4 -4,0 z M 116,32 l 4,0 0,4 -4,0 z M 124,32 l 4,0 0,4 -4,0 z M 132,32 l 4,0 0,4 -4,0 z M 140,32 l 4,0 0,4 -4,0 z M 8,36 l 4,0 0,4 -4,0 z M 16,36 l 4,0 0,4 -4,0 z M 20,36 l 4,0 0,4 -4,0 z M 28,36 l 4,0 0,4 -4,0 z M 40,36 l 4,0 0,4 -4,0 z M 48,36 l 4,0 0,4 -4,0 z M 60,36 l 4,0 0,4 -4,0 z M 64,36 l 4,0 0,4 -4,0 z M 68,36 l 4,0 0,4 -4,0 z M 76,36 l 4,0 0,4 -4,0 z M 80,36 l 4,0 0,4 -4,0 z M 92,36 l 4,0 0,4 -4,0 z M 96,36 l 4,0 0,4 -4,0 z M 124,36 l 4,0 0,4 -4,0 z M 132,36 l 4,0 0,4 -4,0 z M 136,36 l 4,0 0,4 -4,0 z M 140,36 l 4,0 0,4 -4,0 z M 0,40 l 4,0 0,4 -4,0 z M 4,40 l 4,0 0,4 -4,0 z M 8,40 l 4,0 0,4 -4,0 z M 12,40 l 4,0 0,4 -4,0 z M 24,40 l 4,0 0,4 -4,0 z M 40,40 l 4,0 0,4 -4,0 z M 52,40 l 4,0 0,4 -4,0 z M 60,40 l 4,0 0,4 -4,0 z M 68,40 l 4,0 0,4 -4,0 z M 72,40 l 4,0 0,4 -4,0 z M 80,40 l 4,0 0,4 -4,0 z M 88,40 l 4,0 0,4 -4,0 z M 104,40 l 4,0 0,4 -4,0 z M 108,40 l 4,0 0,4 -4,0 z M 116,40 l 4,0 0,4 -4,0 z M 132,40 l 4,0 0,4 -4,0 z M 136,40 l 4,0 0,4 -4,0 z M 144,40 l 4,0 0,4 -4,0 z M 8,44 l 4,0 0,4 -4,0 z M 32,44 l 4,0 0,4 -4,0 z M 48,44 l 4,0 0,4 -4,0 z M 56,44 l 4,0 0,4 -4,0 z M 72,44 l 4,0 0,4 -4,0 z M 84,44 l 4,0 0,4 -4,0 z M 88,44 l 4,0 0,4 -4,0 z M 92,44 l 4,0 0,4 -4,0 z M 104,44 l 4,0 0,4 -4,0 z M 120,44 l 4,0 0,4 -4,0 z M 124,44 l 4,0 0,4 -4,0 z M 128,44 l 4,0 0,4 -4,0 z M 132,44 l 4,0 0,4 -4,0 z M 140,44 l 4,0 0,4 -4,0 z M 8,48 l 4,0 0,4 -4,0 z M 16,48 l 4,0 0,4 -4,0 z M 24,48 l 4,0 0,4 -4,0 z M 40,48 l 4,0 0,4 -4,0 z M 48,48 l 4,0 0,4 -4,0 z M 52,48 l 4,0 0,4 -4,0 z M 56,48 l 4,0 0,4 -4,0 z M 64,48 l 4,0 0,4 -4,0 z M 76,48 l 4,0 0,4 -4,0 z M 88,48 l 4,0 0,4 -4,0 z M 100,48 l 4,0 0,4 -4,0 z M 104,48 l 4,0 0,4 -4,0 z M 108,48 l 4,0 0,4 -4,0 z M 112,48 l 4,0 0,4 -4,0 z M 116,48 l 4,0 0,4 -4,0 z M 120,48 l 4,0 0,4 -4,0 z M 128,48 l 4,0 0,4 -4,0 z M 132,48 l 4,0 0,4 -4,0 z M 136,48 l 4,0 0,4 -4,0 z M 144,48 l 4,0 0,4 -4,0 z M 0,52 l 4,0 0,4 -4,0 z M 8,52 l 4,0 0,4 -4,0 z M 16,52 l 4,0 0,4 -4,0 z M 20,52 l 4,0 0,4 -4,0 z M 28,52 l 4,0 0,4 -4,0 z M 40,52 l 4,0 0,4 -4,0 z M 56,52 l 4,0 0,4 -4,0 z M 64,52 l 4,0 0,4 -4,0 z M 76,52 l 4,0 0,4 -4,0 z M 80,52 l 4,0 0,4 -4,0 z M 104,52 l 4,0 0,4 -4,0 z M 112,52 l 4,0 0,4 -4,0 z M 124,52 l 4,0 0,4 -4,0 z M 136,52 l 4,0 0,4 -4,0 z M 140,52 l 4,0 0,4 -4,0 z M 0,56 l 4,0 0,4 -4,0 z M 12,56 l 4,0 0,4 -4,0 z M 20,56 l 4,0 0,4 -4,0 z M 24,56 l 4,0 0,4 -4,0 z M 32,56 l 4,0 0,4 -4,0 z M 36,56 l 4,0 0,4 -4,0 z M 44,56 l 4,0 0,4 -4,0 z M 48,56 l 4,0 0,4 -4,0 z M 52,56 l 4,0 0,4 -4,0 z M 56,56 l 4,0 0,4 -4,0 z M 60,56 l 4,0 0,4 -4,0 z M 68,56 l 4,0 0,4 -4,0 z M 80,56 l 4,0 0,4 -4,0 z M 84,56 l 4,0 0,4 -4,0 z M 100,56 l 4,0 0,4 -4,0 z M 108,56 l 4,0 0,4 -4,0 z M 112,56 l 4,0 0,4 -4,0 z M 116,56 l 4,0 0,4 -4,0 z M 120,56 l 4,0 0,4 -4,0 z M 124,56 l 4,0 0,4 -4,0 z M 136,56 l 4,0 0,4 -4,0 z M 140,56 l 4,0 0,4 -4,0 z M 144,56 l 4,0 0,4 -4,0 z M 16,60 l 4,0 0,4 -4,0 z M 28,60 l 4,0 0,4 -4,0 z M 32,60 l 4,0 0,4 -4,0 z M 40,60 l 4,0 0,4 -4,0 z M 44,60 l 4,0 0,4 -4,0 z M 56,60 l 4,0 0,4 -4,0 z M 64,60 l 4,0 0,4 -4,0 z M 76,60 l 4,0 0,4 -4,0 z M 80,60 l 4,0 0,4 -4,0 z M 84,60 l 4,0 0,4 -4,0 z M 88,60 l 4,0 0,4 -4,0 z M 96,60 l 4,0 0,4 -4,0 z M 104,60 l 4,0 0,4 -4,0 z M 108,60 l 4,0 0,4 -4,0 z M 116,60 l 4,0 0,4 -4,0 z M 120,60 l 4,0 0,4 -4,0 z M 124,60 l 4,0 0,4 -4,0 z M 132,60 l 4,0 0,4 -4,0 z M 144,60 l 4,0 0,4 -4,0 z M 0,64 l 4,0 0,4 -4,0 z M 4,64 l 4,0 0,4 -4,0 z M 16,64 l 4,0 0,4 -4,0 z M 20,64 l 4,0 0,4 -4,0 z M 24,64 l 4,0 0,4 -4,0 z M 32,64 l 4,0 0,4 -4,0 z M 40,64 l 4,0 0,4 -4,0 z M 44,64 l 4,0 0,4 -4,0 z M 56,64 l 4,0 0,4 -4,0 z M 68,64 l 4,0 0,4 -4,0 z M 72,64 l 4,0 0,4 -4,0 z M 80,64 l 4,0 0,4 -4,0 z M 84,64 l 4,0 0,4 -4,0 z M 88,64 l 4,0 0,4 -4,0 z M 92,64 l 4,0 0,4 -4,0 z M 100,64 l 4,0 0,4 -4,0 z M 108,64 l 4,0 0,4 -4,0 z M 112,64 l 4,0 0,4 -4,0 z M 116,64 l 4,0 0,4 -4,0 z M 120,64 l 4,0 0,4 -4,0 z M 128,64 l 4,0 0,4 -4,0 z M 132,64 l 4,0 0,4 -4,0 z M 136,64 l 4,0 0,4 -4,0 z M 144,64 l 4,0 0,4 -4,0 z M 0,68 l 4,0 0,4 -4,0 z M 4,68 l 4,0 0,4 -4,0 z M 16,68 l 4,0 0,4 -4,0 z M 36,68 l 4,0 0,4 -4,0 z M 48,68 l 4,0 0,4 -4,0 z M 52,68 l 4,0 0,4 -4,0 z M 60,68 l 4,0 0,4 -4,0 z M 64,68 l 4,0 0,4 -4,0 z M 76,68 l 4,0 0,4 -4,0 z M 80,68 l 4,0 0,4 -4,0 z M 84,68 l 4,0 0,4 -4,0 z M 88,68 l 4,0 0,4 -4,0 z M 100,68 l 4,0 0,4 -4,0 z M 104,68 l 4,0 0,4 -4,0 z M 112,68 l 4,0 0,4 -4,0 z M 116,68 l 4,0 0,4 -4,0 z M 124,68 l 4,0 0,4 -4,0 z M 136,68 l 4,0 0,4 -4,0 z M 140,68 l 4,0 0,4 -4,0 z M 0,72 l 4,0 0,4 -4,0 z M 4,72 l 4,0 0,4 -4,0 z M 24,72 l 4,0 0,4 -4,0 z M 28,72 l 4,0 0,4 -4,0 z M 32,72 l 4,0 0,4 -4,0 z M 36,72 l 4,0 0,4 -4,0 z M 60,72 l 4,0 0,4 -4,0 z M 80,72 l 4,0 0,4 -4,0 z M 88,72 l 4,0 0,4 -4,0 z M 100,72 l 4,0 0,4 -4,0 z M 104,72 l 4,0 0,4 -4,0 z M 108,72 l 4,0 0,4 -4,0 z M 112,72 l 4,0 0,4 -4,0 z M 120,72 l 4,0 0,4 -4,0 z M 128,72 l 4,0 0,4 -4,0 z M 136,72 l 4,0 0,4 -4,0 z M 140,72 l 4,0 0,4 -4,0 z M 144,72 l 4,0 0,4 -4,0 z M 0,76 l 4,0 0,4 -4,0 z M 4,76 l 4,0 0,4 -4,0 z M 16,76 l 4,0 0,4 -4,0 z M 28,76 l 4,0 0,4 -4,0 z M 40,76 l 4,0 0,4 -4,0 z M 48,76 l 4,0 0,4 -4,0 z M 56,76 l 4,0 0,4 -4,0 z M 60,76 l 4,0 0,4 -4,0 z M 72,76 l 4,0 0,4 -4,0 z M 84,76 l 4,0 0,4 -4,0 z M 88,76 l 4,0 0,4 -4,0 z M 104,76 l 4,0 0,4 -4,0 z M 112,76 l 4,0 0,4 -4,0 z M 120,76 l 4,0 0,4 -4,0 z M 128,76 l 4,0 0,4 -4,0 z M 144,76 l 4,0 0,4 -4,0 z M 8,80 l 4,0 0,4 -4,0 z M 16,80 l 4,0 0,4 -4,0 z M 24,80 l 4,0 0,4 -4,0 z M 32,80 l 4,0 0,4 -4,0 z M 36,80 l 4,0 0,4 -4,0 z M 48,80 l 4,0 0,4 -4,0 z M 52,80 l 4,0 0,4 -4,0 z M 56,80 l 4,0 0,4 -4,0 z M 60,80 l 4,0 0,4 -4,0 z M 64,80 l 4,0 0,4 -4,0 z M 68,80 l 4,0 0,4 -4,0 z M 76,80 l 4,0 0,4 -4,0 z M 84,80 l 4,0 0,4 -4,0 z M 88,80 l 4,0 0,4 -4,0 z M 100,80 l 4,0 0,4 -4,0 z M 104,80 l 4,0 0,4 -4,0 z M 116,80 l 4,0 0,4 -4,0 z M 120,80 l 4,0 0,4 -4,0 z M 124,80 l 4,0 0,4 -4,0 z M 128,80 l 4,0 0,4 -4,0 z M 132,80 l 4,0 0,4 -4,0 z M 136,80 l 4,0 0,4 -4,0 z M 140,80 l 4,0 0,4 -4,0 z M 144,80 l 4,0 0,4 -4,0 z M 0,84 l 4,0 0,4 -4,0 z M 8,84 l 4,0 0,4 -4,0 z M 16,84 l 4,0 0,4 -4,0 z M 28,84 l 4,0 0,4 -4,0 z M 32,84 l 4,0 0,4 -4,0 z M 40,84 l 4,0 0,4 -4,0 z M 52,84 l 4,0 0,4 -4,0 z M 68,84 l 4,0 0,4 -4,0 z M 72,84 l 4,0 0,4 -4,0 z M 76,84 l 4,0 0,4 -4,0 z M 80,84 l 4,0 0,4 -4,0 z M 84,84 l 4,0 0,4 -4,0 z M 88,84 l 4,0 0,4 -4,0 z M 92,84 l 4,0 0,4 -4,0 z M 124,84 l 4,0 0,4 -4,0 z M 140,84 l 4,0 0,4 -4,0 z M 8,88 l 4,0 0,4 -4,0 z M 16,88 l 4,0 0,4 -4,0 z M 20,88 l 4,0 0,4 -4,0 z M 24,88 l 4,0 0,4 -4,0 z M 40,88 l 4,0 0,4 -4,0 z M 44,88 l 4,0 0,4 -4,0 z M 48,88 l 4,0 0,4 -4,0 z M 52,88 l 4,0 0,4 -4,0 z M 56,88 l 4,0 0,4 -4,0 z M 60,88 l 4,0 0,4 -4,0 z M 64,88 l 4,0 0,4 -4,0 z M 72,88 l 4,0 0,4 -4,0 z M 80,88 l 4,0 0,4 -4,0 z M 88,88 l 4,0 0,4 -4,0 z M 96,88 l 4,0 0,4 -4,0 z M 104,88 l 4,0 0,4 -4,0 z M 108,88 l 4,0 0,4 -4,0 z M 112,88 l 4,0 0,4 -4,0 z M 120,88 l 4,0 0,4 -4,0 z M 128,88 l 4,0 0,4 -4,0 z M 140,88 l 4,0 0,4 -4,0 z M 144,88 l 4,0 0,4 -4,0 z M 0,92 l 4,0 0,4 -4,0 z M 8,92 l 4,0 0,4 -4,0 z M 28,92 l 4,0 0,4 -4,0 z M 32,92 l 4,0 0,4 -4,0 z M 36,92 l 4,0 0,4 -4,0 z M 40,92 l 4,0 0,4 -4,0 z M 44,92 l 4,0 0,4 -4,0 z M 64,92 l 4,0 0,4 -4,0 z M 84,92 l 4,0 0,4 -4,0 z M 88,92 l 4,0 0,4 -4,0 z M 92,92 l 4,0 0,4 -4,0 z M 96,92 l 4,0 0,4 -4,0 z M 108,92 l 4,0 0,4 -4,0 z M 112,92 l 4,0 0,4 -4,0 z M 116,92 l 4,0 0,4 -4,0 z M 120,92 l 4,0 0,4 -4,0 z M 124,92 l 4,0 0,4 -4,0 z M 128,92 l 4,0 0,4 -4,0 z M 144,92 l 4,0 0,4 -4,0 z M 0,96 l 4,0 0,4 -4,0 z M 12,96 l 4,0 0,4 -4,0 z M 24,96 l 4,0 0,4 -4,0 z M 32,96 l 4,0 0,4 -4,0 z M 40,96 l 4,0 0,4 -4,0 z M 44,96 l 4,0 0,4 -4,0 z M 52,96 l 4,0 0,4 -4,0 z M 60,96 l 4,0 0,4 -4,0 z M 76,96 l 4,0 0,4 -4,0 z M 92,96 l 4,0 0,4 -4,0 z M 96,96 l 4,0 0,4 -4,0 z M 100,96 l 4,0 0,4 -4,0 z M 104,96 l 4,0 0,4 -4,0 z M 116,96 l 4,0 0,4 -4,0 z M 120,96 l 4,0 0,4 -4,0 z M 128,96 l 4,0 0,4 -4,0 z M 132,96 l 4,0 0,4 -4,0 z M 136,96 l 4,0 0,4 -4,0 z M 140,96 l 4,0 0,4 -4,0 z M 144,96 l 4,0 0,4 -4,0 z M 0,100 l 4,0 0,4 -4,0 z M 8,100 l 4,0 0,4 -4,0 z M 16,100 l 4,0 0,4 -4,0 z M 20,100 l 4,0 0,4 -4,0 z M 48,100 l 4,0 0,4 -4,0 z M 56,100 l 4,0 0,4 -4,0 z M 64,100 l 4,0 0,4 -4,0 z M 68,100 l 4,0 0,4 -4,0 z M 72,100 l 4,0 0,4 -4,0 z M 80,100 l 4,0 0,4 -4,0 z M 88,100 l 4,0 0,4 -4,0 z M 112,100 l 4,0 0,4 -4,0 z M 116,100 l 4,0 0,4 -4,0 z M 136,100 l 4,0 0,4 -4,0 z M 140,100 l 4,0 0,4 -4,0 z M 0,104 l 4,0 0,4 -4,0 z M 12,104 l 4,0 0,4 -4,0 z M 24,104 l 4,0 0,4 -4,0 z M 40,104 l 4,0 0,4 -4,0 z M 60,104 l 4,0 0,4 -4,0 z M 68,104 l 4,0 0,4 -4,0 z M 84,104 l 4,0 0,4 -4,0 z M 108,104 l 4,0 0,4 -4,0 z M 112,104 l 4,0 0,4 -4,0 z M 132,104 l 4,0 0,4 -4,0 z M 136,104 l 4,0 0,4 -4,0 z M 140,104 l 4,0 0,4 -4,0 z M 144,104 l 4,0 0,4 -4,0 z M 0,108 l 4,0 0,4 -4,0 z M 8,108 l 4,0 0,4 -4,0 z M 12,108 l 4,0 0,4 -4,0 z M 20,108 l 4,0 0,4 -4,0 z M 36,108 l 4,0 0,4 -4,0 z M 40,108 l 4,0 0,4 -4,0 z M 48,108 l 4,0 0,4 -4,0 z M 60,108 l 4,0 0,4 -4,0 z M 64,108 l 4,0 0,4 -4,0 z M 84,108 l 4,0 0,4 -4,0 z M 88,108 l 4,0 0,4 -4,0 z M 96,108 l 4,0 0,4 -4,0 z M 104,108 l 4,0 0,4 -4,0 z M 112,108 l 4,0 0,4 -4,0 z M 116,108 l 4,0 0,4 -4,0 z M 120,108 l 4,0 0,4 -4,0 z M 124,108 l 4,0 0,4 -4,0 z M 128,108 l 4,0 0,4 -4,0 z M 144,108 l 4,0 0,4 -4,0 z M 0,112 l 4,0 0,4 -4,0 z M 20,112 l 4,0 0,4 -4,0 z M 24,112 l 4,0 0,4 -4,0 z M 32,112 l 4,0 0,4 -4,0 z M 40,112 l 4,0 0,4 -4,0 z M 48,112 l 4,0 0,4 -4,0 z M 52,112 l 4,0 0,4 -4,0 z M 60,112 l 4,0 0,4 -4,0 z M 68,112 l 4,0 0,4 -4,0 z M 80,112 l 4,0 0,4 -4,0 z M 88,112 l 4,0 0,4 -4,0 z M 92,112 l 4,0 0,4 -4,0 z M 100,112 l 4,0 0,4 -4,0 z M 104,112 l 4,0 0,4 -4,0 z M 112,112 l 4,0 0,4 -4,0 z M 116,112 l 4,0 0,4 -4,0 z M 120,112 l 4,0 0,4 -4,0 z M 124,112 l 4,0 0,4 -4,0 z M 128,112 l 4,0 0,4 -4,0 z M 136,112 l 4,0 0,4 -4,0 z M 32,116 l 4,0 0,4 -4,0 z M 52,116 l 4,0 0,4 -4,0 z M 56,116 l 4,0 0,4 -4,0 z M 60,116 l 4,0 0,4 -4,0 z M 64,116 l 4,0 0,4 -4,0 z M 68,116 l 4,0 0,4 -4,0 z M 72,116 l 4,0 0,4 -4,0 z M 76,116 l 4,0 0,4 -4,0 z M 80,116 l 4,0 0,4 -4,0 z M 92,116 l 4,0 0,4 -4,0 z M 104,116 l 4,0 0,4 -4,0 z M 108,116 l 4,0 0,4 -4,0 z M 112,116 l 4,0 0,4 -4,0 z M 128,116 l 4,0 0,4 -4,0 z M 132,116 l 4,0 0,4 -4,0 z M 0,120 l 4,0 0,4 -4,0 z M 4,120 l 4,0 0,4 -4,0 z M 8,120 l 4,0 0,4 -4,0 z M 12,120 l 4,0 0,4 -4,0 z M 16,120 l 4,0 0,4 -4,0 z M 20,120 l 4,0 0,4 -4,0 z M 24,120 l 4,0 0,4 -4,0 z M 32,120 l 4,0 0,4 -4,0 z M 36,120 l 4,0 0,4 -4,0 z M 40,120 l 4,0 0,4 -4,0 z M 44,120 l 4,0 0,4 -4,0 z M 48,120 l 4,0 0,4 -4,0 z M 56,120 l 4,0 0,4 -4,0 z M 60,120 l 4,0 0,4 -4,0 z M 64,120 l 4,0 0,4 -4,0 z M 72,120 l 4,0 0,4 -4,0 z M 80,120 l 4,0 0,4 -4,0 z M 88,120 l 4,0 0,4 -4,0 z M 104,120 l 4,0 0,4 -4,0 z M 112,120 l 4,0 0,4 -4,0 z M 120,120 l 4,0 0,4 -4,0 z M 128,120 l 4,0 0,4 -4,0 z M 132,120 l 4,0 0,4 -4,0 z M 136,120 l 4,0 0,4 -4,0 z M 140,120 l 4,0 0,4 -4,0 z M 144,120 l 4,0 0,4 -4,0 z M 0,124 l 4,0 0,4 -4,0 z M 24,124 l 4,0 0,4 -4,0 z M 36,124 l 4,0 0,4 -4,0 z M 40,124 l 4,0 0,4 -4,0 z M 44,124 l 4,0 0,4 -4,0 z M 56,124 l 4,0 0,4 -4,0 z M 60,124 l 4,0 0,4 -4,0 z M 64,124 l 4,0 0,4 -4,0 z M 80,124 l 4,0 0,4 -4,0 z M 84,124 l 4,0 0,4 -4,0 z M 88,124 l 4,0 0,4 -4,0 z M 112,124 l 4,0 0,4 -4,0 z M 128,124 l 4,0 0,4 -4,0 z M 0,128 l 4,0 0,4 -4,0 z M 8,128 l 4,0 0,4 -4,0 z M 12,128 l 4,0 0,4 -4,0 z M 16,128 l 4,0 0,4 -4,0 z M 24,128 l 4,0 0,4 -4,0 z M 32,128 l 4,0 0,4 -4,0 z M 36,128 l 4,0 0,4 -4,0 z M 40,128 l 4,0 0,4 -4,0 z M 44,128 l 4,0 0,4 -4,0 z M 80,128 l 4,0 0,4 -4,0 z M 84,128 l 4,0 0,4 -4,0 z M 88,128 l 4,0 0,4 -4,0 z M 96,128 l 4,0 0,4 -4,0 z M 100,128 l 4,0 0,4 -4,0 z M 104,128 l 4,0 0,4 -4,0 z M 108,128 l 4,0 0,4 -4,0 z M 112,128 l 4,0 0,4 -4,0 z M 116,128 l 4,0 0,4 -4,0 z M 120,128 l 4,0 0,4 -4,0 z M 124,128 l 4,0 0,4 -4,0 z M 128,128 l 4,0 0,4 -4,0 z M 132,128 l 4,0 0,4 -4,0 z M 136,128 l 4,0 0,4 -4,0 z M 140,128 l 4,0 0,4 -4,0 z M 0,132 l 4,0 0,4 -4,0 z M 8,132 l 4,0 0,4 -4,0 z M 12,132 l 4,0 0,4 -4,0 z M 16,132 l 4,0 0,4 -4,0 z M 24,132 l 4,0 0,4 -4,0 z M 32,132 l 4,0 0,4 -4,0 z M 48,132 l 4,0 0,4 -4,0 z M 52,132 l 4,0 0,4 -4,0 z M 60,132 l 4,0 0,4 -4,0 z M 64,132 l 4,0 0,4 -4,0 z M 68,132 l 4,0 0,4 -4,0 z M 72,132 l 4,0 0,4 -4,0 z M 76,132 l 4,0 0,4 -4,0 z M 88,132 l 4,0 0,4 -4,0 z M 92,132 l 4,0 0,4 -4,0 z M 112,132 l 4,0 0,4 -4,0 z M 120,132 l 4,0 0,4 -4,0 z M 128,132 l 4,0 0,4 -4,0 z M 136,132 l 4,0 0,4 -4,0 z M 140,132 l 4,0 0,4 -4,0 z M 144,132 l 4,0 0,4 -4,0 z M 0,136 l 4,0 0,4 -4,0 z M 8,136 l 4,0 0,4 -4,0 z M 12,136 l 4,0 0,4 -4,0 z M 16,136 l 4,0 0,4 -4,0 z M 24,136 l 4,0 0,4 -4,0 z M 32,136 l 4,0 0,4 -4,0 z M 36,136 l 4,0 0,4 -4,0 z M 52,136 l 4,0 0,4 -4,0 z M 56,136 l 4,0 0,4 -4,0 z M 60,136 l 4,0 0,4 -4,0 z M 72,136 l 4,0 0,4 -4,0 z M 80,136 l 4,0 0,4 -4,0 z M 84,136 l 4,0 0,4 -4,0 z M 108,136 l 4,0 0,4 -4,0 z M 124,136 l 4,0 0,4 -4,0 z M 136,136 l 4,0 0,4 -4,0 z M 140,136 l 4,0 0,4 -4,0 z M 144,136 l 4,0 0,4 -4,0 z M 0,140 l 4,0 0,4 -4,0 z M 24,140 l 4,0 0,4 -4,0 z M 32,140 l 4,0 0,4 -4,0 z M 36,140 l 4,0 0,4 -4,0 z M 40,140 l 4,0 0,4 -4,0 z M 48,140 l 4,0 0,4 -4,0 z M 52,140 l 4,0 0,4 -4,0 z M 60,140 l 4,0 0,4 -4,0 z M 76,140 l 4,0 0,4 -4,0 z M 80,140 l 4,0 0,4 -4,0 z M 84,140 l 4,0 0,4 -4,0 z M 88,140 l 4,0 0,4 -4,0 z M 104,140 l 4,0 0,4 -4,0 z M 108,140 l 4,0 0,4 -4,0 z M 112,140 l 4,0 0,4 -4,0 z M 116,140 l 4,0 0,4 -4,0 z M 144,140 l 4,0 0,4 -4,0 z M 0,144 l 4,0 0,4 -4,0 z M 4,144 l 4,0 0,4 -4,0 z M 8,144 l 4,0 0,4 -4,0 z M 12,144 l 4,0 0,4 -4,0 z M 16,144 l 4,0 0,4 -4,0 z M 20,144 l 4,0 0,4 -4,0 z M 24,144 l 4,0 0,4 -4,0 z M 32,144 l 4,0 0,4 -4,0 z M 48,144 l 4,0 0,4 -4,0 z M 56,144 l 4,0 0,4 -4,0 z M 60,144 l 4,0 0,4 -4,0 z M 64,144 l 4,0 0,4 -4,0 z M 68,144 l 4,0 0,4 -4,0 z M 72,144 l 4,0 0,4 -4,0 z M 80,144 l 4,0 0,4 -4,0 z M 84,144 l 4,0 0,4 -4,0 z M 88,144 l 4,0 0,4 -4,0 z M 92,144 l 4,0 0,4 -4,0 z M 100,144 l 4,0 0,4 -4,0 z M 124,144 l 4,0 0,4 -4,0 z M 128,144 l 4,0 0,4 -4,0 z M 132,144 l 4,0 0,4 -4,0 z M 136,144 l 4,0 0,4 -4,0 z M 140,144 l 4,0 0,4 -4,0 z M 144,144 l 4,0 0,4 -4,0 z "></path>
+          </svg>
+          <span data-i18n="zellePay">Paga con Zelle</span>
+        </a>
+        <h2 data-i18n="policiesTitle">Políticas de cita</h2>
+        <ul>
+          <li data-i18n="pol1">Para reservar tu horario se requiere un depósito.</li>
+          <li data-i18n="pol2">El depósito se descuenta del total de tu servicio.</li>
+          <li data-i18n="pol3">Si cancelas con menos de 24 horas, el depósito no es reembolsable.</li>
+          <li data-i18n="pol4">Si necesitas cambiar tu cita, avísanos con anticipación para reprogramarla.</li>
+          <li data-i18n="pol5">Si tienes alergia a algún producto, como gel, acrílico, esmalte u otro, escríbelo al reservar. No usamos ese producto en tu servicio.</li>
+        </ul>
+      </section>
+      <hr class="section-split">
+      <section class="card" id="client-photos"></section>
+    </main>
+
+    <main id="admin-view" class="hidden">
+      <p class="lede" data-i18n="adminLede">Aquí armas los días que quieres trabajar, ves las citas y los teléfonos de contacto.</p>
+      <form class="card" id="login-form">
+        <h2 data-i18n="loginTitle">Entrar a administrar</h2>
+        <label for="password" data-i18n="password">Contraseña</label>
+        <input id="password" type="password" autocomplete="current-password" required>
+        <p class="error" id="login-error"></p>
+        <button class="btn" type="submit" data-i18n="enter">Entrar</button>
+      </form>
+
+      <div id="admin-app" class="stack hidden">
+        <div class="admin-tabs" role="tablist">
+          <button class="admin-tab" type="button" data-admin-tab="agenda" aria-pressed="true" data-i18n="tabAgenda">Agenda</button>
+          <button class="admin-tab tab-done" type="button" data-admin-tab="history" aria-pressed="false" data-i18n="tabHistory">Citas Terminadas</button>
+          <button class="admin-tab" type="button" data-admin-tab="money" aria-pressed="false" data-i18n="tabMoney">Ingresos</button>
+          <button class="admin-tab" type="button" data-admin-tab="clients" aria-pressed="false" data-i18n="tabClients">Clientes</button>
+        </div>
+
+        <div data-admin-panel="agenda" class="stack">
+          <section class="card">
+            <h2 data-i18n="pendingTitle">Citas por Confirmar</h2>
+            <p class="note" data-i18n="pendingNote">Estas personas ya reservaron. Aquí ves el trabajo, el teléfono y cómo van a pagar. Confirma cuando hables con ellas.</p>
+            <div id="agenda-pending"></div>
+          </section>
+
+          <section class="card">
+            <h2 data-i18n="doneTitle">Citas Confirmadas</h2>
+            <p class="note" data-i18n="doneNote">Estas citas ya quedaron confirmadas. Trabajo Terminado las mueve a Citas Terminadas y libera esa hora.</p>
+            <div id="agenda-done"></div>
+          </section>
+
+          <section class="card">
+            <h2 data-i18n="daysTitle">Días y Horas Disponible</h2>
+            <p class="note" data-i18n="daysNote">Toca un día. Después toca cada hora para abrirla o cerrarla. Una hora es una cita.</p>
+            <div id="admin-calendar"></div>
+            <div id="admin-hours"></div>
+            <p class="error" id="availability-error"></p>
+          </section>
+        </div>
+
+        <div data-admin-panel="history" class="stack hidden">
+          <section class="card">
+            <h2 data-i18n="historyTitle">Citas Terminadas</h2>
+            <p class="note" data-i18n="historyNote">Aquí quedan los trabajos terminados. El monto es lo que cobraste.</p>
+            <div id="agenda-history"></div>
+          </section>
+        </div>
+
+        <div data-admin-panel="money" class="stack hidden">
+          <section class="card" id="money-panel"></section>
+          <section class="card service-prices" id="prices-panel"></section>
+        </div>
+
+        <div data-admin-panel="clients" class="stack hidden">
+          <section class="card" id="clients-panel"></section>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const ADMIN_PASSWORD = "1423";
+    const STORAGE_KEY = "mvp-unas-v1";
+    const SESSION_KEY = "mvp-unas-admin";
+    const LANG_KEY = "mvp-unas-lang";
+    const MAX_PHOTO_BYTES = 500 * 1024;
+    const SLOT_MINUTES = 60;
+    const WORK_HOURS = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"];
+    const BLOCKED_AFTERNOON = ["14:00", "15:00", "16:00", "17:00", "18:00"];
+    const TEXT_TO = "4084727570";
+    const HOURS_VERSION = 1;
+
+    const services = ["Acrílico", "Gel", "Nail art", "Retiro", "Uñas de los pies"];
+    const payments = ["Efectivo", "Transferencia", "Tarjeta al llegar"];
+    const SERVICE_KEY = {
+      "Uñas de los pies": "svcToes",
+      "Manicura clásica": "svcClassic",
+      Gel: "svcGel",
+      "Acrílico": "svcAcrylic",
+      "Nail art": "svcArt",
+      Retiro: "svcRemoval"
+    };
+    const PAYMENT_KEY = {
+      Efectivo: "payCash",
+      Transferencia: "payTransfer",
+      "Tarjeta al llegar": "payCard"
+    };
+    const COPY = {
+      es: {
+        title: "Yohani · uñas que hablan de ti",
+        role: "Manicurista",
+        phrase1: "Deja que tus uñas hablen por ti",
+        phrase2: "Deja que tus uñas brillen tanto como tú",
+        policiesTitle: "Políticas de cita",
+        zellePay: "Paga con Zelle",
+        pol1: "Para reservar tu horario se requiere un depósito.",
+        pol2: "El depósito se descuenta del total de tu servicio.",
+        pol3: "Si cancelas con menos de 24 horas, el depósito no es reembolsable.",
+        pol4: "Si necesitas cambiar tu cita, avísanos con anticipación para reprogramarla.",
+        pol5: "Si tienes alergia a algún producto, como gel, acrílico, esmalte u otro, escríbelo al reservar. No usamos ese producto en tu servicio.",
+        yourAppt: "Agenda tu cita",
+        name: "Nombre",
+        phone: "Teléfono",
+        serviceLabel: "Tipo de\nservicio",
+        chooseOne: "Elige uno",
+        svcClassic: "Manicura clásica",
+        svcToes: "Uñas de los pies",
+        svcGel: "Gel",
+        svcAcrylic: "Acrílico",
+        svcArt: "Nail art",
+        svcRemoval: "Retiro",
+        payLabel: "Cuál sería tu manera de pago",
+        payCash: "Efectivo",
+        payTransfer: "Transferencia",
+        payCard: "Tarjeta al llegar",
+        payCardOff: "Todavía no aceptamos tarjetas",
+        colorLabel: "Color para tu cita",
+        colorNote: "Elige un color del muestrario. Si lo prefieres, puedes traer el tuyo.",
+        colorOwn: "Traigo mi color",
+        colorShade: "Color {n}",
+        colorOwnSms: "trae su color",
+        colorShadeSms: "tono {n}",
+        errColor: "Elige el color para tu cita, o indica que traes el tuyo.",
+        transferNote: "Tu código de transferencia. Ponlo en la referencia del pago para que lo asociemos contigo.",
+        copyCode: "Copiar código",
+        copied: "Copiado",
+        allergyLabel: "¿Tienes alguna alergia?",
+        allergyPlaceholder: "Si no tienes, déjalo en blanco",
+        photoBtn1: "Sube foto 1",
+        photoBtn2: "Sube foto 2",
+        noPhoto: "Ninguna todavía",
+        removePhoto: "Quitar foto",
+        book: "Reservar este horario",
+        freeTitle: "Días y Horas Disponible",
+        openNote: "Estas horas están abiertas para reservar.",
+        adminOpenNote: "Días y Horas Disponible",
+        noOpen: "No hay horas abiertas.",
+        wantWork: "Así quieren el trabajo",
+        adminLede: "Aquí armas los días que quieres trabajar, ves las citas y los teléfonos de contacto.",
+        loginTitle: "Entrar a administrar",
+        password: "Contraseña",
+        enter: "Entrar",
+        badPassword: "Contraseña incorrecta.",
+        daysTitle: "Días y Horas Disponible",
+        daysNote: "Toca un día. Después toca cada hora para abrirla o cerrarla. Una hora es una cita.",
+        hourNote: "Toca una hora para abrirla o cerrarla.",
+        dayOff: "Tomar el Día Libre",
+        dayOffNote: "Este día queda cerrado. Yohani no trabaja.",
+        dayOffClient: "Ese día no hay horas.",
+        errDayOffBooked: "Ese día ya tiene citas. No se puede dejar libre.",
+        available: "Disponible",
+        pendingTitle: "Citas por Confirmar",
+        pendingNote: "Estas personas ya reservaron. Aquí ves el trabajo, el teléfono y cómo van a pagar. Confirma cuando hables con ellas.",
+        doneTitle: "Citas Confirmadas",
+        doneNote: "Estas citas ya quedaron confirmadas. Trabajo Terminado las mueve a Citas Terminadas y libera esa hora.",
+        finished: "Trabajo Terminado",
+        noPending: "No hay citas pendientes de confirmar.",
+        noDone: "Todavía no hay citas confirmadas.",
+        tabAgenda: "Agenda",
+        tabHistory: "Citas Terminadas",
+        tabMoney: "Ingresos",
+        tabClients: "Clientes",
+        historyTitle: "Citas Terminadas",
+        historyNote: "Aquí quedan los trabajos terminados. El monto es lo que cobraste.",
+        noHistory: "Todavía no hay citas terminadas.",
+        charged: "Cobré",
+        pricesTitle: "Precio de cada servicio",
+        pricesNote: "Este precio se pone solo al borrar una cita confirmada. Después puedes cambiar el monto.",
+        reportDay: "Por día",
+        reportWeek: "Por semana",
+        reportMonth: "Por mes",
+        prevPeriod: "Anterior",
+        nextPeriod: "Siguiente",
+        payBreak: "Ingresos por forma de pago",
+        total: "Total",
+        expensesTitle: "Gastos de materiales",
+        expenseName: "Material",
+        expenseAmount: "Monto",
+        expenseDate: "Fecha",
+        expenseAdd: "Agregar gasto",
+        expenseEmpty: "No hay gastos en este periodo.",
+        incomeWord: "Ingresos",
+        expenseWord: "Gastos",
+        profitWord: "Ganancia",
+        profitNote: "La ganancia es los ingresos menos los gastos de materiales.",
+        jobsTitle: "Reporte de trabajos",
+        jobsWord: "trabajos",
+        jobsEmpty: "Todavía no hay trabajos terminados en este año.",
+        yearIncome: "Ganancias del año",
+        yearExpense: "Gastos del año",
+        yearProfit: "Ganancia del año",
+        clientsNote: "El nombre, el teléfono, el trabajo y lo que pagó se guardan al marcar Trabajo Terminado.",
+        clientsEmpty: "Todavía no hay clientas. Aparecen cuando terminas un trabajo.",
+        clientPaid: "Total pagado",
+        promoTitle: "Mensajes de especiales y descuentos",
+        promoNote: "Elige los números. El mensaje se abre en Mensajes para que lo envíes.",
+        promoPlaceholder: "Escribe el especial o el descuento",
+        promoSend: "Mandar mensaje",
+        promoNeed: "Elige al menos un número y escribe el mensaje.",
+        chartPay: "Gráfica por forma de pago",
+        chartProfit: "Gráfica de ganancia",
+        confirm: "Confirmar",
+        cancel: "Cancelar",
+        confirmed: "Confirmada",
+        textHint: "El mensaje se abre en Mensajes para el 4084727570. Toca enviar.",
+        textReceived: "Nueva cita. Nombre: {name}. Teléfono: {phone}. Servicio: {service}. Pago: {pay}. Color: {color}. Fecha: {date}. Hora: {time}.",
+        textConfirmed: "Su día y hora están siendo confirmados. Nombre: {name}. Teléfono: {phone}. Servicio: {service}. Pago: {pay}. Color: {color}. Día: {date}. Hora: {time}.",
+        remove: "Borrar",
+        backClient: "Ver como clienta",
+        adminBtn: "Administrador",
+        pastDay: "Día pasado",
+        noSchedule: "Sin horario",
+        noSlots: "Sin cupos libres",
+        booked: "Cita reservada",
+        atTime: "a las",
+        transferSaved: "Tu código de transferencia es",
+        transferUse: "Ponlo en la referencia del pago.",
+        errName: "Escribe tu nombre y teléfono.",
+        errService: "Elige un tipo de servicio.",
+        errSlot: "Elige un horario libre.",
+        errPay: "Elige cómo vas a pagar.",
+        errTaken: "Ese horario acaba de ocuparse. Elige otro.",
+        errPast: "Ese día ya pasó.",
+        errBookedHour: "Esa hora ya tiene una cita. No se puede cerrar.",
+        errPhoto: "La foto pesa más de 500 KB. Elige una más liviana.",
+        allergyPrefix: "Alergia",
+        shotAlt: "Referencia de"
+      },
+      en: {
+        title: "Yohani · Nails that speak for you",
+        role: "Manicurist",
+        phrase1: "Let your nails speak for you",
+        phrase2: "Let your nails shine as much as you do",
+        policiesTitle: "Appointment policies",
+        zellePay: "Pay with Zelle",
+        pol1: "A deposit is required to reserve your time.",
+        pol2: "The deposit is applied to the total of your service.",
+        pol3: "If you cancel with less than 24 hours' notice, the deposit is not refundable.",
+        pol4: "If you need to change your appointment, tell us ahead of time so we can reschedule it.",
+        pol5: "If you are allergic to any product, such as gel, acrylic, polish, or something else, write it down when you book. We will not use that product on your service.",
+        yourAppt: "Book your appointment",
+        name: "Name",
+        phone: "Phone",
+        serviceLabel: "Type of\nService",
+        chooseOne: "Choose one",
+        svcClassic: "Classic manicure",
+        svcToes: "Toenails",
+        svcGel: "Gel",
+        svcAcrylic: "Acrylic",
+        svcArt: "Nail art",
+        svcRemoval: "Removal",
+        payLabel: "How would you like to pay",
+        payCash: "Cash",
+        payTransfer: "Transfer",
+        payCard: "Card on arrival",
+        payCardOff: "We are not taking cards yet",
+        colorLabel: "Color for your appointment",
+        colorNote: "Choose a shade from the board. You can also bring your own.",
+        colorOwn: "I'll bring my own color",
+        colorShade: "Shade {n}",
+        colorOwnSms: "bringing their own color",
+        colorShadeSms: "shade {n}",
+        errColor: "Choose the color for your appointment, or say you will bring your own.",
+        transferNote: "Your transfer code. Put it in the payment reference so we can match it to you.",
+        copyCode: "Copy code",
+        copied: "Copied",
+        allergyLabel: "Do you have any allergies?",
+        allergyPlaceholder: "If you don't, leave this blank",
+        photoBtn1: "Upload photo 1",
+        photoBtn2: "Upload photo 2",
+        noPhoto: "None yet",
+        removePhoto: "Remove photo",
+        book: "Book this time",
+        freeTitle: "Días y Horas Disponible",
+        openNote: "These times are open to book.",
+        adminOpenNote: "Días y Horas Disponible",
+        noOpen: "There are no open times.",
+        wantWork: "How they want the work",
+        adminLede: "Here you set the days you want to work, see appointments, and contact phone numbers.",
+        loginTitle: "Sign in to manage",
+        password: "Password",
+        enter: "Enter",
+        badPassword: "Wrong password.",
+        daysTitle: "Días y Horas Disponible",
+        daysNote: "Tap a day. Then tap each hour to open or close it. One hour is one appointment.",
+        hourNote: "Tap an hour to open or close it.",
+        dayOff: "Tomar el Día Libre",
+        dayOffNote: "This day stays closed. Yohani is off.",
+        dayOffClient: "There are no hours that day.",
+        errDayOffBooked: "That day already has appointments. It can't be a day off.",
+        available: "Available",
+        pendingTitle: "Appointments to Confirm",
+        pendingNote: "These people already booked. Here you see the work, the phone number, and how they will pay. Confirm after you speak with them.",
+        doneTitle: "Confirmed Appointments",
+        doneNote: "These appointments are already confirmed. Work Finished moves them to Finished Appointments and frees that hour.",
+        finished: "Work Finished",
+        noPending: "There are no appointments waiting to be confirmed.",
+        noDone: "There are no confirmed appointments yet.",
+        tabAgenda: "Agenda",
+        tabHistory: "Finished Appointments",
+        tabMoney: "Income",
+        tabClients: "Clients",
+        historyTitle: "Finished Appointments",
+        historyNote: "Finished work stays here. The amount is what you charged.",
+        noHistory: "There are no finished appointments yet.",
+        charged: "Charged",
+        pricesTitle: "Price of each service",
+        pricesNote: "This price fills in when you delete a confirmed appointment. You can change the amount later.",
+        reportDay: "By day",
+        reportWeek: "By week",
+        reportMonth: "By month",
+        prevPeriod: "Previous",
+        nextPeriod: "Next",
+        payBreak: "Income by payment method",
+        total: "Total",
+        expensesTitle: "Material expenses",
+        expenseName: "Material",
+        expenseAmount: "Amount",
+        expenseDate: "Date",
+        expenseAdd: "Add expense",
+        expenseEmpty: "There are no expenses in this period.",
+        incomeWord: "Income",
+        expenseWord: "Expenses",
+        profitWord: "Profit",
+        profitNote: "Profit is income minus material expenses.",
+        jobsTitle: "Work report",
+        jobsWord: "jobs",
+        jobsEmpty: "There is no finished work in this year yet.",
+        yearIncome: "Year income",
+        yearExpense: "Year expenses",
+        yearProfit: "Year profit",
+        clientsNote: "The name, phone, work, and amount paid are saved when you mark Work Finished.",
+        clientsEmpty: "There are no clients yet. They appear when you finish a job.",
+        clientPaid: "Total paid",
+        promoTitle: "Texts for specials and discounts",
+        promoNote: "Choose the numbers. Messages opens so you can send it.",
+        promoPlaceholder: "Write the special or the discount",
+        promoSend: "Send message",
+        promoNeed: "Choose at least one number and write the message.",
+        chartPay: "Chart by payment method",
+        chartProfit: "Profit chart",
+        confirm: "Confirm",
+        cancel: "Cancel",
+        confirmed: "Confirmed",
+        textHint: "Messages opens for 4084727570. Tap send.",
+        textReceived: "New appointment. Name: {name}. Phone: {phone}. Service: {service}. Payment: {pay}. Color: {color}. Date: {date}. Time: {time}.",
+        textConfirmed: "Your day and time are being confirmed. Name: {name}. Phone: {phone}. Service: {service}. Payment: {pay}. Color: {color}. Day: {date}. Time: {time}.",
+        remove: "Delete",
+        backClient: "View as client",
+        adminBtn: "Admin",
+        pastDay: "Past day",
+        noSchedule: "No hours",
+        noSlots: "No open times",
+        booked: "Appointment booked",
+        atTime: "at",
+        transferSaved: "Your transfer code is",
+        transferUse: "Put it in the payment reference.",
+        errName: "Enter your name and phone number.",
+        errService: "Choose a type of service.",
+        errSlot: "Choose an open time.",
+        errPay: "Choose how you will pay.",
+        errTaken: "That time was just taken. Choose another.",
+        errPast: "That day has already passed.",
+        errBookedHour: "That hour already has an appointment. It cannot be closed.",
+        errPhoto: "The photo is over 500 KB. Choose a lighter one.",
+        allergyPrefix: "Allergy",
+        shotAlt: "Reference from"
+      }
+    };
+
+    let lang = localStorage.getItem(LANG_KEY) === "en" ? "en" : "es";
+
+    const state = load();
+    ensureExamples();
+    let adminOn = false;
+    sessionStorage.removeItem(SESSION_KEY);
+    let weekOffset = 0;
+    let selectedDay = todayISO();
+    let selectedSlot = null;
+    let selectedPayment = "";
+    let selectedColor = "";
+    let transferCode = "";
+    let photoData = ["", ""];
+    let adminTab = "agenda";
+    let reportMode = "day";
+    let reportAnchor = todayISO();
+
+    const clientView = document.querySelector("#client-view");
+    const adminView = document.querySelector("#admin-view");
+    const openAdmin = document.querySelector("#open-admin");
+    const backClient = document.querySelector("#back-client");
+    const loginForm = document.querySelector("#login-form");
+    const adminApp = document.querySelector("#admin-app");
+
+    openAdmin.addEventListener("click", showAdmin);
+    backClient.addEventListener("click", showClient);
+    loginForm.addEventListener("submit", onLogin);
+    document.querySelector("#booking-form").addEventListener("submit", onBook);
+      document.querySelector("#name").addEventListener("input", updateBookButton);
+      document.querySelector("#phone").addEventListener("input", updateBookButton);
+      document.querySelector("#color-board").addEventListener("click", onShade);
+      document.querySelector("#own-color").addEventListener("click", onOwnColor);
+    document.querySelector("#payment-choices").addEventListener("click", onPayment);
+    document.querySelector("#copy-code").addEventListener("click", copyTransferCode);
+    document.querySelector("#lang-toggle").addEventListener("click", toggleLang);
+    document.querySelectorAll("[data-photo]").forEach((input) => {
+      input.addEventListener("change", onPhoto);
+    });
+    document.querySelectorAll("[data-clear-photo]").forEach((button) => {
+      button.addEventListener("click", () => clearPhoto(Number(button.dataset.clearPhoto)));
+    });
+
+    document.querySelectorAll("[data-admin-tab]").forEach((button) => {
+      button.addEventListener("click", () => {
+        adminTab = button.dataset.adminTab;
+        showAdminPanels();
+      });
+    });
+
+    applyI18n();
+    render();
+    document.fonts.ready.then(placeRole);
+    window.addEventListener("resize", () => {
+      placeRole();
+      matchNailSize();
+    });
+    window.matchMedia("(max-width: 900px)").addEventListener("change", placeRole);
+
+    function load() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "");
+        return {
+          availability: Array.isArray(saved.availability) ? saved.availability : [],
+          bookings: Array.isArray(saved.bookings) ? saved.bookings : [],
+          hoursVersion: saved.hoursVersion || 0,
+          prices: saved.prices && typeof saved.prices === "object" ? saved.prices : {},
+          expenses: Array.isArray(saved.expenses) ? saved.expenses : [],
+          transferSeq: Number.isFinite(Number(saved.transferSeq)) ? Number(saved.transferSeq) : 323,
+          daysOff: Array.isArray(saved.daysOff) ? saved.daysOff : [],
+          scheduleThrough: typeof saved.scheduleThrough === "string" ? saved.scheduleThrough : "",
+          calendarSeed: Number(saved.calendarSeed) || 0
+        };
+      } catch {
+        return { availability: [], bookings: [], hoursVersion: 0, prices: {}, expenses: [], transferSeq: 323, daysOff: [], scheduleThrough: "", calendarSeed: 0 };
+      }
+    }
+
+    function save() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function showAdmin() {
+      clientView.classList.add("hidden");
+      adminView.classList.remove("hidden");
+      openAdmin.classList.add("hidden");
+      backClient.classList.remove("hidden");
+      loginForm.classList.remove("hidden");
+      adminApp.classList.add("hidden");
+      adminOn = false;
+      document.querySelector("#password").value = "";
+      document.querySelector("#login-error").textContent = "";
+      render();
+      window.scrollTo(0, 0);
+      document.querySelector("#password").focus();
+    }
+
+    function showClient() {
+      adminOn = false;
+      sessionStorage.removeItem(SESSION_KEY);
+      adminView.classList.add("hidden");
+      clientView.classList.remove("hidden");
+      backClient.classList.add("hidden");
+      openAdmin.classList.remove("hidden");
+      render();
+      window.scrollTo(0, 0);
+      placeRole();
+    }
+
+    function onLogin(event) {
+      event.preventDefault();
+      const password = document.querySelector("#password").value;
+      const error = document.querySelector("#login-error");
+      if (password !== ADMIN_PASSWORD) {
+        error.textContent = t("badPassword");
+        return;
+      }
+      error.textContent = "";
+      document.querySelector("#password").value = "";
+      adminOn = true;
+      sessionStorage.setItem(SESSION_KEY, "1");
+      loginForm.classList.add("hidden");
+      adminApp.classList.remove("hidden");
+      render();
+    }
+
+    function onPayment(event) {
+      const button = event.target.closest("[data-payment]");
+      if (!button || button.disabled) return;
+      selectedPayment = button.dataset.payment;
+      document.querySelectorAll("[data-payment]").forEach((item) => {
+        item.setAttribute("aria-pressed", String(item === button));
+      });
+      const box = document.querySelector("#transfer-box");
+      if (selectedPayment === "Transferencia") {
+        if (!transferCode) transferCode = nextTransferCode();
+        document.querySelector("#transfer-code").textContent = transferCode;
+        box.classList.remove("hidden");
+      } else {
+        box.classList.add("hidden");
+      }
+      updateBookButton();
+    }
+
+    function onShade(event) {
+      const button = event.target.closest("[data-color]");
+      if (!button) return;
+      selectedColor = button.dataset.color;
+      paintColorChoice();
+      updateBookButton();
+    }
+
+    function onOwnColor() {
+      selectedColor = selectedColor === "own" ? "" : "own";
+      paintColorChoice();
+      updateBookButton();
+    }
+
+    function paintColorChoice() {
+      document.querySelectorAll("#color-board [data-color]").forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.color === selectedColor));
+      });
+      const own = document.querySelector("#own-color");
+      if (own) own.setAttribute("aria-pressed", String(selectedColor === "own"));
+    }
+
+    function labelShades() {
+      document.querySelectorAll("#color-board [data-color]").forEach((button, index) => {
+        button.setAttribute("aria-label", t("colorShade").replace("{n}", String(index + 1)));
+      });
+    }
+
+    function colorSms(booking) {
+      if (!booking.color) return "";
+      if (booking.color === "own") return t("colorOwnSms");
+      const shades = [...document.querySelectorAll("#color-board [data-color]")];
+      const number = shades.findIndex((button) => button.dataset.color === booking.color) + 1;
+      return t("colorShadeSms").replace("{n}", String(number || ""));
+    }
+
+    function colorMeta(item) {
+      if (!item.color) return "";
+      if (item.color === "own") return ` · ${escapeHtml(t("colorOwn"))}`;
+      const sample = document.querySelector(`#color-board [data-color="${item.color}"]`);
+      const finish = sample && sample.classList.contains("gloss") ? "gloss" : "matte";
+      return ` <span class="color-nail ${finish}" style="background-color:${escapeHtml(item.color)}"></span>`;
+    }
+
+    function matchNailSize() {
+      const client = document.querySelector("#client-view");
+      const sample = document.querySelector("#color-board .swatch-group button");
+      if (!client || !sample) return;
+      const wasHidden = client.classList.contains("hidden");
+      if (wasHidden) {
+        client.classList.remove("hidden");
+        client.style.position = "absolute";
+        client.style.visibility = "hidden";
+        client.style.pointerEvents = "none";
+        client.style.left = "0";
+        client.style.right = "0";
+        client.style.top = "0";
+      }
+      const box = sample.getBoundingClientRect();
+      if (wasHidden) {
+        client.classList.add("hidden");
+        client.style.position = "";
+        client.style.visibility = "";
+        client.style.pointerEvents = "";
+        client.style.left = "";
+        client.style.right = "";
+        client.style.top = "";
+      }
+      if (!box.width || !box.height) return;
+      document.documentElement.style.setProperty("--nail-w", `${box.width}px`);
+      document.documentElement.style.setProperty("--nail-h", `${box.height}px`);
+    }
+
+    function updateBookButton() {
+      const name = document.querySelector("#name").value.trim();
+      const phone = document.querySelector("#phone").value.trim();
+      const ready = name && phone && selectedPayment && selectedColor && selectedSlot;
+      document.querySelector("#book-btn").classList.toggle("hidden", !ready);
+    }
+
+    function nextTransferCode() {
+      const used = new Set(state.bookings.map((item) => item.transferCode).filter(Boolean));
+      let number = Number(state.transferSeq);
+      if (!Number.isFinite(number) || number < 323) number = 323;
+      let code = "";
+      do {
+        code = `AM-${String(number).padStart(4, "0")}`;
+        number += 1;
+      } while (used.has(code));
+      state.transferSeq = number;
+      return code;
+    }
+
+    function copyTransferCode() {
+      if (!transferCode) return;
+      const button = document.querySelector("#copy-code");
+      const done = () => {
+        button.textContent = t("copied");
+        setTimeout(() => { button.textContent = t("copyCode"); }, 1500);
+      };
+      const fallback = () => {
+        const field = document.createElement("textarea");
+        field.value = transferCode;
+        document.body.appendChild(field);
+        field.select();
+        const ok = document.execCommand("copy");
+        field.remove();
+        if (ok) done();
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(transferCode).then(done).catch(fallback);
+      } else {
+        fallback();
+      }
+    }
+
+    function onPhoto(event) {
+      const index = Number(event.target.dataset.photo);
+      const file = event.target.files && event.target.files[0];
+      const error = document.querySelector("#form-error");
+      if (!file) {
+        clearPhoto(index);
+        return;
+      }
+      if (file.size > MAX_PHOTO_BYTES) {
+        error.textContent = t("errPhoto");
+        event.target.value = "";
+        clearPhoto(index);
+        return;
+      }
+      document.querySelector(`[data-photo-name="${index}"]`).textContent = file.name;
+      const reader = new FileReader();
+      reader.onload = () => {
+        photoData[index] = String(reader.result || "");
+        const preview = document.querySelector(`[data-photo-preview="${index}"]`);
+        preview.classList.remove("hidden");
+        preview.querySelector("img").src = photoData[index];
+        error.textContent = "";
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function clearPhoto(index) {
+      photoData[index] = "";
+      const input = document.querySelector(`[data-photo="${index}"]`);
+      if (input) input.value = "";
+      const name = document.querySelector(`[data-photo-name="${index}"]`);
+      if (name) name.textContent = t("noPhoto");
+      const preview = document.querySelector(`[data-photo-preview="${index}"]`);
+      if (!preview) return;
+      preview.classList.add("hidden");
+      preview.querySelector("img").removeAttribute("src");
+    }
+
+    function clearPhotos() {
+      clearPhoto(0);
+      clearPhoto(1);
+    }
+
+    function toggleHour(iso, time) {
+      const error = document.querySelector("#availability-error");
+      if (iso < todayISO()) {
+        error.textContent = t("errPast");
+        return;
+      }
+      const booking = state.bookings.find((item) => !item.done && item.date === iso && item.time === time);
+      if (booking) {
+        error.textContent = t("errBookedHour");
+        return;
+      }
+      if (slotsForDate(iso).includes(time)) closeHour(iso, time);
+      else {
+        state.availability.push({ id: crypto.randomUUID(), date: iso, start: time, end: hourEnd(time) });
+        state.availability.sort(byDateThenStart);
+      }
+      if (selectedSlot && !isSlotFree(selectedSlot.date, selectedSlot.time)) selectedSlot = null;
+      save();
+      error.textContent = "";
+      render();
+    }
+
+    function toggleDayOff(iso) {
+      const error = document.querySelector("#availability-error");
+      if (!Array.isArray(state.daysOff)) state.daysOff = [];
+      if (iso < todayISO()) {
+        error.textContent = t("errPast");
+        return;
+      }
+      const off = state.daysOff.includes(iso);
+      if (off) {
+        state.daysOff = state.daysOff.filter((day) => day !== iso);
+        if (!state.availability.some((block) => block.date === iso)) {
+          hoursForDate(parseISO(iso)).forEach((time) => {
+            state.availability.push({ id: crypto.randomUUID(), date: iso, start: time, end: hourEnd(time) });
+          });
+          state.availability.sort(byDateThenStart);
+        }
+      } else if (state.bookings.some((item) => !item.done && item.date === iso)) {
+        error.textContent = "";
+        return;
+      } else {
+        state.daysOff.push(iso);
+        state.availability = state.availability.filter((block) => block.date !== iso);
+        if (selectedSlot && selectedSlot.date === iso) selectedSlot = null;
+      }
+      save();
+      error.textContent = "";
+      render();
+    }
+
+    function closeHour(iso, time) {
+      const next = [];
+      state.availability.forEach((block) => {
+        if (block.date !== iso) {
+          next.push(block);
+          return;
+        }
+        const hours = slotsFor(block);
+        if (!hours.includes(time)) {
+          next.push(block);
+          return;
+        }
+        hours.filter((hour) => hour !== time).forEach((hour) => {
+          next.push({ id: crypto.randomUUID(), date: iso, start: hour, end: hourEnd(hour) });
+        });
+      });
+      state.availability = next;
+    }
+
+    function hourEnd(time) {
+      return fromMinutes(minutes(time) + SLOT_MINUTES);
+    }
+
+    function onBook(event) {
+      event.preventDefault();
+      const error = document.querySelector("#form-error");
+      const name = document.querySelector("#name").value.trim();
+      const phone = document.querySelector("#phone").value.trim();
+      const service = document.querySelector("#service").value;
+      const allergy = document.querySelector("#allergy").value.trim();
+      if (!name || !phone) {
+        error.textContent = t("errName");
+        return;
+      }
+      if (!services.includes(service)) {
+        error.textContent = t("errService");
+        return;
+      }
+      if (!selectedSlot) {
+        error.textContent = t("errSlot");
+        return;
+      }
+      if (!payments.includes(selectedPayment)) {
+        error.textContent = t("errPay");
+        return;
+      }
+      if (!selectedColor) {
+        error.textContent = t("errColor");
+        return;
+      }
+      if (!isSlotFree(selectedSlot.date, selectedSlot.time)) {
+        error.textContent = t("errTaken");
+        selectedSlot = null;
+        render();
+        return;
+      }
+      const booking = {
+        id: crypto.randomUUID(),
+        name,
+        phone,
+        service,
+        payment: selectedPayment,
+        color: selectedColor,
+        transferCode: selectedPayment === "Transferencia" ? transferCode || nextTransferCode() : "",
+        date: selectedSlot.date,
+        time: selectedSlot.time,
+        photo: photoData[0],
+        photo2: photoData[1],
+        allergy,
+        createdAt: new Date().toISOString(),
+        confirmed: false
+      };
+      state.bookings.push(booking);
+      state.bookings.sort(byDateThenTime);
+      save();
+      document.querySelector("#booking-form").reset();
+      selectedPayment = "";
+      selectedColor = "";
+      paintColorChoice();
+      transferCode = "";
+      document.querySelector("#transfer-box").classList.add("hidden");
+      document.querySelector("#copy-code").textContent = t("copyCode");
+      document.querySelectorAll("[data-payment]").forEach((item) => item.setAttribute("aria-pressed", "false"));
+      clearPhotos();
+      selectedSlot = null;
+      error.textContent = "";
+      document.querySelector("#client-success").innerHTML = `
+        <div class="success">
+          <strong>${t("booked")}</strong>
+          <p>${escapeHtml(booking.name)} · ${escapeHtml(serviceLabel(booking.service))} · ${escapeHtml(labelDate(booking.date))} ${t("atTime")} ${escapeHtml(formatTime(booking.time))} · ${escapeHtml(paymentLabel(booking.payment))} · ${escapeHtml(colorSms(booking))}</p>
+          ${booking.transferCode ? `<p>${t("transferSaved")} <strong>${escapeHtml(booking.transferCode)}</strong>. ${t("transferUse")}</p>` : ""}
+          <p class="note">${t("textHint")}</p>
+        </div>`;
+      sendText(TEXT_TO, receivedText(booking));
+      render();
+      updateBookButton();
+      window.scrollTo(0, 0);
+    }
+
+    function render() {
+      renderClientCalendar();
+      renderFreeHours();
+      renderClientPhotos();
+      renderAdminCalendar();
+      renderAgenda();
+      renderHistory();
+      renderMoney();
+      renderPrices();
+      renderClients();
+      showAdminPanels();
+      updateBookButton();
+      placeColors();
+      matchNailSize();
+    }
+
+    function renderFreeHours() {
+      const admin = document.querySelector("#admin-hours");
+      if (admin) admin.innerHTML = `<p class="note">${t("adminOpenNote")}</p>${freeHoursHTML()}`;
+    }
+
+    function freeHoursHTML() {
+      const rows = [];
+      nextDays(30).forEach((date) => {
+        freeSlots(toISO(date)).forEach((time) => rows.push({ date, time }));
+      });
+      if (!rows.length) return `<p class="empty">${t("noOpen")}</p>`;
+      return `<div class="free-list">${rows.slice(0, 8).map((row) => {
+        return `<span>${escapeHtml(weekday(row.date))}, ${escapeHtml(monthDay(row.date))} · ${escapeHtml(formatTime(row.time))} · ${escapeHtml(t("available"))}</span>`;
+      }).join("")}</div>`;
+    }
+
+    function renderClientPhotos() {
+      const root = document.querySelector("#client-photos");
+      if (!root) return;
+      const shots = state.bookings.flatMap((item) => {
+        return [item.photo, item.photo2].filter(Boolean).map((src) => ({ ...item, src }));
+      });
+      root.innerHTML = shots.length
+        ? `<h2>${t("wantWork")}</h2><div class="shots">${shots.map(shotHTML).join("")}</div>`
+        : "";
+    }
+
+    function shotHTML(item) {
+      return `<figure class="shot"><img src="${escapeHtml(item.src)}" alt="${t("shotAlt")} ${escapeHtml(item.name)}" style="object-position:${escapeHtml(item.photoPosition || "center")}"><figcaption>${escapeHtml(item.name)} · ${escapeHtml(serviceLabel(item.service))}</figcaption></figure>`;
+    }
+
+    function renderClientCalendar() {
+      const root = document.querySelector("#client-calendar");
+      const days = nextDays(30);
+      root.innerHTML = clientDayHTML(parseISO(selectedDay)) + miniCalHTML(days);
+      bindMiniCal(root, renderClientCalendar);
+      root.querySelectorAll("[data-slot]").forEach((button) => {
+        button.addEventListener("click", () => {
+          selectedSlot = { date: button.dataset.date, time: button.dataset.slot };
+          renderClientCalendar();
+          updateBookButton();
+        });
+      });
+    }
+
+    function clientDayHTML(date) {
+      const iso = toISO(date);
+      const free = freeSlots(iso);
+      const past = iso < todayISO();
+      let body = `<p class="empty">${t("noSchedule")}</p>`;
+      if (past) body = `<p class="empty">${t("pastDay")}</p>`;
+      else if (state.daysOff.includes(iso)) body = `<p class="empty">${t("dayOffClient")}</p>`;
+      else if (free.length) {
+        body = `<div class="slots">${free.map((time) => {
+          const pressed = selectedSlot && selectedSlot.date === iso && selectedSlot.time === time;
+          return `<button class="slot" type="button" data-date="${iso}" data-slot="${time}" aria-pressed="${pressed}">${formatTime(time)}</button>`;
+        }).join("")}</div>`;
+      } else if (slotsForDate(iso).length) {
+        body = `<p class="empty">${t("noSlots")}</p>`;
+      }
+      return `<article class="day"><header><strong>${weekday(date)}</strong><span>${monthDay(date)}</span></header>${body}</article>`;
+    }
+
+    function renderAdminCalendar() {
+      const root = document.querySelector("#admin-calendar");
+      const today = parseISO(todayISO());
+      const months = [0, 1, 2].map((step) => new Date(today.getFullYear(), today.getMonth() + step, 1));
+      const calendars = months.map((start) => {
+        const count = new Date(start.getFullYear(), start.getMonth() + 1, 0).getDate();
+        const days = Array.from({ length: count }, (_, index) => new Date(start.getFullYear(), start.getMonth(), index + 1));
+        return `<div class="month-cal">${miniCalHTML(days, { people: true, fullMonth: true })}</div>`;
+      }).join("");
+      const date = parseISO(selectedDay);
+      root.innerHTML = `<div class="month-pair">${calendars}</div>` + hourPickerHTML(date);
+      bindMiniCal(root, () => {
+        renderAdminCalendar();
+        renderClientCalendar();
+      });
+      root.querySelectorAll("[data-hour]").forEach((button) => {
+        button.addEventListener("click", () => toggleHour(selectedDay, button.dataset.hour));
+      });
+      const dayOff = root.querySelector("[data-day-off]");
+      if (dayOff) dayOff.addEventListener("click", () => toggleDayOff(dayOff.dataset.dayOff));
+    }
+
+    function hourPickerHTML(date) {
+      const iso = toISO(date);
+      const off = state.daysOff.includes(iso);
+      const open = new Set(slotsForDate(iso));
+      const chips = off ? "" : WORK_HOURS.map((time) => {
+        const taken = state.bookings.some((item) => !item.done && item.date === iso && item.time === time);
+        if (taken) return "";
+        const pressed = open.has(time);
+        const label = pressed ? `${formatTime(time)} · ${t("available")}` : formatTime(time);
+        return `<button class="choice" type="button" data-hour="${time}" aria-pressed="${pressed}">${label}</button>`;
+      }).join("");
+      const booked = state.bookings.some((item) => !item.done && item.date === iso);
+      const dayOffError = booked ? `<p class="error day-off-error">${t("errDayOffBooked")}</p>` : "";
+      const dayOff = iso < todayISO() ? "" : `<div class="day-off-row"><button class="btn secondary day-off" type="button" data-day-off="${iso}" aria-pressed="${off}">${t("dayOff")}</button>${dayOffError}</div>`;
+      const note = off ? t("dayOffNote") : t("hourNote");
+      return `<p class="mini-caption">${weekday(date)}, ${monthDay(date)}</p>${dayOff}<p class="note">${note}</p><div class="choices">${chips}</div>`;
+    }
+
+    function photoHTML(item) {
+      const photos = [item.photo, item.photo2].filter(Boolean);
+      if (!photos.length) return "";
+      return `<span class="photo-pair">${photos.map((src) => `<img src="${escapeHtml(src)}" alt="" style="object-position:${escapeHtml(item.photoPosition || "center")}">`).join("")}</span>`;
+    }
+
+    function personLine(item) {
+      const date = parseISO(item.date);
+      const confirmed = Boolean(item.confirmed);
+      const phone = `<a class="admin-phone" href="tel:${escapeHtml(item.phone)}">${escapeHtml(item.phone)}</a>`;
+      const middle = confirmed
+        ? `<label class="charge"><span>${t("charged")}</span><input type="number" min="0" step="0.01" inputmode="decimal" data-charge="${item.id}" value="${moneyInput(chargeValue(item))}"></label>`
+        : `<button class="btn" type="button" data-confirm="${item.id}">${t("confirm")}</button>`;
+      const cancel = confirmed
+        ? `<button class="btn finished" type="button" data-archive="${item.id}">${t("finished")}</button>`
+        : `<button class="btn secondary" type="button" data-delete="${item.id}">${t("cancel")}</button>`;
+      const side = `<span class="agenda-side">${phone}${middle}${cancel}</span>`;
+      return `<li class="${confirmed ? "is-confirmed" : ""}">
+        <span class="when">${escapeHtml(weekday(date))}, ${escapeHtml(monthDay(date))}<br>${escapeHtml(formatTime(item.time))}</span>
+        <span class="person-main">${photoHTML(item)}<span><strong class="person-name">${escapeHtml(item.name)}</strong><span class="person-meta">${escapeHtml(serviceLabel(item.service))} · ${escapeHtml(paymentLabel(item.payment))}${colorMeta(item)}${item.transferCode ? ` · <span class="code-pill">${escapeHtml(item.transferCode)}</span>` : ""}</span>${item.allergy ? `<span class="person-meta">${t("allergyPrefix")}: ${escapeHtml(item.allergy)}</span>` : ""}</span></span>
+        ${side}
+      </li>`;
+    }
+
+    function renderAgenda() {
+      const pendingRoot = document.querySelector("#agenda-pending");
+      const doneRoot = document.querySelector("#agenda-done");
+      if (!pendingRoot || !doneRoot) return;
+      const last = toISO(nextDays(30).at(-1));
+      const upcoming = state.bookings
+        .filter((item) => item.date >= todayISO() && item.date <= last)
+        .sort(byDateThenTime);
+      const pending = upcoming.filter((item) => !item.confirmed && !item.done);
+      const done = upcoming.filter((item) => item.confirmed && !item.done);
+      pendingRoot.innerHTML = pending.length
+        ? `<ul class="agenda">${pending.map((item) => personLine(item)).join("")}</ul>`
+        : `<p class="note">${t("noPending")}</p>`;
+      doneRoot.innerHTML = done.length
+        ? `<ul class="agenda">${done.map((item) => personLine(item)).join("")}</ul>`
+        : `<p class="note">${t("noDone")}</p>`;
+      document.querySelectorAll("[data-confirm]").forEach((button) => {
+        button.addEventListener("click", () => confirmBooking(button.dataset.confirm));
+      });
+      document.querySelectorAll("[data-delete]").forEach((button) => {
+        button.addEventListener("click", () => deleteBooking(button.dataset.delete));
+      });
+      document.querySelectorAll("[data-archive]").forEach((button) => {
+        button.addEventListener("click", () => archiveBooking(button.dataset.archive));
+      });
+    }
+
+    function archiveBooking(id) {
+      const item = state.bookings.find((booking) => booking.id === id);
+      if (!item || !item.confirmed || item.done) return;
+      const input = document.querySelector(`[data-charge="${id}"]`);
+      const typed = input ? Number(input.value) : chargeValue(item);
+      item.amount = Number.isFinite(typed) && typed >= 0 ? typed : 0;
+      item.done = true;
+      save();
+      render();
+    }
+
+    function chargeValue(item) {
+      if (Number.isFinite(Number(item.amount))) return Number(item.amount);
+      return priceFor(item.service);
+    }
+
+    function priceFor(service) {
+      const value = Number(state.prices?.[service]);
+      return Number.isFinite(value) && value >= 0 ? value : 0;
+    }
+
+    function moneyInput(value) {
+      return (Math.round(Number(value) * 100) / 100).toFixed(2);
+    }
+
+    function money(value) {
+      const amount = Number(value) || 0;
+      const sign = amount < 0 ? "-" : "";
+      return `${sign}$${Math.abs(amount).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    }
+
+    function deleteBooking(id) {
+      const item = state.bookings.find((booking) => booking.id === id);
+      if (!item || item.confirmed) return;
+      state.bookings = state.bookings.filter((booking) => booking.id !== id);
+      if (selectedSlot && selectedSlot.date === item.date && selectedSlot.time === item.time) selectedSlot = null;
+      save();
+      render();
+    }
+
+    function confirmBooking(id) {
+      const item = state.bookings.find((booking) => booking.id === id);
+      if (!item) return;
+      item.confirmed = true;
+      save();
+      render();
+      sendText(item.phone, confirmedText(item));
+    }
+
+    function showAdminPanels() {
+      document.querySelectorAll("[data-admin-tab]").forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.adminTab === adminTab));
+      });
+      document.querySelectorAll("[data-admin-panel]").forEach((panel) => {
+        panel.classList.toggle("hidden", panel.dataset.adminPanel !== adminTab);
+      });
+    }
+
+    function renderHistory() {
+      const root = document.querySelector("#agenda-history");
+      if (!root) return;
+      const rows = state.bookings.filter((item) => item.done).sort((a, b) => b.date.localeCompare(a.date) || b.time.localeCompare(a.time));
+      root.innerHTML = rows.length
+        ? `<ul class="agenda">${rows.map(historyLine).join("")}</ul>`
+        : `<p class="note">${t("noHistory")}</p>`;
+      root.querySelectorAll("[data-history-amount]").forEach((input) => {
+        input.addEventListener("change", () => {
+          const item = state.bookings.find((booking) => booking.id === input.dataset.historyAmount);
+          if (!item) return;
+          item.amount = Math.max(0, Number(input.value) || 0);
+          save();
+          renderMoney();
+          renderClients();
+        });
+      });
+    }
+
+    function historyLine(item) {
+      const date = parseISO(item.date);
+      return `<li class="is-confirmed">
+        <span class="when">${escapeHtml(weekday(date))}, ${escapeHtml(monthDay(date))}<br>${escapeHtml(formatTime(item.time))}</span>
+        <span class="person-main">${photoHTML(item)}<span><strong class="person-name">${escapeHtml(item.name)}</strong><span class="person-meta">${escapeHtml(serviceLabel(item.service))} · ${escapeHtml(paymentLabel(item.payment))}${colorMeta(item)}</span></span></span>
+        <label class="charge"><span>${t("charged")}</span><input type="number" min="0" step="0.01" inputmode="decimal" data-history-amount="${item.id}" value="${moneyInput(chargeValue(item))}"></label>
+      </li>`;
+    }
+
+    function reportRange() {
+      const anchor = parseISO(reportAnchor);
+      if (reportMode === "week") {
+        const start = new Date(anchor);
+        start.setDate(anchor.getDate() - ((anchor.getDay() + 6) % 7));
+        const end = new Date(start);
+        end.setDate(start.getDate() + 6);
+        return { start: toISO(start), end: toISO(end) };
+      }
+      if (reportMode === "month") {
+        const start = new Date(anchor.getFullYear(), anchor.getMonth(), 1);
+        const end = new Date(anchor.getFullYear(), anchor.getMonth() + 1, 0);
+        return { start: toISO(start), end: toISO(end) };
+      }
+      return { start: reportAnchor, end: reportAnchor };
+    }
+
+    function periodLabel(range) {
+      if (reportMode === "day") return labelDate(range.start);
+      if (reportMode === "month") {
+        const date = parseISO(range.start);
+        return `${monthName(date)} ${date.getFullYear()}`;
+      }
+      return `${labelDate(range.start)} – ${labelDate(range.end)}`;
+    }
+
+    function shiftReport(direction) {
+      const date = parseISO(reportAnchor);
+      if (reportMode === "week") date.setDate(date.getDate() + direction * 7);
+      else if (reportMode === "month") date.setMonth(date.getMonth() + direction);
+      else date.setDate(date.getDate() + direction);
+      reportAnchor = toISO(date);
+      renderMoney();
+    }
+
+    function clientGroups() {
+      const groups = new Map();
+      state.bookings.filter((item) => item.done).forEach((item) => {
+        const key = phoneDigits(item.phone) || item.name;
+        if (!groups.has(key)) groups.set(key, { name: item.name, phone: item.phone, jobs: [] });
+        const group = groups.get(key);
+        group.name = item.name;
+        group.phone = item.phone;
+        group.jobs.push(item);
+      });
+      return [...groups.values()]
+        .map((group) => {
+          group.jobs.sort((a, b) => b.date.localeCompare(a.date) || b.time.localeCompare(a.time));
+          return group;
+        })
+        .sort((a, b) => a.name.localeCompare(b.name, lang === "en" ? "en" : "es", { sensitivity: "base" }));
+    }
+
+    function renderClients() {
+      const root = document.querySelector("#clients-panel");
+      if (!root) return;
+      const groups = clientGroups();
+      const cards = groups.map((group) => {
+        const total = group.jobs.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+        const jobs = group.jobs.map((item) => `<li class="job-line"><span>${escapeHtml(labelDate(item.date))} · ${escapeHtml(serviceLabel(item.service))}</span><span>${money(item.amount)}</span></li>`).join("");
+        return `<article class="client-card">
+          <div class="client-head">
+            <h3>${escapeHtml(group.name)}</h3>
+            <label><input type="checkbox" data-client-send value="${escapeHtml(group.phone)}" checked> ${escapeHtml(group.phone)}</label>
+          </div>
+          <ul class="client-jobs">${jobs}</ul>
+          <p><strong>${money(total)}</strong> ${t("clientPaid")}</p>
+        </article>`;
+      }).join("");
+      root.innerHTML = `
+        <h2>${t("tabClients")}</h2>
+        <p class="note">${t("clientsNote")}</p>
+        ${cards || `<p class="note">${t("clientsEmpty")}</p>`}
+        <h3>${t("promoTitle")}</h3>
+        <p class="note">${t("promoNote")}</p>
+        <div class="promo-box">
+          <textarea id="promo-text" placeholder="${escapeHtml(t("promoPlaceholder"))}"></textarea>
+          <p class="error" id="promo-error"></p>
+          <button class="btn finished" id="send-promo" type="button">${t("promoSend")}</button>
+        </div>`;
+      root.querySelector("#send-promo").addEventListener("click", sendPromo);
+    }
+
+    function sendPromo() {
+      const error = document.querySelector("#promo-error");
+      const body = document.querySelector("#promo-text").value.trim();
+      const phones = [...document.querySelectorAll("#clients-panel [data-client-send]:checked")].map((box) => box.value);
+      if (!phones.length || !body) {
+        error.textContent = t("promoNeed");
+        return;
+      }
+      error.textContent = "";
+      const addresses = phones.map((phone) => phoneDigits(phone)).join(",");
+      const link = document.createElement("a");
+      link.href = `sms:/open?addresses=${addresses}&body=${encodeURIComponent(body)}`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+
+    function weekStartISO(iso) {
+      const date = parseISO(iso);
+      const start = new Date(date);
+      start.setDate(date.getDate() - ((date.getDay() + 6) % 7));
+      return toISO(start);
+    }
+
+    function jobGroups(jobs, keyOf) {
+      const map = new Map();
+      jobs.forEach((job) => {
+        const key = keyOf(job);
+        if (!map.has(key)) map.set(key, []);
+        map.get(key).push(job);
+      });
+      return [...map.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+    }
+
+    function jobGroupHTML(title, groups, labelOf) {
+      const body = groups.map(([key, jobs]) => {
+        const total = jobs.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+        const lines = jobs.map((item) => `<p class="job-line"><span>${escapeHtml(item.name)} · ${escapeHtml(serviceLabel(item.service))}</span><span>${money(item.amount)}</span></p>`).join("");
+        return `<div class="job-group"><header><span>${escapeHtml(labelOf(key, jobs))}</span><span>${jobs.length} ${t("jobsWord")} · ${money(total)}</span></header>${lines}</div>`;
+      }).join("");
+      return `<h3>${title}</h3>${body || `<p class="note">${t("jobsEmpty")}</p>`}`;
+    }
+
+    function workReportHTML() {
+      const year = parseISO(reportAnchor).getFullYear();
+      const jobs = state.bookings.filter((item) => item.done && item.date.startsWith(String(year)));
+      const expenses = (state.expenses || []).filter((item) => item.date.startsWith(String(year)));
+      const income = jobs.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+      const expenseTotal = expenses.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+      const days = jobGroups(jobs, (item) => item.date);
+      const weeks = jobGroups(jobs, (item) => weekStartISO(item.date));
+      const months = jobGroups(jobs, (item) => item.date.slice(0, 7));
+      return `<div class="job-report">
+        <h2>${t("jobsTitle")}</h2>
+        <p class="period-label">${year}</p>
+        <div class="year-totals">
+          <div><span>${t("yearIncome")}</span><strong>${money(income)}</strong></div>
+          <div><span>${t("yearExpense")}</span><strong>${money(expenseTotal)}</strong></div>
+          <div><span>${t("yearProfit")}</span><strong>${money(income - expenseTotal)}</strong></div>
+        </div>
+        ${jobGroupHTML(t("reportDay"), days, (key) => labelDate(key))}
+        ${jobGroupHTML(t("reportWeek"), weeks, (key) => {
+          const end = parseISO(key);
+          end.setDate(end.getDate() + 6);
+          return `${labelDate(key)} – ${labelDate(toISO(end))}`;
+        })}
+        ${jobGroupHTML(t("reportMonth"), months, (key) => {
+          const date = parseISO(`${key}-01`);
+          return `${monthName(date)} ${date.getFullYear()}`;
+        })}
+      </div>`;
+    }
+
+    function renderMoney() {
+      const root = document.querySelector("#money-panel");
+      if (!root) return;
+      const range = reportRange();
+      const finished = state.bookings.filter((item) => item.done && item.date >= range.start && item.date <= range.end);
+      const byPay = payments.map((payment) => {
+        const value = finished.filter((item) => item.payment === payment).reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+        return { payment, value };
+      });
+      const income = byPay.reduce((sum, row) => sum + row.value, 0);
+      const expenses = (state.expenses || []).filter((item) => item.date >= range.start && item.date <= range.end);
+      const expenseTotal = expenses.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+      const profit = income - expenseTotal;
+      const payColors = { Efectivo: "#1f6b45", Transferencia: "#c4a46a", "Tarjeta al llegar": "#e23d86" };
+      root.innerHTML = `
+        <h2>${t("tabMoney")}</h2>
+        <div class="period-row">
+          <button class="choice" type="button" data-report="day" aria-pressed="${reportMode === "day"}">${t("reportDay")}</button>
+          <button class="choice" type="button" data-report="week" aria-pressed="${reportMode === "week"}">${t("reportWeek")}</button>
+          <button class="choice" type="button" data-report="month" aria-pressed="${reportMode === "month"}">${t("reportMonth")}</button>
+        </div>
+        <div class="period-row" style="margin-top:10px">
+          <button class="btn secondary" type="button" data-shift="-1">${t("prevPeriod")}</button>
+          <p class="period-label">${escapeHtml(periodLabel(range))}</p>
+          <button class="btn secondary" type="button" data-shift="1">${t("nextPeriod")}</button>
+        </div>
+        <div class="pay-line">
+          <div>
+            <h3>${t("payBreak")}</h3>
+            <ul class="pay-methods">
+              ${byPay.map((row) => `<li><strong>${money(row.value)}</strong><span>${escapeHtml(paymentLabel(row.payment))}</span></li>`).join("")}
+            </ul>
+            <ul class="money-lines">
+              <li class="is-total"><strong>${money(income)}</strong><span>${t("total")}</span></li>
+            </ul>
+          </div>
+          <div>
+            <h3>${t("chartPay")}</h3>
+            ${barChart(byPay.map((row) => ({ label: paymentLabel(row.payment), value: row.value, color: payColors[row.payment] })))}
+          </div>
+        </div>
+        <div class="money-layout" style="margin-top:16px">
+          <div>
+            <h3>${t("expensesTitle")}</h3>
+            <div class="money-form">
+              <label>${t("expenseName")}<input id="expense-name" type="text"></label>
+              <label>${t("expenseAmount")}<input id="expense-amount" type="number" min="0" step="0.01" inputmode="decimal" value="0.00"></label>
+              <label>${t("expenseDate")}<input id="expense-date" type="date" value="${range.start}"></label>
+              <button class="btn" id="add-expense" type="button">${t("expenseAdd")}</button>
+            </div>
+            ${expenses.length ? `<ul class="expense-list">${expenses.map((item) => `<li><strong>${money(item.amount)}</strong><span>${escapeHtml(labelDate(item.date))} · ${escapeHtml(item.name)} <button class="btn ghost" type="button" data-expense="${item.id}">${t("remove")}</button></span></li>`).join("")}</ul>` : `<p class="note">${t("expenseEmpty")}</p>`}
+            <ul class="money-lines">
+              <li><strong>${money(expenseTotal)}</strong><span>${t("expenseWord")}</span></li>
+              <li class="is-total ${profit < 0 ? "is-down" : ""}"><strong>${money(profit)}</strong><span>${t("profitWord")}</span></li>
+            </ul>
+            <p class="note">${t("profitNote")}</p>
+          </div>
+          <div>
+            <h3>${t("chartProfit")}</h3>
+            ${barChart([
+              { label: t("incomeWord"), value: income, color: "#1f6b45" },
+              { label: t("expenseWord"), value: expenseTotal, color: "#8a4b12" },
+              { label: t("profitWord"), value: profit, color: profit < 0 ? "#c42d70" : "#e23d86" }
+            ])}
+          </div>
+        </div>
+        ${workReportHTML()}`;
+      root.querySelectorAll("[data-report]").forEach((button) => {
+        button.addEventListener("click", () => {
+          reportMode = button.dataset.report;
+          renderMoney();
+        });
+      });
+      root.querySelectorAll("[data-shift]").forEach((button) => {
+        button.addEventListener("click", () => shiftReport(Number(button.dataset.shift)));
+      });
+      root.querySelector("#add-expense").addEventListener("click", addExpense);
+      root.querySelectorAll("[data-expense]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.expenses = state.expenses.filter((item) => item.id !== button.dataset.expense);
+          save();
+          renderMoney();
+        });
+      });
+    }
+
+    function renderPrices() {
+      const root = document.querySelector("#prices-panel");
+      if (!root) return;
+      root.innerHTML = `
+        <h3>${t("pricesTitle")}</h3>
+        <p class="note">${t("pricesNote")}</p>
+        <div class="price-grid">
+          ${services.map((service) => `<label class="charge">${escapeHtml(serviceLabel(service))}<input type="number" min="0" step="0.01" inputmode="decimal" data-price="${escapeHtml(service)}" value="${moneyInput(priceFor(service))}"></label>`).join("")}
+        </div>`;
+      root.querySelectorAll("[data-price]").forEach((input) => {
+        input.addEventListener("change", () => {
+          state.prices[input.dataset.price] = Math.max(0, Number(input.value) || 0);
+          save();
+        });
+      });
+    }
+
+    function addExpense() {
+      const name = document.querySelector("#expense-name").value.trim();
+      const amount = Number(document.querySelector("#expense-amount").value);
+      const date = document.querySelector("#expense-date").value;
+      if (!name || !date || !Number.isFinite(amount) || amount < 0) return;
+      state.expenses.push({ id: crypto.randomUUID(), name, amount, date });
+      state.expenses.sort((a, b) => a.date.localeCompare(b.date));
+      save();
+      renderMoney();
+    }
+
+    function barChart(rows) {
+      const width = 280;
+      const height = 128;
+      const max = Math.max(1, ...rows.map((row) => Math.abs(row.value)));
+      const gap = 16;
+      const barW = (width - gap * (rows.length + 1)) / rows.length;
+      const base = 72;
+      const bars = rows.map((row, index) => {
+        const barH = Math.max(2, Math.round((Math.abs(row.value) / max) * 58));
+        const x = gap + index * (barW + gap);
+        const y = base - barH;
+        const label = row.label.length > 14 ? `${row.label.slice(0, 13)}…` : row.label;
+        return `<g><rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="6" fill="${row.color}"></rect><text x="${x + barW / 2}" y="${base + 16}" text-anchor="middle" font-size="11" fill="#2a2326">${escapeHtml(money(row.value))}</text><text x="${x + barW / 2}" y="${base + 32}" text-anchor="middle" font-size="10" fill="#8d6e78">${escapeHtml(label)}</text></g>`;
+      }).join("");
+      const line = `<line x1="8" y1="${base}" x2="${width - 8}" y2="${base}" stroke="#e7c3d0" stroke-width="1"></line>`;
+      return `<svg class="chart" viewBox="0 0 ${width} ${height}" role="img">${bars}${line}</svg>`;
+    }
+
+    function phoneDigits(phone) {
+      const digits = String(phone).replace(/\D/g, "");
+      if (digits.length === 10) return `1${digits}`;
+      if (digits.length === 11 && digits.startsWith("1")) return digits;
+      return digits;
+    }
+
+    function fillText(template, booking) {
+      return template
+        .replaceAll("{name}", booking.name)
+        .replaceAll("{phone}", booking.phone)
+        .replaceAll("{service}", serviceLabel(booking.service))
+        .replaceAll("{pay}", paymentLabel(booking.payment))
+        .replaceAll("{color}", colorSms(booking))
+        .replaceAll("{date}", labelDate(booking.date))
+        .replaceAll("{time}", formatTime(booking.time));
+    }
+
+    function receivedText(booking) {
+      return fillText(t("textReceived"), booking);
+    }
+
+    function confirmedText(booking) {
+      return fillText(t("textConfirmed"), booking);
+    }
+
+    function sendText(phone, body) {
+      const link = document.createElement("a");
+      link.href = `sms:+${phoneDigits(phone)}&body=${encodeURIComponent(body)}`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+
+    function ensureExamples() {
+      const names = new Set(state.bookings.map((item) => item.name));
+      const today = parseISO(todayISO());
+      const onDay = (offset) => {
+        const date = new Date(today);
+        date.setDate(today.getDate() + offset);
+        return toISO(date);
+      };
+      const samples = [
+        ["Lucía Morales", "408-555-0191", "Gel", "Efectivo", 0, "14:00", false, "ejemplos/a.jpg", "left center"],
+        ["Camila Ortega", "408-555-0174", "Acrílico", "Transferencia", 0, "16:00", true, "ejemplos/manos.jpg", "center"],
+        ["Sofía Reyes", "669-555-0133", "Nail art", "Tarjeta al llegar", 1, "10:00", false, "ejemplos/b.jpg", "20% center"],
+        ["Valentina Cruz", "408-555-0160", "Manicura clásica", "Efectivo", 2, "11:00", true, "ejemplos/pies-frances.jpg?v=sin-dedo", "center"],
+        ["Mariana López", "831-555-0188", "Retiro", "Transferencia", 3, "13:00", false, "", ""],
+        ["Elena Vargas", "408-555-0127", "Acrílico", "Tarjeta al llegar", 4, "15:00", false, "ejemplos/pies-rosa.jpg", "center"]
+      ];
+      const photos = new Map(samples.filter((row) => row[7]).map((row) => [row[0], [row[7], row[8]]]));
+      samples.forEach(([name, phone, service, payment, offset, time, confirmed, photo, photoPosition]) => {
+        if (names.has(name)) return;
+        const date = onDay(offset);
+        state.bookings.push({
+          id: crypto.randomUUID(),
+          name, phone, service, payment, date, time,
+          transferCode: payment === "Transferencia" ? nextTransferCode() : "",
+          photo, photoPosition,
+          createdAt: new Date().toISOString(),
+          confirmed
+        });
+        if (!slotsForDate(date).includes(time)) {
+          state.availability.push({ id: crypto.randomUUID(), date, start: time, end: hourEnd(time) });
+        }
+      });
+      state.bookings.forEach((item) => {
+        if (item.payment === "Transferencia" && !item.transferCode) item.transferCode = nextTransferCode();
+        const sample = photos.get(item.name);
+        if (sample) {
+          item.photo = sample[0];
+          item.photoPosition = sample[1];
+        }
+      });
+      const serviceTests = [
+        ["Prueba Acrílico", "408-555-0101", "Acrílico", "Efectivo", false],
+        ["Prueba Gel", "408-555-0102", "Gel", "Efectivo", false],
+        ["Prueba Nail art", "408-555-0103", "Nail art", "Tarjeta al llegar", false],
+        ["Prueba Retiro", "408-555-0104", "Retiro", "Transferencia", false],
+        ["Prueba Pies", "408-555-0105", "Uñas de los pies", "Efectivo", false],
+        ["Prueba archivo", "408-555-0106", "Gel", "Efectivo", true]
+      ];
+      const usedSlots = new Set(state.bookings.filter((item) => !item.done).map((item) => `${item.date}|${item.time}`));
+      serviceTests.forEach(([name, phone, service, payment, confirmed]) => {
+        if (names.has(name)) return;
+        let date = "";
+        let time = "";
+        for (let offset = 1; offset < 30 && !time; offset += 1) {
+          const day = new Date(today);
+          day.setDate(today.getDate() + offset);
+          const iso = toISO(day);
+          hoursForDate(day).some((hour) => {
+            const key = `${iso}|${hour}`;
+            if (usedSlots.has(key)) return false;
+            usedSlots.add(key);
+            date = iso;
+            time = hour;
+            return true;
+          });
+        }
+        if (!time) return;
+        state.bookings.push({
+          id: crypto.randomUUID(),
+          name, phone, service, payment, date, time,
+          transferCode: payment === "Transferencia" ? nextTransferCode() : "",
+          photo: "",
+          photoPosition: "",
+          createdAt: new Date().toISOString(),
+          confirmed
+        });
+        names.add(name);
+      });
+      if (state.hoursVersion !== HOURS_VERSION) {
+        applyWorkSchedule();
+        state.hoursVersion = HOURS_VERSION;
+      }
+      ensureVisibleHours();
+      state.bookings.sort(byDateThenTime);
+      state.availability.sort(byDateThenStart);
+      const expenseSamples = [
+        ["Acetona", 8, 0],
+        ["Monómero", 18, 2],
+        ["Tips", 15, 5],
+        ["Limas", 6, 7],
+        ["Algodón", 5, 9]
+      ];
+      const expenseNames = new Set((state.expenses || []).map((item) => item.name));
+      expenseSamples.forEach(([name, amount, offset]) => {
+        if (expenseNames.has(name)) return;
+        const date = new Date(today);
+        date.setDate(today.getDate() + offset);
+        state.expenses.push({ id: crypto.randomUUID(), name, amount, date: toISO(date) });
+      });
+      state.expenses.sort((a, b) => a.date.localeCompare(b.date));
+      save();
+    }
+
+    function ensureVisibleHours() {
+      if (!Array.isArray(state.daysOff)) state.daysOff = [];
+      const today = parseISO(todayISO());
+      const end = new Date(today.getFullYear(), today.getMonth() + 3, 0);
+      const cursor = state.calendarSeed === 2 && state.scheduleThrough
+        ? parseISO(state.scheduleThrough)
+        : new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+      cursor.setDate(cursor.getDate() + 1);
+      while (cursor <= end) {
+        const iso = toISO(cursor);
+        const hasHours = state.availability.some((block) => block.date === iso);
+        if (iso >= todayISO() && !state.daysOff.includes(iso) && !hasHours) {
+          hoursForDate(cursor).forEach((time) => {
+            state.availability.push({ id: crypto.randomUUID(), date: iso, start: time, end: hourEnd(time) });
+          });
+        }
+        cursor.setDate(cursor.getDate() + 1);
+      }
+      state.scheduleThrough = toISO(end);
+      state.calendarSeed = 2;
+    }
+
+    function hoursForDate(date) {
+      const afternoonOff = date.getDay() === 2 || date.getDay() === 3 || date.getDay() === 4;
+      return WORK_HOURS.filter((time) => !(afternoonOff && BLOCKED_AFTERNOON.includes(time)));
+    }
+
+    function applyWorkSchedule() {
+      const days = nextDays(30);
+      const start = toISO(days[0]);
+      const end = toISO(days[days.length - 1]);
+      state.availability = state.availability.filter((block) => block.date < start || block.date > end);
+      days.forEach((date) => {
+        const iso = toISO(date);
+        hoursForDate(date).forEach((time) => {
+          state.availability.push({ id: crypto.randomUUID(), date: iso, start: time, end: hourEnd(time) });
+        });
+      });
+    }
+
+    function weekNavHTML(days) {
+      const start = days[0];
+      const end = days[6];
+      return `
+        <div class="week-nav">
+          <button class="btn secondary" type="button" data-week="-1" ${weekOffset <= 0 ? "disabled" : ""}>Semana anterior</button>
+          <p>${monthDay(start)} – ${monthDay(end)}</p>
+          <button class="btn secondary" type="button" data-week="1" ${weekOffset >= WEEK_LIMIT ? "disabled" : ""}>Semana siguiente</button>
+        </div>`;
+    }
+
+    function bindWeekNav(root, after) {
+      root.querySelectorAll("[data-week]").forEach((button) => {
+        button.addEventListener("click", () => {
+          weekOffset = Math.min(WEEK_LIMIT, Math.max(0, weekOffset + Number(button.dataset.week)));
+          after();
+        });
+      });
+    }
+
+    function freeSlots(iso) {
+      const taken = new Set(state.bookings.filter((item) => item.date === iso && !item.done).map((item) => item.time));
+      return slotsForDate(iso).filter((time) => !taken.has(time) && !isPastSlot(iso, time));
+    }
+
+    function isPastSlot(iso, time) {
+      if (iso > todayISO()) return false;
+      if (iso < todayISO()) return true;
+      const now = new Date();
+      return minutes(time) <= now.getHours() * 60 + now.getMinutes();
+    }
+
+    function slotsForDate(iso) {
+      if (state.daysOff.includes(iso)) return [];
+      const set = new Set();
+      state.availability.filter((block) => block.date === iso).forEach((block) => {
+        slotsFor(block).forEach((time) => set.add(time));
+      });
+      return [...set].sort();
+    }
+
+    function slotsFor(block) {
+      const slots = [];
+      for (let cursor = minutes(block.start); cursor + SLOT_MINUTES <= minutes(block.end); cursor += SLOT_MINUTES) {
+        slots.push(fromMinutes(cursor));
+      }
+      return slots;
+    }
+
+    function isSlotFree(date, time) {
+      return date >= todayISO() && freeSlots(date).includes(time);
+    }
+
+    function nextDays(count) {
+      const start = parseISO(todayISO());
+      return Array.from({ length: count }, (_, index) => {
+        const day = new Date(start);
+        day.setDate(start.getDate() + index);
+        return day;
+      });
+    }
+
+    function miniCalHTML(days, options = {}) {
+      const lead = (days[0].getDay() + 6) % 7;
+      const blanks = Array.from({ length: lead }, () => `<span></span>`).join("");
+      const heads = ["L", "M", "X", "J", "V", "S", "D"].map((label) => `<span>${label}</span>`).join("");
+      const cells = days.map((date) => {
+        const iso = toISO(date);
+        if (options.fullMonth && iso < todayISO()) return `<span class="is-past">${date.getDate()}</span>`;
+        const off = state.daysOff.includes(iso);
+        const open = !off && freeSlots(iso).length > 0;
+        const today = iso === todayISO();
+        const people = !off && options.people && state.bookings.some((item) => !item.done && item.date === iso);
+        return `<button type="button" data-day="${iso}" aria-pressed="${iso === selectedDay}" class="${today ? "is-today" : ""} ${off ? "is-off" : ""} ${open ? "has-open" : ""} ${people ? "has-person" : ""}">${date.getDate()}</button>`;
+      }).join("");
+      const end = days[days.length - 1];
+      const caption = options.fullMonth
+        ? `${monthName(days[0])} ${days[0].getFullYear()}`
+        : `${monthDay(days[0])} – ${monthDay(end)}`;
+      return `
+        <p class="mini-caption">${caption}</p>
+        <div class="mini-cal" aria-label="${caption}">${heads}${blanks}${cells}</div>`;
+    }
+
+    function bindMiniCal(root, after) {
+      root.querySelectorAll("[data-day]").forEach((button) => {
+        button.addEventListener("click", () => {
+          selectedDay = button.dataset.day;
+          selectedSlot = null;
+          after();
+        });
+      });
+    }
+
+    function weekDays(offset) {
+      const start = startOfWeek(new Date());
+      start.setDate(start.getDate() + offset * 7);
+      return Array.from({ length: 7 }, (_, index) => {
+        const day = new Date(start);
+        day.setDate(start.getDate() + index);
+        return day;
+      });
+    }
+
+    function startOfWeek(date) {
+      const copy = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      const day = copy.getDay();
+      const diff = day === 0 ? -6 : 1 - day;
+      copy.setDate(copy.getDate() + diff);
+      return copy;
+    }
+
+    function weekKey(date) {
+      const start = startOfWeek(date);
+      const end = new Date(start);
+      end.setDate(start.getDate() + 6);
+      return `${monthDay(start)} – ${monthDay(end)}`;
+    }
+
+    function todayISO() {
+      return toISO(new Date());
+    }
+
+    function toISO(date) {
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${date.getFullYear()}-${month}-${day}`;
+    }
+
+    function parseISO(iso) {
+      const [year, month, day] = iso.split("-").map(Number);
+      return new Date(year, month - 1, day);
+    }
+
+    function monthDay(date) {
+      return `${monthName(date)} ${date.getDate()}`;
+    }
+
+    function labelDate(iso) {
+      const date = parseISO(iso);
+      return `${weekday(date)}, ${monthDay(date)}`;
+    }
+
+    function weekday(date) {
+      const names = {
+        es: ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"],
+        en: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+      };
+      return names[lang][date.getDay()];
+    }
+
+    function monthName(date) {
+      const names = {
+        es: ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"],
+        en: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+      };
+      return names[lang][date.getMonth()];
+    }
+
+    function t(key) {
+      return (COPY[lang] && COPY[lang][key]) || key;
+    }
+
+    function serviceLabel(value) {
+      return SERVICE_KEY[value] ? t(SERVICE_KEY[value]) : value;
+    }
+
+    function paymentLabel(value) {
+      return PAYMENT_KEY[value] ? t(PAYMENT_KEY[value]) : value;
+    }
+
+    function applyI18n() {
+      document.documentElement.lang = lang === "en" ? "en" : "es";
+      document.title = t("title");
+      document.querySelectorAll("[data-i18n]").forEach((node) => {
+        node.textContent = t(node.dataset.i18n);
+      });
+      document.querySelectorAll("[data-i18n-placeholder]").forEach((node) => {
+        node.placeholder = t(node.dataset.i18nPlaceholder);
+      });
+      document.querySelectorAll("[data-i18n-title]").forEach((node) => {
+        node.title = t(node.dataset.i18nTitle);
+      });
+      document.querySelector("#lang-toggle").textContent = lang === "en" ? "Español" : "English";
+      sortServices();
+      labelShades();
+      placeRole();
+    }
+
+    function placeRole() {
+      const name = document.querySelector(".brand strong");
+      const role = document.querySelector(".brand-role");
+      const text = name.firstChild;
+      const index = text ? text.textContent.indexOf("a") : -1;
+      if (!text || index < 0) return;
+      const range = document.createRange();
+      range.setStart(text, index);
+      range.setEnd(text, index + 1);
+      const lockup = name.parentElement.getBoundingClientRect();
+      const letter = range.getBoundingClientRect();
+      const desired = Math.max(0, letter.left - lockup.left);
+      role.style.bottom = "auto";
+      role.style.top = `${letter.top - lockup.top + letter.height * 0.72}px`;
+      role.style.left = `${desired}px`;
+      const wrap = document.querySelector(".wrap").getBoundingClientRect();
+      const overflow = role.getBoundingClientRect().right - (wrap.right - 4);
+      if (overflow > 0) role.style.left = `${Math.max(0, desired - overflow)}px`;
+      placeShine();
+    }
+
+    function placeShine() {
+      const phrase = document.querySelector("#client-view .phrase.mid");
+      const wrap = document.querySelector(".wrap");
+      const english = document.querySelector("#lang-toggle");
+      const admin = document.querySelector("#open-admin");
+      const grid = document.querySelector("#client-view .grid");
+      if (!phrase || !grid) return;
+      if (phrase.offsetParent === null) return;
+      if (window.matchMedia("(max-width: 900px)").matches) {
+        phrase.style.top = "";
+        phrase.style.left = "";
+        phrase.style.width = "";
+        phrase.style.fontSize = "";
+        grid.style.marginTop = "";
+        placeColors();
+        return;
+      }
+      if (!wrap || !english || !admin) return;
+      const wrapBox = wrap.getBoundingClientRect();
+      const englishBox = english.getBoundingClientRect();
+      const adminBox = admin.getBoundingClientRect();
+      const left = Math.max(0, englishBox.left - wrapBox.left);
+      const width = Math.min(wrapBox.width - left, Math.max(0, adminBox.right - englishBox.left));
+      phrase.style.fontSize = "30px";
+      phrase.style.left = `${left}px`;
+      phrase.style.width = `${width}px`;
+      phrase.style.top = `${Math.max(englishBox.bottom, adminBox.bottom) - wrapBox.top + 10}px`;
+      const lockup = document.querySelector(".brand-lockup");
+      const role = document.querySelector(".brand-role");
+      if (lockup && role) {
+        const roleBox = role.getBoundingClientRect();
+        const placed = phrase.getBoundingClientRect();
+        if (placed.left < roleBox.right + 12 && placed.top < roleBox.bottom && placed.bottom > lockup.getBoundingClientRect().top) {
+          const shifted = roleBox.right - wrapBox.left + 12;
+          if (shifted < left + width - 160) {
+            phrase.style.left = `${shifted}px`;
+            phrase.style.width = `${left + width - shifted}px`;
+          }
+        }
+      }
+      let size = 30;
+      while (size > 18 && phrase.scrollWidth > phrase.clientWidth + 1) {
+        size -= 1;
+        phrase.style.fontSize = `${size}px`;
+      }
+      grid.style.marginTop = "0px";
+      const overlap = phrase.getBoundingClientRect().bottom - grid.getBoundingClientRect().top + 16;
+      grid.style.marginTop = overlap > 0 ? `${overlap}px` : "0px";
+      placeColors();
+    }
+
+    function placeColors() {
+      const pick = document.querySelector("#color-pick");
+      if (!pick) return;
+      pick.style.position = "static";
+      pick.style.top = "auto";
+      pick.style.right = "auto";
+      pick.style.bottom = "auto";
+      pick.style.left = "auto";
+      pick.style.width = "auto";
+      pick.style.margin = "14px 0 0";
+    }
+
+    function sortServices() {
+      const locale = lang === "en" ? "en" : "es";
+      services.sort((a, b) => serviceLabel(a).localeCompare(serviceLabel(b), locale, { sensitivity: "base" }));
+      const select = document.querySelector("#service");
+      const current = select.value;
+      [...select.querySelectorAll("option")]
+        .filter((option) => option.value)
+        .sort((a, b) => a.textContent.localeCompare(b.textContent, locale, { sensitivity: "base" }))
+        .forEach((option) => select.appendChild(option));
+      select.value = current;
+    }
+
+    function toggleLang() {
+      lang = lang === "en" ? "es" : "en";
+      localStorage.setItem(LANG_KEY, lang);
+      applyI18n();
+      render();
+    }
+
+    function minutes(value) {
+      const [hour, minute] = value.split(":").map(Number);
+      return hour * 60 + minute;
+    }
+
+    function formatTime(value) {
+      const total = minutes(value);
+      const suffix = total >= 12 * 60 ? "PM" : "AM";
+      let hour = Math.floor(total / 60) % 12;
+      if (hour === 0) hour = 12;
+      const minute = String(total % 60).padStart(2, "0");
+      return `${hour}:${minute} ${suffix}`;
+    }
+
+    function fromMinutes(total) {
+      const hour = String(Math.floor(total / 60)).padStart(2, "0");
+      const minute = String(total % 60).padStart(2, "0");
+      return `${hour}:${minute}`;
+    }
+
+    function byDateThenStart(a, b) {
+      return a.date.localeCompare(b.date) || a.start.localeCompare(b.start);
+    }
+
+    function byDateThenTime(a, b) {
+      return a.date.localeCompare(b.date) || a.time.localeCompare(b.time);
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fuentes para Yohani</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Allura&family=Arizonia&family=Birthstone&family=Ephesis&family=Great+Vibes&family=Imperial+Script&family=Inspiration&family=Italianno&family=Lavishly+Yours&family=Mea+Culpa&family=Monsieur+La+Doulaise&family=Mr+De+Haviland&family=Mrs+Saint+Delafield&family=Parisienne&family=Pinyon+Script&family=Rouge+Script&family=Sacramento&family=Style+Script&family=Tangerine&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fff5f8;
+      --ink: #2a2326;
+      --muted: #8d6e78;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(900px 420px at 100% -10%, #f8c5d6 0%, transparent 55%),
+        radial-gradient(700px 380px at -10% 0%, #f8ead4 0%, transparent 50%),
+        var(--bg);
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .wrap {
+      width: min(1100px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 64px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      font-weight: 500;
+    }
+
+    .lede {
+      margin: 0 0 22px;
+      max-width: 62ch;
+      color: var(--muted);
+      font-family: Nunito, "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    .example {
+      margin: 0 0 28px;
+      padding: 16px;
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 16px 40px rgba(196, 90, 130, 0.12);
+    }
+
+    .example p {
+      margin: 0 0 10px;
+      font-family: Nunito, "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .example img {
+      display: block;
+      width: min(100%, 640px);
+      height: auto;
+      background: white;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    article {
+      background: transparent;
+      border-radius: 0;
+      overflow: visible;
+      box-shadow: none;
+    }
+
+    .plaque {
+      min-height: 150px;
+      display: grid;
+      place-items: center;
+      padding: 18px 18px 8px;
+      background: transparent;
+      color: var(--ink);
+      font-size: 92px;
+      line-height: 0.85;
+      text-align: center;
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      padding: 12px 14px 14px;
+      font-family: Nunito, "Avenir Next", "Segoe UI", sans-serif;
+    }
+
+    .meta strong { font-size: 15px; }
+
+    .meta span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .now { color: #c42d70; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Fuentes para Yohani</h1>
+    <p class="lede">La foto de arriba es el ejemplo de la letra. Abajo está la misma palabra en fuentes parecidas, sin el fondo oscuro.</p>
+    <figure class="example">
+      <p>Ejemplo</p>
+      <img src="ejemplos/yohani-script.png" alt="Yohani en letra de caligrafía color crema sobre fondo café">
+    </figure>
+    <div class="grid" id="samples"></div>
+  </div>
+  <script>
+    const fonts = [
+      ["Great Vibes", "La de la página ahora"],
+      ["Allura", "Caligrafía con lazo en la Y"],
+      ["Alex Brush", "Trazo fino y ligado"],
+      ["Pinyon Script", "Más formal, tipo invitación"],
+      ["Italianno", "Alta y elegante"],
+      ["Sacramento", "Suave y delgada"],
+      ["Arizonia", "Redonda y fluida"],
+      ["Parisienne", "Clásica francesa"],
+      ["Rouge Script", "Compacta y marcada"],
+      ["Tangerine", "Muy ligera"],
+      ["Mr De Haviland", "Lazo largo en la Y"],
+      ["Birthstone", "Fina y moderna"],
+      ["Inspiration", "Alta, con remates"],
+      ["Mea Culpa", "Dramática"],
+      ["Imperial Script", "De ceremonia"],
+      ["Ephesis", "Pequeña y delicada"],
+      ["Style Script", "Ligada y pareja"],
+      ["Lavishly Yours", "Con mucho adorno"],
+      ["Monsieur La Doulaise", "Muy ornamentada"],
+      ["Mrs Saint Delafield", "Firma elegante"]
+    ];
+
+    const root = document.querySelector("#samples");
+    root.innerHTML = fonts.map(([name, note], index) => `
+      <article>
+        <div class="plaque" style="font-family:'${name}', cursive">Yohani</div>
+        <div class="meta">
+          <strong>${name}</strong>
+          <span class="${index === 0 ? "now" : ""}">${note}</span>
+        </div>
+      </article>
+    `).join("");
+  </script>
+</body>
+</html>
